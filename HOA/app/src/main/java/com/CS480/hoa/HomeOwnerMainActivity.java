@@ -6,6 +6,8 @@ import android.os.Bundle;
 
 public class HomeOwnerMainActivity extends AppCompatActivity {
 
+    public static final String userCode = "com.CS480.hoa.userCode";
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
