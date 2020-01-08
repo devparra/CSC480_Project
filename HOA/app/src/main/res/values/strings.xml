@@ -6,4 +6,15 @@
     <string name="password">Password</string>
     <string name="adminAccess">Access Admin Features</string>
     <string name="dialogMessage">Do you want to access Admin features?</string>
+    <string name="createUserTitle">Create New User</string>
+    <string name="firstNameLabel">First Name</string>
+    <string name="lastNameLabel">Last Name</string>
+    <string name="streetLabel">Street</string>
+    <string name="cityLabel">City</string>
+    <string name="stateLabel">State</string>
+    <string name="zipLabel">Zip Code</string>
+    <string name="phoneLabel">Phone</string>
+    <string name="emailLabel">Email</string>
+    <string name="saveButton">Save</string>
+    <string name="cancelButton">Cancel</string>
 </resources>

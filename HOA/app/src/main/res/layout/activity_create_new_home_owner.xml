@@ -1,9 +1,191 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/createNewFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:paddingLeft="@dimen/generalPaddingSpace"
+    android:paddingRight="@dimen/generalPaddingSpace"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".CreateNewHomeOwnerActivity">
+
+    <TextView
+        android:id="@+id/textViewCreateTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/createUserTitle"
+        style="@style/title"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
+    <TextView
+        style="@style/textView"
+        android:text="@string/firstNameLabel"
+        app:layout_constraintTop_toTopOf="@+id/editTextFirstNameInput"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextFirstNameInput"
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
+
+    <EditText
+        android:id="@+id/editTextFirstNameInput"
+        style="@style/editText"
+        android:layout_marginLeft="@dimen/outerMarginSpace"
+        app:layout_constraintLeft_toLeftOf="@+id/textViewCreateTitle"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textViewCreateTitle"
+        />
+
+    <TextView
+        style="@style/textView"
+        android:text="@string/lastNameLabel"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/editTextLastNameInput"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextLastNameInput"
+        />
+
+    <EditText
+        android:id="@+id/editTextLastNameInput"
+        style="@style/editText"
+        app:layout_constraintTop_toBottomOf="@+id/editTextFirstNameInput"
+        app:layout_constraintLeft_toLeftOf="@+id/editTextFirstNameInput"
+        />
+
+    <TextView
+        style="@style/textView"
+        android:text="@string/streetLabel"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/editTextStreetInput"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextStreetInput"
+        />
+
+    <EditText
+        android:id="@+id/editTextStreetInput"
+        style="@style/editText"
+        app:layout_constraintTop_toBottomOf="@+id/editTextLastNameInput"
+        app:layout_constraintLeft_toLeftOf="@+id/editTextLastNameInput"
+        />
+
+    <TextView
+        style="@style/textView"
+        android:text="@string/cityLabel"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/editTextCityInput"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextCityInput"
+        />
+
+    <EditText
+        android:id="@+id/editTextCityInput"
+        style="@style/editText"
+        app:layout_constraintTop_toBottomOf="@+id/editTextStreetInput"
+        app:layout_constraintLeft_toLeftOf="@+id/editTextStreetInput"
+        />
+
+    <TextView
+        style="@style/textView"
+        android:text="@string/stateLabel"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/editTextStateInput"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextStateInput"
+        />
+
+    <EditText
+        android:id="@+id/editTextStateInput"
+        style="@style/editText"
+        android:maxLength="@integer/maxStateTextInput"
+        android:layout_width="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/editTextCityInput"
+        app:layout_constraintLeft_toLeftOf="@+id/editTextCityInput"
+        />
+
+    <TextView
+        style="@style/textView"
+        android:text="@string/zipLabel"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/editTextZipInput"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextZipInput"
+        />
+
+    <EditText
+        android:id="@+id/editTextZipInput"
+        style="@style/editText"
+        android:inputType="number"
+        app:layout_constraintTop_toBottomOf="@+id/editTextStateInput"
+        app:layout_constraintLeft_toLeftOf="@+id/editTextStateInput"
+        />
+
+    <TextView
+        style="@style/textView"
+        android:text="@string/phoneLabel"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/editTextPhoneInput"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextPhoneInput"
+        />
+
+    <EditText
+        android:id="@+id/editTextPhoneInput"
+        style="@style/editText"
+        android:inputType="phone"
+        app:layout_constraintTop_toBottomOf="@+id/editTextZipInput"
+        app:layout_constraintLeft_toLeftOf="@+id/editTextZipInput"
+        />
+
+    <TextView
+        style="@style/textView"
+        android:text="@string/emailLabel"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/editTextEmailInput"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextEmailInput"
+        />
+
+    <EditText
+        android:id="@+id/editTextEmailInput"
+        style="@style/editText"
+        android:inputType="textEmailAddress"
+        app:layout_constraintTop_toBottomOf="@+id/editTextPhoneInput"
+        app:layout_constraintLeft_toLeftOf="@+id/editTextPhoneInput"
+        />
+
+    <TextView
+        style="@style/textView"
+        android:text="@string/password"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/editTextPasswordInput"
+        app:layout_constraintTop_toTopOf="@+id/editTextPasswordInput"
+        />
+
+    <EditText
+        android:id="@+id/editTextPasswordInput"
+        style="@style/editText"
+        android:inputType="textPassword"
+        app:layout_constraintTop_toBottomOf="@+id/editTextEmailInput"
+        app:layout_constraintLeft_toLeftOf="@+id/editTextEmailInput"
+        />
+
+
+    <Button
+        android:id="@+id/createSaveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/outerMarginSpace"
+        android:text="@string/saveButton"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editTextPasswordInput"
+        app:layout_constraintRight_toLeftOf="@+id/createCancelButton"
+        />
+
+    <Button
+        android:id="@+id/createCancelButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="@dimen/outerMarginSpace"
+        android:text="@string/cancelButton"
+        app:layout_constraintLeft_toRightOf="@+id/createSaveButton"
+        app:layout_constraintTop_toBottomOf="@+id/editTextPasswordInput"
+        app:layout_constraintRight_toRightOf="parent"
+        />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -16,7 +16,6 @@
         <activity android:name=".CreateNewWorkOrderActivity" />
         <activity android:name=".AdminMainActivity" />
         <activity android:name=".HomeOwnerMainActivity" />
-        <activity android:name=".CreateNewAdminActivity" />
         <activity android:name=".CreateNewHomeOwnerActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>

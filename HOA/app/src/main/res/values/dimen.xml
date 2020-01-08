@@ -2,6 +2,8 @@
 <resources>
 
     <dimen name="textSize">25sp</dimen>
-    <dimen name="loginMarginSpace">50sp</dimen>
-    <dimen name="outerMarginSpace">10sp</dimen>
+    <dimen name="loginMarginSpace">50dp</dimen>
+    <dimen name="outerMarginSpace">10dp</dimen>
+    <dimen name="generalPaddingSpace">5dp</dimen>
+    <dimen name="editTextWidth">225dp</dimen>
 </resources>
