@@ -106,7 +106,7 @@ public class LoginActivity extends AppCompatActivity implements AccessAdminDialo
             Intent intent = new Intent(this, AdminMainActivity.class);
 
             //pass user data to new activity
-            intent.putExtra(HomeOwnerMainActivity.userCode, user);
+            intent.putExtra(AdminMainActivity.userCode, user);
 
             //start the next activity
             startActivity(intent);

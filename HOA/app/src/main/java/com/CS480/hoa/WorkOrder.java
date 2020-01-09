@@ -2,10 +2,11 @@ package com.CS480.hoa;
 
 import android.media.Image;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Date;
 
-public class WorkOrder {
+public class WorkOrder implements Serializable {
 
     public enum status{PENDING, DENIED, APPROVED}
 

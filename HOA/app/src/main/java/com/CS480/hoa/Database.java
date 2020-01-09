@@ -1,6 +1,7 @@
 package com.CS480.hoa;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class Database {
 
@@ -30,7 +31,7 @@ public class Database {
 
     }
 
-    public WorkOrder getWorkOrder(User user){
+    public List<WorkOrder> getWorkOrder(User user){
 
     }
 

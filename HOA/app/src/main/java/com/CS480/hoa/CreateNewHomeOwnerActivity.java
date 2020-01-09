@@ -51,8 +51,14 @@ public class CreateNewHomeOwnerActivity extends AppCompatActivity {
                     //all fields in the form were filled out
 
                     //create a user object with user input
+                    User user = createUser();
 
                     //send user object to database for storage
+                    Database.db.createUser(user);
+
+                    //return to login activity
+                    Intent intent = new Intent(getBaseContext(), LoginActivity.class);
+                    startActivity(intent);
 
                 }else{
                     //not all fields are filled in display message for the user
@@ -93,5 +99,25 @@ public class CreateNewHomeOwnerActivity extends AppCompatActivity {
         }
 
         return true;
+    }
+
+    //This method extracts the information from the user input and
+    //uses it to create a User object
+    private User createUser(){
+
+        //The database will assign the ID so it will be -99 here
+        int id = -99;
+
+        String userName = firstName.getText().toString() + " " + lastName.getText().toString();
+        String userAddress = street.getText().toString() + "/n" +
+                         city.getText().toString() + ", " +
+                         state.getText().toString() + " " +
+                         zip.getText().toString();
+        String userEmail = email.getText().toString();
+        int userPhone = Integer.parseInt(phone.getText().toString());
+        String userPassword = password.getText().toString();
+        boolean isAdmin = false;
+
+        return new User(id, userName, userAddress, userEmail, userPhone, userPassword, isAdmin);
     }
 }

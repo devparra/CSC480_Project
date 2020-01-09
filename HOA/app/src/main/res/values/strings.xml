@@ -17,4 +17,5 @@
     <string name="emailLabel">Email</string>
     <string name="saveButton">Save</string>
     <string name="cancelButton">Cancel</string>
+    <string name="createNewWorkOrder">New Work Order</string>
 </resources>
