@@ -80,6 +80,17 @@ public class LoginActivity extends AppCompatActivity implements AccessAdminDialo
                     }
                 }
             }// end of onClick
+        }); //end of onclick listener for login button
+
+        //onclick listener for create new user button
+        createNewUser.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //go straight to the create new home owner activity
+                Intent intent = new Intent(getBaseContext(), CreateNewHomeOwnerActivity.class);
+                startActivity(intent);
+            }
         });
 
     }

@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.CS480.hoa">
 
+    <uses-permission android:name="android.permission.INTERNET"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,14 +11,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EditRulesAndPoliciesActivity"></activity>
-        <activity android:name=".ViewRulesAndPoliciesActivity" />
-        <activity android:name=".EditHomeOwnerActivity" />
+        <activity android:name=".EditRulesAndPoliciesActivity" android:parentActivityName=".AdminMainActivity"/>
+        <activity android:name=".ViewRulesAndPoliciesActivity" android:parentActivityName=".HomeOwnerMainActivity"/>
+        <activity android:name=".EditHomeOwnerActivity" android:parentActivityName=".AdminMainActivity"/>
         <activity android:name=".WorkOrderViewActivity" />
-        <activity android:name=".CreateNewWorkOrderActivity" />
+        <activity android:name=".CreateNewWorkOrderActivity" android:parentActivityName=".HomeOwnerMainActivity"/>
         <activity android:name=".AdminMainActivity" />
         <activity android:name=".HomeOwnerMainActivity" />
-        <activity android:name=".CreateNewHomeOwnerActivity" />
+        <activity android:name=".CreateNewHomeOwnerActivity" android:parentActivityName=".LoginActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
