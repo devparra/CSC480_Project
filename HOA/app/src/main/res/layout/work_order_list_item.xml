@@ -1,14 +1,33 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="horizontal"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <TextView
-        android:id="@+id/workOrderListItem"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textSize="@dimen/textSize"
+        android:id="@+id/workOrderListItemId"
+        style="@style/textView"
+        android:text="@string/test"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
         />
-</LinearLayout>
+
+    <TextView
+        android:id="@+id/workOrderListItemDate"
+        style="@style/textView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/workOrderListItemId"
+        app:layout_constraintRight_toLeftOf="@+id/workOrderListItemStatus"
+        />
+
+    <TextView
+        android:id="@+id/workOrderListItemStatus"
+        style="@style/textView"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

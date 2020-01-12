@@ -35,7 +35,7 @@ public class Database {
 
     }
 
-    public ArrayList<WorkOrder> getAllWorkOrders(){
+    public List<WorkOrder> getAllWorkOrders(){
 
     }
 

@@ -6,4 +6,5 @@
     <dimen name="outerMarginSpace">10dp</dimen>
     <dimen name="generalPaddingSpace">5dp</dimen>
     <dimen name="editTextWidth">225dp</dimen>
+    <dimen name="descriptionInputHeight">160dp</dimen>
 </resources>

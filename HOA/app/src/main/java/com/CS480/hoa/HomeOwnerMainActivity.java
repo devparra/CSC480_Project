@@ -6,14 +6,12 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import java.util.List;
@@ -24,6 +22,7 @@ public class HomeOwnerMainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private User user;
+    private Button newWorkOrderButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,6 +30,21 @@ public class HomeOwnerMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_home_owner_main);
 
         user = (User) getIntent().getSerializableExtra(userCode);
+        newWorkOrderButton = findViewById(R.id.createNewWorkOrderButton);
+
+        //new work order button onclick listener
+        newWorkOrderButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //go to create new work order activity
+                Intent intent = new Intent(getBaseContext(), CreateNewWorkOrderActivity.class);
+
+                //pass the user data to new activity
+                intent.putExtra(CreateNewWorkOrderActivity.userCode, user);
+
+                startActivity(intent);
+            }
+        });
 
         recyclerView = findViewById(R.id.recyclerViewHomeOwnerMain);
 
@@ -53,21 +67,25 @@ public class HomeOwnerMainActivity extends AppCompatActivity {
         //the current work order object
         private WorkOrder workOrder;
 
-        //TextView to place the name of contact in for display
-        private TextView workOrderName;
+        //TextViews from the list item for display
+        private TextView workOrderId;
+        private TextView workOrderDate;
+        private TextView workOrderStatus;
 
         //constructor
         public WorkOrderHolder(LayoutInflater inflater, ViewGroup parent){
             super(inflater.inflate(R.layout.work_order_list_item, parent, false));
             itemView.setOnClickListener(this);
-            workOrderName = itemView.findViewById(R.id.workOrderListItem);
+            workOrderId = itemView.findViewById(R.id.workOrderListItemId);
         }
 
         //binding the data from the work order object to the clickable item
         public void bind(WorkOrder wo){
             workOrder = wo;
 
-            workOrderName.setText(workOrder.getId());
+            workOrderId.setText(workOrder.getId());
+            workOrderDate.setText(workOrder.getSubmissionDate().toString());
+            workOrderStatus.setText(workOrder.getCurrentStatus().toString());
 
         }
 
@@ -75,7 +93,7 @@ public class HomeOwnerMainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
 
-            //when a work order is selecred display its information
+            //when a work order is selected display its information
             Intent intent = new Intent(getBaseContext(), WorkOrderViewActivity.class);
 
             //send the current work order to the display activity

@@ -18,4 +18,8 @@
     <string name="saveButton">Save</string>
     <string name="cancelButton">Cancel</string>
     <string name="createNewWorkOrder">New Work Order</string>
+    <string name="description">Description</string>
+    <string name="attachPhoto">Attach Photo</string>
+    <string name="workOrderList">Work Order</string>
+    <string name="test">test</string>
 </resources>

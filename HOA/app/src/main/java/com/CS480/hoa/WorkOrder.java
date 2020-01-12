@@ -62,6 +62,7 @@ public class WorkOrder implements Serializable {
     public Date getSubmissionDate(){return submissionDate;}
     public Date getLastActivityDate(){return lastActivityDate;}
     public status getCurrentStatus(){return currentStatus;}
+    public ArrayList<Image> getAttachedPhotos(){return attachedPhotos;}
 
     //setters
     public void setId(int id){this.id = id;}
@@ -71,4 +72,5 @@ public class WorkOrder implements Serializable {
     public void setSubmissionDate(Date submissionDate){this.submissionDate = submissionDate;}
     public void setLastActivityDate(Date lastActivityDate){this.lastActivityDate = lastActivityDate;}
     public void setCurrentStatus(status currentStatus){this.currentStatus = currentStatus;}
+    public void setAttachedPhotos(ArrayList<Image> attachedPhotos){this.attachedPhotos = attachedPhotos;}
 }
