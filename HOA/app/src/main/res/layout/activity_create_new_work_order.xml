@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_margin="@dimen/outerMarginSpace"
+    tools:context=".CreateNewWorkOrderActivity">
+
+    <TextView
+        android:id="@+id/workOrderCreateDescriptionLabel"
+        style="@style/textView"
+        android:text="@string/description"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+
+        />
+
+    <EditText
+        android:id="@+id/workOrderCreateDescriptionInput"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/descriptionInputHeight"
+        android:inputType="textCapSentences|textMultiLine"
+        android:maxLength="1000"
+        android:maxLines="6"
+        app:layout_constraintTop_toBottomOf="@id/workOrderCreateDescriptionLabel"
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
+
+    <Button
+        android:id="@+id/workOrderCreateAttachPhotoButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/attachPhoto"
+        app:layout_constraintTop_toBottomOf="@id/workOrderCreateDescriptionInput"
+        app:layout_constraintBottom_toTopOf="@id/workOrderCreateRecyclerView"
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
+
+    <LinearLayout
+        android:id="@+id/workOrderCreateRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/descriptionInputHeight"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/workOrderCreateSaveButton"
+        app:layout_constraintTop_toBottomOf="@id/workOrderCreateAttachPhotoButton"
+        >
+
+        <TextView
+            android:id="@+id/workOrderCreatePhotoList"
+            style="@style/textView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            />
+
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/workOrderCreateSaveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/saveButton"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toLeftOf="@id/workOrderCreateCancelButton"
+        />
+
+    <Button
+        android:id="@+id/workOrderCreateCancelButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cancelButton"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toRightOf="@id/workOrderCreateSaveButton"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
