@@ -2,8 +2,9 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.CS480.hoa">
 
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.CAMERA"/>
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.CAMERA" />
 
     <application
         android:allowBackup="true"
@@ -12,14 +13,25 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".EditRulesAndPoliciesActivity" android:parentActivityName=".AdminMainActivity"/>
-        <activity android:name=".ViewRulesAndPoliciesActivity" android:parentActivityName=".HomeOwnerMainActivity"/>
-        <activity android:name=".EditHomeOwnerActivity" android:parentActivityName=".AdminMainActivity"/>
+        <activity android:name=".BlankActivity"></activity>
+        <activity
+            android:name=".EditRulesAndPoliciesActivity"
+            android:parentActivityName=".AdminMainActivity" />
+        <activity
+            android:name=".ViewRulesAndPoliciesActivity"
+            android:parentActivityName=".HomeOwnerMainActivity" />
+        <activity
+            android:name=".EditHomeOwnerActivity"
+            android:parentActivityName=".AdminMainActivity" />
         <activity android:name=".WorkOrderViewActivity" />
-        <activity android:name=".CreateNewWorkOrderActivity" android:parentActivityName=".HomeOwnerMainActivity"/>
+        <activity
+            android:name=".CreateNewWorkOrderActivity"
+            android:parentActivityName=".HomeOwnerMainActivity" />
         <activity android:name=".AdminMainActivity" />
         <activity android:name=".HomeOwnerMainActivity" />
-        <activity android:name=".CreateNewHomeOwnerActivity" android:parentActivityName=".LoginActivity" />
+        <activity
+            android:name=".CreateNewHomeOwnerActivity"
+            android:parentActivityName=".LoginActivity" />
         <activity android:name=".LoginActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

@@ -1,5 +1,6 @@
 package com.CS480.hoa;
 
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import java.util.ArrayList;
@@ -16,42 +17,36 @@ import retrofit2.http.Query;
 
 public interface RetrofitAPI {
 
-    //ALL GET POST PUT AND DELETE NEED TO BE UPDATED WITH SPECIFIC URL
+    @POST("Login")
+    Call<JsonArray> userLogin(@Body JsonObject object);
 
-    @GET("/LoginRSM")
-    Call<JsonObject> userLogin(
-            @Query("userEmail") String email,
-            @Query("userPassword") String password
-    );
-
-    @GET()
-    Call<ArrayList<User>> getAllUsers();
-
-    @GET()
-    Call<ArrayList<WorkOrder>> getWorkOrders(
-            @Query("userID") int userID
-    );
-
-    @GET()
-    Call<ArrayList<WorkOrder>> getAllWorkOrders();
-
-    @POST("/RegsiterRSM")
-    Call<User> newUser(@Body User user);
 
     @POST()
-    Call<WorkOrder> newWorkOrder(@Body WorkOrder workOrder);
+    Call<JsonArray> getAllUsers(@Body JsonObject object);
 
-    @PUT()
-    Call<User> updateUser(@Path("id") int id, @Body User user);
+    @POST()
+    Call<JsonArray> getWorkOrders(@Body JsonObject object);
 
-    @PUT()
-    Call<WorkOrder> updateWorkOrder(@Path("id") int id, @Body WorkOrder workOrder);
+    @POST()
+    Call<JsonArray> getAllWorkOrders(@Body JsonObject object);
 
-    @DELETE()
-    Call<Void> deleteUser(@Path("id") int id);
+    @POST("Register")
+    Call<JsonArray> newUser(@Body JsonObject object);
 
-    @DELETE()
-    Call<Void> deleteWorkOrder(@Path("id") int id);
+    @POST()
+    Call<JsonArray> newWorkOrder(@Body JsonObject object);
+
+    @POST()
+    Call<JsonArray> updateUser(@Body JsonObject object);
+
+    @POST()
+    Call<JsonArray> updateWorkOrder(@Body JsonObject object);
+
+    @POST()
+    Call<JsonArray> deleteUser(@Body JsonObject object);
+
+    @POST()
+    Call<JsonArray> deleteWorkOrder(@Body JsonObject object);
 
 
 }

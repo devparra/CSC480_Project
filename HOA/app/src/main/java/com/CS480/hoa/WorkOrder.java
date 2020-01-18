@@ -61,7 +61,15 @@ public class WorkOrder implements Serializable {
     public String getDescription(){return description;}
     public Date getSubmissionDate(){return submissionDate;}
     public Date getLastActivityDate(){return lastActivityDate;}
-    public status getCurrentStatus(){return currentStatus;}
+    public String getCurrentStatus(){
+        if(currentStatus == status.APPROVED)
+            return "Approved";
+        else if(currentStatus == status.DENIED)
+            return "Denied";
+        else
+            return "Pending";
+
+    }
     public ArrayList<Image> getAttachedPhotos(){return attachedPhotos;}
 
     //setters
@@ -73,4 +81,21 @@ public class WorkOrder implements Serializable {
     public void setLastActivityDate(Date lastActivityDate){this.lastActivityDate = lastActivityDate;}
     public void setCurrentStatus(status currentStatus){this.currentStatus = currentStatus;}
     public void setAttachedPhotos(ArrayList<Image> attachedPhotos){this.attachedPhotos = attachedPhotos;}
+
+
+    @Override
+    public String toString(){
+
+        String string = "";
+
+        string += "ID: " + getId();
+        string += "CREATOR: " + getCreator();
+        string += "LAST EDITOR: " + getEditor();
+        string += "DESCRIPTION: " + getDescription();
+        string += "SUBMIT DATE: " + getSubmissionDate();
+        string += "LAST ACTIVITY DATE: " + getLastActivityDate();
+        string += "STATUS: " + getCurrentStatus();
+
+        return string;
+    }
 }

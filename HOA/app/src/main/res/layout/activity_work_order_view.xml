@@ -1,9 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="@dimen/outerMarginSpace"
     tools:context=".WorkOrderViewActivity">
+
+    <TextView
+        android:id="@+id/workOrderViewID"
+        style="@style/textView"
+        android:layout_width="match_parent"
+        android:text="WorkOrderID"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/workOrderViewDescription"
+        style="@style/textView"
+        android:layout_width="match_parent"
+        android:text="Description taking up multiple lines if neccessary"
+        app:layout_constraintTop_toBottomOf="@+id/workOrderViewID"
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/workOrderViewStatus"
+        style="@style/textView"
+        android:layout_width="match_parent"
+        android:text="Current Status"
+        app:layout_constraintTop_toBottomOf="@+id/workOrderViewDescription"
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

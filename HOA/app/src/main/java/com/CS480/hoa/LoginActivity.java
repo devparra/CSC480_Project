@@ -6,11 +6,14 @@ import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 import retrofit2.Call;
@@ -47,82 +50,32 @@ public class LoginActivity extends AppCompatActivity implements AccessAdminDialo
                    userPassword.getText().toString().isEmpty()){
 
                     //one of the inputs is empty. display message to user
-                    Toast.makeText(getBaseContext(), "You must enter a user email and userPassword", Toast.LENGTH_SHORT).show();
+                    displayMessage("You must enter a user email and user password");
 
                 }else{
 
                     //the input is not empty
 
+                    //update url to access the web service
+                    Database.changeBaseURL("https://ewoyiqpfh8.execute-api.us-east-1.amazonaws.com/");
 
-                    Database.changeBaseURL("https://hcn6q38o2l.execute-api.us-west-2.amazonaws.com");
+                    RetrofitAPI retrofitAPI = Database.createService(RetrofitAPI.class);
 
-                    RetrofitAPI retrofit = Database.createService(RetrofitAPI.class);
+                    //create JsonObject to send data to web service
+                    JsonObject json = new JsonObject();
+                    json.addProperty("userEmail", userEmail.getText().toString());
+                    json.addProperty("userPassword", userPassword.getText().toString());
 
-                    //check the database for login
-                    //user = Database.db.login(userEmail.getText().toString(), userPassword.getText().toString());
+                    //create Call object to receive results from web service
+                    Call<JsonArray> call = retrofitAPI.userLogin(json);
 
-                    Call<JsonObject> call = retrofit.userLogin(userEmail.getText().toString(), userPassword.getText().toString());
-
-                    //background thread
-                    call.enqueue(new Callback<JsonObject>() {
-                        @Override
-                        public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-
-                            //user = response.body();
-
-                            System.out.println("**********************************");
-                            System.out.println(response.code());
-                            System.out.println("********************************");
-
-                            System.out.println(user);
-
-
-                            if (response.isSuccessful()) {
-                                if (user.getStatus() == 1) {
-
-                                    //login is successful
-
-                                    //check to see if user has admin access
-                                    if (user.isAdmin()) {
-
-                                        //use dialog box to ask if user wants to access the admin features
-                                        FragmentManager manager = getSupportFragmentManager();
-                                        AccessAdminDialog dialog = new AccessAdminDialog();
-                                        dialog.show(manager, "Access Admin");
-
-                                    }
-
-                                    //the user does not have admin access
-                                    Intent intent = new Intent(getBaseContext(), HomeOwnerMainActivity.class);
-
-                                    //pass user data to new activity
-                                    intent.putExtra(HomeOwnerMainActivity.userCode, user);
-
-                                    //start the next activity
-                                    startActivity(intent);
-
-                                } else {
-
-                                    //login failed. display message to user
-                                    Toast.makeText(getBaseContext(), "The user name or userPassword is incorrect", Toast.LENGTH_SHORT).show();
-                                }
-
-                            }else{
-                                //the response was not successful
-                                Toast.makeText(getBaseContext(), "There is an error", Toast.LENGTH_SHORT).show();
-                            }
-
-                        }//end of onResponse
-
-                        @Override
-                        public void onFailure(Call<JsonObject> call, Throwable t) {
-                            System.out.println(t.getMessage());
-                        }
-                    });
+                   sendData(call);
 
                 }// end of input is not empty
 
             }// end of onClick
+
+
         }); //end of onclick listener for login button
 
         //onclick listener for create new user button
@@ -145,8 +98,14 @@ public class LoginActivity extends AppCompatActivity implements AccessAdminDialo
 
         if(which == AlertDialog.BUTTON_POSITIVE){
 
+            //*********************************
+            //use until admin main activity is ready
+            Intent intent = new Intent(this, BlankActivity.class);
+            //*********************************
+
+
             //the user wants to access admin features
-            Intent intent = new Intent(this, AdminMainActivity.class);
+            //Intent intent = new Intent(this, AdminMainActivity.class);
 
             //pass user data to new activity
             intent.putExtra(AdminMainActivity.userCode, user);
@@ -156,8 +115,16 @@ public class LoginActivity extends AppCompatActivity implements AccessAdminDialo
 
         }else{
 
+            //**************************************
+            //use this until home owner main activity is ready
+            Intent intent = new Intent(this, BlankActivity.class);
+            //****************************************
+
+
+
+
             //the user wants to access regular user features
-            Intent intent = new Intent(this, HomeOwnerMainActivity.class);
+            //Intent intent = new Intent(this, HomeOwnerMainActivity.class);
 
             //pass user data to new activity
             intent.putExtra(HomeOwnerMainActivity.userCode, user);
@@ -171,4 +138,115 @@ public class LoginActivity extends AppCompatActivity implements AccessAdminDialo
     public void displayMessage(String message){
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
+
+    private void sendData(Call<JsonArray> call){
+
+        //background thread
+        call.enqueue(new Callback<JsonArray>() {
+            @Override
+            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+
+                if (response.isSuccessful()) {
+
+                    JsonArray jsonArray = response.body();
+
+                    user = createUser(jsonArray);
+
+
+                    if (user.getStatus().equals("1")) {
+
+                        //login is successful
+
+                        //check to see if user has admin access
+                        if (user.isAdmin()) {
+
+                            //use dialog box to ask if user wants to access the admin features
+                            FragmentManager manager = getSupportFragmentManager();
+                            AccessAdminDialog dialog = new AccessAdminDialog();
+                            dialog.show(manager, "Access Admin");
+
+                        }
+
+
+                        //******************************
+                        //use until home owner main activity is ready
+                        Intent intent = new Intent(getBaseContext(), BlankActivity.class);
+                        //*******************************
+
+
+
+
+                        //the user does not have admin access
+                        //Intent intent = new Intent(getBaseContext(), HomeOwnerMainActivity.class);
+
+                        //pass user data to new activity
+                        intent.putExtra(HomeOwnerMainActivity.userCode, user);
+
+                        //start the next activity
+                        startActivity(intent);
+
+                    } else {
+
+                        //login failed. display message to user
+                        displayMessage("Incorrect email or password");
+                    }
+
+                }else{
+                    //the response was not successful
+                    displayMessage("Response from web service was unsuccessful");
+                }
+
+            }//end of onResponse
+
+            @Override
+            public void onFailure(Call<JsonArray> call, Throwable t) {
+                System.out.println("Failure****************************************");
+                System.out.println(t.getMessage());
+            }
+        });
+
+    }//end of sendData
+
+
+
+    private User createUser(JsonArray jsonArray){
+
+        JsonObject object = (JsonObject) jsonArray.get(0);
+
+        String status = object.get("status").toString();
+        status = status.replace("\"", "");
+
+        String message = object.get("message").toString();
+        message = message.replace("\"", "");
+
+
+        if(object.size() > 2) {
+
+            String name = object.get("userName").toString();
+            name = name.replace("\"", "");
+
+            String address = object.get("userAddress").toString();
+            address = address.replace("\"", "");
+
+            String phone = object.get("userPhone").toString();
+            phone = phone.replace("\"", "");
+
+            String email = object.get("userEmail").toString();
+            email = email.replace("\"", "");
+
+
+            User newUser = new User(name, address, email, phone, status, message);
+
+            if (object.get("isAdmin").toString() == "1") {
+                newUser.setAdmin(true);
+            } else {
+                newUser.setAdmin(false);
+            }
+
+            return newUser;
+        } else{
+            return new User(status, message);
+        }
+
+    }//end of getUser
 }

@@ -9,6 +9,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class CreateNewHomeOwnerActivity extends AppCompatActivity {
 
     private EditText firstName;
@@ -54,7 +61,7 @@ public class CreateNewHomeOwnerActivity extends AppCompatActivity {
                     User user = createUser();
 
                     //send user object to database for storage
-                    //Database.db.createUser(user);
+                    sendData(user);
 
                     //return to login activity
                     Intent intent = new Intent(getBaseContext(), LoginActivity.class);
@@ -81,6 +88,8 @@ public class CreateNewHomeOwnerActivity extends AppCompatActivity {
 
     }//end of onCreate
 
+
+
     //This method will return true only if every input field has data
     private boolean validateForm(){
 
@@ -101,12 +110,11 @@ public class CreateNewHomeOwnerActivity extends AppCompatActivity {
         return true;
     }
 
+
+
     //This method extracts the information from the user input and
     //uses it to create a User object
     private User createUser(){
-
-        //The database will assign the ID so it will be -99 here
-        int id = -99;
 
         String userName = firstName.getText().toString() + " " + lastName.getText().toString();
         String userAddress = street.getText().toString() + "/n" +
@@ -114,10 +122,74 @@ public class CreateNewHomeOwnerActivity extends AppCompatActivity {
                          state.getText().toString() + " " +
                          zip.getText().toString();
         String userEmail = email.getText().toString();
-        int userPhone = Integer.parseInt(phone.getText().toString());
+        String userPhone = phone.getText().toString();
         String userPassword = password.getText().toString();
-        boolean isAdmin = false;
 
-        return new User(id, userName, userAddress, userEmail, userPhone, userPassword, isAdmin);
+        return new User(userName, userAddress, userEmail, userPhone, userPassword);
     }
+
+
+
+    //This method is used to send the user data to the web service
+    //and handle the web service response
+    private void sendData(User user){
+
+        //update url to access web service
+        Database.changeBaseURL("https://1fmwtml80g.execute-api.us-east-1.amazonaws.com/");
+
+        //create retrofit object
+        RetrofitAPI retrofit = Database.createService(RetrofitAPI.class);
+
+        //create JsonObject to send data to web service
+        JsonObject json = new JsonObject();
+        json.addProperty("userName", user.getUserName());
+        json.addProperty("userAddress", user.getUserAddress());
+        json.addProperty("userPhone", user.getUserPhone());
+        json.addProperty("userEmail", user.getUserEmail());
+        json.addProperty("userPassword", user.getUserPassword());
+
+        if(user.isAdmin()){
+            json.addProperty("isAdmin", "1");
+        }else {
+            json.addProperty("isAdmin", "0");
+        }
+
+        //create Call object to receive response from web service
+        Call<JsonArray> call = retrofit.getWorkOrders(json);
+
+        //background thread
+        call.enqueue(new Callback<JsonArray>() {
+            @Override
+            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+
+                if(response.isSuccessful()) {
+
+                    JsonArray jsonArray = response.body();
+
+                    JsonObject jsonObject = (JsonObject) jsonArray.get(0);
+
+                    String message = jsonObject.get("message").toString();
+                    message = message.replace("\"", "");
+
+                    Toast.makeText(getBaseContext(), message, Toast.LENGTH_SHORT).show();
+
+                }else{
+                    //the response was not successful
+
+                    Toast.makeText(getBaseContext(),"The response failed", Toast.LENGTH_SHORT).show();
+
+                    System.out.println("Response failed************************");
+                    System.out.println(response.code());
+                    System.out.println(response.message());
+
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonArray> call, Throwable t) {
+                System.out.println("Failure*************************");
+                System.out.println(t.getMessage());
+            }
+        });
+    }//end of sendData
 }

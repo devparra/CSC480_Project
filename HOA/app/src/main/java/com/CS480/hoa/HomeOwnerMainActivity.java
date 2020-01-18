@@ -14,7 +14,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class HomeOwnerMainActivity extends AppCompatActivity {
 
@@ -23,13 +31,16 @@ public class HomeOwnerMainActivity extends AppCompatActivity {
     private RecyclerView recyclerView;
     private User user;
     private Button newWorkOrderButton;
+    private WorkOrder[] workOrders;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_home_owner_main);
 
+        //retrieve the user from the previous activity
         user = (User) getIntent().getSerializableExtra(userCode);
+
         newWorkOrderButton = findViewById(R.id.createNewWorkOrderButton);
 
         //new work order button onclick listener
@@ -46,19 +57,71 @@ public class HomeOwnerMainActivity extends AppCompatActivity {
             }
         });
 
-        recyclerView = findViewById(R.id.recyclerViewHomeOwnerMain);
 
-        //add dividers between each address
-        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
-                DividerItemDecoration.VERTICAL);
-        recyclerView.addItemDecoration(dividerItemDecoration);
 
-        //linear layout for vertical scrolling
-        recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
-        //get addresses from the database and setAdapter
-        //WorkOrderAdapter adapter = new WorkOrderAdapter(Database.db.getWorkOrder(user));
-        //recyclerView.setAdapter(adapter);
+        //get the list of workorders from web service
+
+        //update url to access web service
+        Database.changeBaseURL("");
+
+        //create retrofit object
+        RetrofitAPI retrofit = Database.createService(RetrofitAPI.class);
+
+        //create a JsonObject to store data to send to web service
+        JsonObject json = new JsonObject();
+
+        //add user email to JsonObject
+        //This will be used to look up all workorders created by this user
+        json.addProperty("email", user.getUserEmail());
+
+        //create a Call object to receive web service response
+        Call<JsonArray> call = retrofit.getWorkOrders(json);
+
+        //background thread to communicate with the web service
+        call.enqueue(new Callback<JsonArray>() {
+            @Override
+            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+
+                //JsonArray object to store the response from web service
+                JsonArray jsonArray = response.body();
+
+                //parse the JsonArray into WorkOrder objects
+                workOrders = new Gson().fromJson(jsonArray, WorkOrder[].class);
+
+
+
+
+
+                //because the Recyclerview requires the workOrders to be implemented correctly
+                //the Recyclerview initialization will be in the onResponse method
+
+                //recycler view initialization and implementation
+                recyclerView = findViewById(R.id.recyclerViewHomeOwnerMain);
+
+                //add dividers between each address
+                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                        DividerItemDecoration.VERTICAL);
+                recyclerView.addItemDecoration(dividerItemDecoration);
+
+                //linear layout for vertical scrolling
+                recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
+
+                //send list of workorder to the setAdapter
+                WorkOrderAdapter adapter = new WorkOrderAdapter(workOrders);
+                recyclerView.setAdapter(adapter);
+            }
+
+            @Override
+            public void onFailure(Call<JsonArray> call, Throwable t) {
+                System.out.println(t.getMessage());
+            }
+        });
+
+
+
+
+
 
     }
 
@@ -105,10 +168,10 @@ public class HomeOwnerMainActivity extends AppCompatActivity {
 
     private class WorkOrderAdapter extends RecyclerView.Adapter<WorkOrderHolder>{
 
-        private List<WorkOrder> workOrderList;
+        private WorkOrder[] workOrderList;
 
         //constructor
-        public WorkOrderAdapter(List<WorkOrder> workOrderList){this.workOrderList = workOrderList;}
+        public WorkOrderAdapter(WorkOrder[] workOrderList){this.workOrderList = workOrderList;}
 
         //create a holder for the workOrder
         @NonNull
@@ -121,14 +184,14 @@ public class HomeOwnerMainActivity extends AppCompatActivity {
         //bind the work order information to the holder item
         @Override
         public void onBindViewHolder(@NonNull WorkOrderHolder holder, int position) {
-            WorkOrder workOrder = workOrderList.get(position);
+            WorkOrder workOrder = workOrderList[position];
             holder.bind(workOrder);
         }
 
         //return the total number of addresses
         @Override
         public int getItemCount() {
-            return workOrderList.size();
+            return workOrderList.length;
         }
     }
 
