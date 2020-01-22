@@ -56,22 +56,9 @@ public class LoginActivity extends AppCompatActivity implements AccessAdminDialo
 
                     //the input is not empty
 
-                    //update url to access the web service
-                    Database.changeBaseURL("https://ewoyiqpfh8.execute-api.us-east-1.amazonaws.com/");
+                   sendData();
 
-                    RetrofitAPI retrofitAPI = Database.createService(RetrofitAPI.class);
-
-                    //create JsonObject to send data to web service
-                    JsonObject json = new JsonObject();
-                    json.addProperty("userEmail", userEmail.getText().toString());
-                    json.addProperty("userPassword", userPassword.getText().toString());
-
-                    //create Call object to receive results from web service
-                    Call<JsonArray> call = retrofitAPI.userLogin(json);
-
-                   sendData(call);
-
-                }// end of input is not empty
+                }
 
             }// end of onClick
 
@@ -135,11 +122,27 @@ public class LoginActivity extends AppCompatActivity implements AccessAdminDialo
         }
     }
 
+    //This method displays a message for the user to see
     public void displayMessage(String message){
         Toast.makeText(this, message, Toast.LENGTH_SHORT).show();
     }
 
-    private void sendData(Call<JsonArray> call){
+
+    //This method communicates with the webservice and handles the response
+    private void sendData(){
+
+        //update url to access the web service
+        Database.changeBaseURL("https://ewoyiqpfh8.execute-api.us-east-1.amazonaws.com/");
+
+        RetrofitAPI retrofitAPI = Database.createService(RetrofitAPI.class);
+
+        //create JsonObject to send data to web service
+        JsonObject json = new JsonObject();
+        json.addProperty("userEmail", userEmail.getText().toString());
+        json.addProperty("userPassword", userPassword.getText().toString());
+
+        //create Call object to receive results from web service
+        Call<JsonArray> call = retrofitAPI.userLogin(json);
 
         //background thread
         call.enqueue(new Callback<JsonArray>() {
@@ -209,6 +212,7 @@ public class LoginActivity extends AppCompatActivity implements AccessAdminDialo
 
 
 
+    //this method takes a JsonArray, retrieves the data and uses it to create a User object
     private User createUser(JsonArray jsonArray){
 
         JsonObject object = (JsonObject) jsonArray.get(0);

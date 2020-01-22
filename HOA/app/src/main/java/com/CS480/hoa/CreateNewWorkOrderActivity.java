@@ -130,7 +130,7 @@ public class CreateNewWorkOrderActivity extends AppCompatActivity {
         json.addProperty("workOrderCreator", workOrder.getCreator().getUserName());
         json.addProperty("workOrderDateCreated", workOrder.getSubmissionDate());
         json.addProperty("workOrderLastActivity", workOrder.getLastActivityDate());
-        json.addProperty();
+        //json.addProperty();
 
 
         //create Call object to receive response from web service

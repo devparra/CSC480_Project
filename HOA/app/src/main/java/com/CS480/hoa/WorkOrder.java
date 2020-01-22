@@ -3,6 +3,7 @@ package com.CS480.hoa;
 import android.media.Image;
 
 import java.io.Serializable;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -59,8 +60,22 @@ public class WorkOrder implements Serializable {
     public User getCreator(){return creator;}
     public User getEditor(){return admin;}
     public String getDescription(){return description;}
-    public Date getSubmissionDate(){return submissionDate;}
-    public Date getLastActivityDate(){return lastActivityDate;}
+    public String getSubmissionDate(){
+
+        String date = DateFormat.getInstance().format(submissionDate);
+
+        date = date.substring(0,8);
+
+        return date;
+    }
+    public String getLastActivityDate() {
+
+        String date = DateFormat.getInstance().format(lastActivityDate);
+
+        date = date.substring(0,8);
+
+        return date;
+    }
     public String getCurrentStatus(){
         if(currentStatus == status.APPROVED)
             return "Approved";

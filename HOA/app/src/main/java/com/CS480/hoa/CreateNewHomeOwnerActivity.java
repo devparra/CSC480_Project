@@ -117,7 +117,7 @@ public class CreateNewHomeOwnerActivity extends AppCompatActivity {
     private User createUser(){
 
         String userName = firstName.getText().toString() + " " + lastName.getText().toString();
-        String userAddress = street.getText().toString() + "/n" +
+        String userAddress = street.getText().toString() + "\n" +
                          city.getText().toString() + ", " +
                          state.getText().toString() + " " +
                          zip.getText().toString();
@@ -154,8 +154,13 @@ public class CreateNewHomeOwnerActivity extends AppCompatActivity {
             json.addProperty("isAdmin", "0");
         }
 
+
+        System.out.println(json);
+
+
+
         //create Call object to receive response from web service
-        Call<JsonArray> call = retrofit.getWorkOrders(json);
+        Call<JsonArray> call = retrofit.newUser(json);
 
         //background thread
         call.enqueue(new Callback<JsonArray>() {

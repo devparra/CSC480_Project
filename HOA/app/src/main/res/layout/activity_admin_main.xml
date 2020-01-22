@@ -46,11 +46,22 @@
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewHomeOwnerMain"
+        android:id="@+id/recyclerViewAdminMain"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/homeOwnerMainHeader" />
+
+    <TextView
+        android:id="@+id/adminMainBlankListTextView"
+        style="@style/textView"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/recyclerViewAdminMain"
+        app:layout_constraintRight_toRightOf="parent"
+        android:visibility="invisible"
+        android:text="@string/blankList"
+        />
+
 
 
 

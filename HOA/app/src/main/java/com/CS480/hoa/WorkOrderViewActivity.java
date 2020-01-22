@@ -7,6 +7,7 @@ import android.os.Bundle;
 public class WorkOrderViewActivity extends AppCompatActivity {
 
     public static final String workOrderCode = "com.CS480.hoa.workOrderView";
+    public static final String userCode = "com.CS480.hoa.workOrderView";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

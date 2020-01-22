@@ -22,4 +22,7 @@
     <string name="attachPhoto">Attach Photo</string>
     <string name="workOrderList">Work Order</string>
     <string name="test">test</string>
+    <string name="rulesAndPolicies">Rules and Policies</string>
+    <string name="editHomeOwners">Edit Home Owners</string>
+    <string name="blankList">There are no Work Orders to View</string>
 </resources>

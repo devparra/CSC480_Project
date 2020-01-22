@@ -9,6 +9,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -18,7 +20,6 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -29,6 +30,7 @@ public class HomeOwnerMainActivity extends AppCompatActivity {
     public static final String userCode = "com.CS480.hoa.homeOwnerMain";
 
     private RecyclerView recyclerView;
+    private TextView blankListTextView;
     private User user;
     private Button newWorkOrderButton;
     private WorkOrder[] workOrders;
@@ -41,6 +43,7 @@ public class HomeOwnerMainActivity extends AppCompatActivity {
         //retrieve the user from the previous activity
         user = (User) getIntent().getSerializableExtra(userCode);
 
+        blankListTextView = findViewById(R.id.homeOwnerMainBlankListTextView);
         newWorkOrderButton = findViewById(R.id.createNewWorkOrderButton);
 
         //new work order button onclick listener
@@ -86,44 +89,44 @@ public class HomeOwnerMainActivity extends AppCompatActivity {
                 //JsonArray object to store the response from web service
                 JsonArray jsonArray = response.body();
 
-                //parse the JsonArray into WorkOrder objects
-                workOrders = new Gson().fromJson(jsonArray, WorkOrder[].class);
+                //if the json array is empty then don't populate the recycler view
+                if(jsonArray.size() < 1){
+                    blankListTextView.setVisibility(View.VISIBLE);
+                }else {
+                    //parse the JsonArray into WorkOrder objects
+                    workOrders = new Gson().fromJson(jsonArray, WorkOrder[].class);
 
 
+                    //because the Recyclerview requires the workOrders to be implemented correctly
+                    //the Recyclerview initialization will be in the onResponse method
 
+                    //recycler view initialization and implementation
+                    recyclerView = findViewById(R.id.recyclerViewHomeOwnerMain);
 
+                    //add dividers between each address
+                    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                            DividerItemDecoration.VERTICAL);
+                    recyclerView.addItemDecoration(dividerItemDecoration);
 
-                //because the Recyclerview requires the workOrders to be implemented correctly
-                //the Recyclerview initialization will be in the onResponse method
+                    //linear layout for vertical scrolling
+                    recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
 
-                //recycler view initialization and implementation
-                recyclerView = findViewById(R.id.recyclerViewHomeOwnerMain);
-
-                //add dividers between each address
-                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
-                        DividerItemDecoration.VERTICAL);
-                recyclerView.addItemDecoration(dividerItemDecoration);
-
-                //linear layout for vertical scrolling
-                recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
-
-                //send list of workorder to the setAdapter
-                WorkOrderAdapter adapter = new WorkOrderAdapter(workOrders);
-                recyclerView.setAdapter(adapter);
+                    //send list of workorder to the setAdapter
+                    WorkOrderAdapter adapter = new WorkOrderAdapter(workOrders);
+                    recyclerView.setAdapter(adapter);
+                }
             }
 
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
+                System.out.println("Failure***************************");
                 System.out.println(t.getMessage());
             }
         });
 
+    }//end of onCreate method
 
 
-
-
-
-    }
 
     private class WorkOrderHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
@@ -140,6 +143,8 @@ public class HomeOwnerMainActivity extends AppCompatActivity {
             super(inflater.inflate(R.layout.work_order_list_item, parent, false));
             itemView.setOnClickListener(this);
             workOrderId = itemView.findViewById(R.id.workOrderListItemId);
+            workOrderDate = itemView.findViewById(R.id.workOrderListItemDate);
+            workOrderStatus = itemView.findViewById(R.id.workOrderListItemStatus);
         }
 
         //binding the data from the work order object to the clickable item
@@ -147,8 +152,8 @@ public class HomeOwnerMainActivity extends AppCompatActivity {
             workOrder = wo;
 
             workOrderId.setText(workOrder.getId());
-            workOrderDate.setText(workOrder.getSubmissionDate().toString());
-            workOrderStatus.setText(workOrder.getCurrentStatus().toString());
+            workOrderDate.setText(workOrder.getSubmissionDate());
+            workOrderStatus.setText(workOrder.getCurrentStatus());
 
         }
 
@@ -161,6 +166,9 @@ public class HomeOwnerMainActivity extends AppCompatActivity {
 
             //send the current work order to the display activity
             intent.putExtra(WorkOrderViewActivity.workOrderCode, workOrder);
+
+            //send the current user to the display activity
+            intent.putExtra(WorkOrderViewActivity.userCode, user);
 
             startActivity(intent);
         }
@@ -196,4 +204,37 @@ public class HomeOwnerMainActivity extends AppCompatActivity {
     }
 
 
+    //this creates the menu options
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        getMenuInflater().inflate(R.menu.homeowner_main_menu, menu);
+        return super.onCreateOptionsMenu(menu);
+    }
+
+    //this method responds to a selection of a menu item
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch(item.getItemId()){
+            case R.id.homeOwnerMenuRules:
+
+                //go to view rules and policies activity
+
+                //********************************************
+                //this will be used until rules and policies activity is complete
+                Intent intent = new Intent(getBaseContext(), BlankActivity.class);
+
+                //commented out until complete
+                //Intent intent = new Intent(getBaseContext(), ViewRulesAndPoliciesActivity.class);
+
+                //send user data to new activity
+                intent.putExtra(ViewRulesAndPoliciesActivity.userCode, user);
+
+                startActivity(intent);
+
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }

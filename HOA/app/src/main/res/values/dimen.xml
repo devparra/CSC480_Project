@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="textSize">25sp</dimen>
+    <dimen name="textSize">20sp</dimen>
     <dimen name="loginMarginSpace">50dp</dimen>
     <dimen name="outerMarginSpace">10dp</dimen>
     <dimen name="generalPaddingSpace">5dp</dimen>

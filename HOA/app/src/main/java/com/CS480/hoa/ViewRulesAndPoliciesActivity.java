@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 public class ViewRulesAndPoliciesActivity extends AppCompatActivity {
 
+    public static final String userCode = "com.CS480.hoa.viewRulesAndPolicies";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
