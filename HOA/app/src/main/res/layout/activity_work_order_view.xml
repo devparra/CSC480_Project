@@ -9,30 +9,116 @@
     tools:context=".WorkOrderViewActivity">
 
     <TextView
-        android:id="@+id/workOrderViewID"
+        android:id="@+id/workOrderIDLabel"
         style="@style/textView"
-        android:layout_width="match_parent"
-        android:text="WorkOrderID"
+        android:text="Work Order ID: "
+        android:padding="@dimen/generalPaddingSpace"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         />
 
     <TextView
-        android:id="@+id/workOrderViewDescription"
+        android:id="@+id/workOrderIDView"
         style="@style/textView"
-        android:layout_width="match_parent"
-        android:text="Description taking up multiple lines if neccessary"
-        app:layout_constraintTop_toBottomOf="@+id/workOrderViewID"
+        android:text="999"
+        android:padding="@dimen/generalPaddingSpace"
+        app:layout_constraintLeft_toRightOf="@+id/workOrderIDLabel"
+        app:layout_constraintTop_toTopOf="@+id/workOrderIDLabel"
+        />
+
+    <TextView
+        android:id="@+id/workOrderCreatedDateLabel"
+        style="@style/textView"
+        android:padding="@dimen/generalPaddingSpace"
+        android:text="Created On:"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/workOrderIDLabel"
+        />
+
+    <TextView
+        android:id="@+id/workOrderCreatorLabel"
+        style="@style/textView"
+        android:padding="@dimen/generalPaddingSpace"
+        android:text="Created By:"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/workOrderCreatedDateLabel"
+        />
+
+    <TextView
+        android:id="@+id/workOrderEditedDateLabel"
+        style="@style/textView"
+        android:padding="@dimen/generalPaddingSpace"
+        android:text="Last Edited:"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/workOrderCreatorLabel"
+        />
+
+    <TextView
+        android:id="@+id/workOrderEditorLabel"
+        style="@style/textView"
+        android:padding="@dimen/generalPaddingSpace"
+        android:text="Edited By:"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/workOrderEditedDateLabel"
+        />
+
+
+    <TextView
+        android:id="@+id/workOrderDescriptionLabel"
+        style="@style/textView"
+        android:text="Description"
+        android:padding="@dimen/generalPaddingSpace"
+        app:layout_constraintTop_toBottomOf="@+id/workOrderEditorLabel"
         app:layout_constraintLeft_toLeftOf="parent"
         />
 
     <TextView
-        android:id="@+id/workOrderViewStatus"
+        android:id="@+id/workOrderDescriptionView"
         style="@style/textView"
-        android:layout_width="match_parent"
-        android:text="Current Status"
-        app:layout_constraintTop_toBottomOf="@+id/workOrderViewDescription"
+        android:background="@drawable/edit_text_border"
+        android:padding="@dimen/generalPaddingSpace"
+        android:text="Some sample text"
         app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/workOrderDescriptionLabel"
+        />
+
+    <TextView
+        android:id="@+id/workOrderAttachedPhotoLabel"
+        style="@style/textView"
+        android:padding="@dimen/generalPaddingSpace"
+        android:text="Attached Photots"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/workOrderDescriptionView"
+        />
+
+    <TextView
+        android:id="@+id/workOrderAttachedPhotoView"
+        style="@style/textView"
+        android:background="@drawable/edit_text_border"
+        android:padding="@dimen/generalPaddingSpace"
+        android:text="List of photos"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/workOrderAttachedPhotoLabel"
+        />
+
+    <TextView
+        android:id="@+id/workOrderStatusLabel"
+        style="@style/textView"
+        android:text="Current Status:"
+        android:padding="@dimen/generalPaddingSpace"
+        app:layout_constraintTop_toBottomOf="@+id/workOrderAttachedPhotoView"
+        app:layout_constraintLeft_toLeftOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/workOrderStatusView"
+        style="@style/textView"
+        android:text="Pending"
+        android:background="@color/orange"
+        android:padding="@dimen/generalPaddingSpace"
+        app:layout_constraintLeft_toRightOf="@+id/workOrderStatusLabel"
+        app:layout_constraintTop_toTopOf="@+id/workOrderStatusLabel"
+
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

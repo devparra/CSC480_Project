@@ -60,11 +60,95 @@ public class HomeOwnerMainActivity extends AppCompatActivity {
             }
         });
 
-
-
-
         //get the list of workorders from web service
+        getData();
 
+    }//end of onCreate method
+
+
+    //This method is used to create each line item in the recycler view
+    private class WorkOrderHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+
+        //the current work order object
+        private WorkOrder workOrder;
+
+        //TextViews from the list item for display
+        private TextView workOrderId;
+        private TextView workOrderDate;
+        private TextView workOrderStatus;
+
+        //constructor
+        public WorkOrderHolder(LayoutInflater inflater, ViewGroup parent){
+            super(inflater.inflate(R.layout.work_order_list_item, parent, false));
+            itemView.setOnClickListener(this);
+            workOrderId = itemView.findViewById(R.id.workOrderListItemId);
+            workOrderDate = itemView.findViewById(R.id.workOrderListItemDate);
+            workOrderStatus = itemView.findViewById(R.id.workOrderListItemStatus);
+        }
+
+        //binding the data from the work order object to the clickable item
+        public void bind(WorkOrder wo){
+            workOrder = wo;
+
+            workOrderId.setText(workOrder.getId());
+            workOrderDate.setText(workOrder.getSubmissionDate());
+            workOrderStatus.setText(workOrder.getCurrentStatus());
+
+        }
+
+        //onclick Method
+        @Override
+        public void onClick(View v) {
+
+            //when a work order is selected display its information
+            Intent intent = new Intent(getBaseContext(), WorkOrderViewActivity.class);
+
+            //send the current work order to the display activity
+            intent.putExtra(WorkOrderViewActivity.workOrderCode, workOrder);
+
+            //send the current user to the display activity
+            intent.putExtra(WorkOrderViewActivity.userCode, user);
+
+            startActivity(intent);
+        }
+    }
+
+
+    //This method takes the list of work orders and generates a holder for each one
+    private class WorkOrderAdapter extends RecyclerView.Adapter<WorkOrderHolder>{
+
+        private WorkOrder[] workOrderList;
+
+        //constructor
+        public WorkOrderAdapter(WorkOrder[] workOrderList){this.workOrderList = workOrderList;}
+
+        //create a holder for the workOrder
+        @NonNull
+        @Override
+        public WorkOrderHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            LayoutInflater layoutInflater = LayoutInflater.from(getBaseContext());
+            return new WorkOrderHolder(layoutInflater, parent);
+        }
+
+        //bind the work order information to the holder item
+        @Override
+        public void onBindViewHolder(@NonNull WorkOrderHolder holder, int position) {
+            WorkOrder workOrder = workOrderList[position];
+            holder.bind(workOrder);
+        }
+
+        //return the total number of addresses
+        @Override
+        public int getItemCount() {
+            return workOrderList.length;
+        }
+    }
+
+
+
+    //This method is used to retrieve a list of work orders from
+    //the web service and populate the recycler view
+    private void getData(){
         //update url to access web service
         Database.changeBaseURL("");
 
@@ -123,85 +207,8 @@ public class HomeOwnerMainActivity extends AppCompatActivity {
                 System.out.println(t.getMessage());
             }
         });
-
-    }//end of onCreate method
-
-
-
-    private class WorkOrderHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
-
-        //the current work order object
-        private WorkOrder workOrder;
-
-        //TextViews from the list item for display
-        private TextView workOrderId;
-        private TextView workOrderDate;
-        private TextView workOrderStatus;
-
-        //constructor
-        public WorkOrderHolder(LayoutInflater inflater, ViewGroup parent){
-            super(inflater.inflate(R.layout.work_order_list_item, parent, false));
-            itemView.setOnClickListener(this);
-            workOrderId = itemView.findViewById(R.id.workOrderListItemId);
-            workOrderDate = itemView.findViewById(R.id.workOrderListItemDate);
-            workOrderStatus = itemView.findViewById(R.id.workOrderListItemStatus);
-        }
-
-        //binding the data from the work order object to the clickable item
-        public void bind(WorkOrder wo){
-            workOrder = wo;
-
-            workOrderId.setText(workOrder.getId());
-            workOrderDate.setText(workOrder.getSubmissionDate());
-            workOrderStatus.setText(workOrder.getCurrentStatus());
-
-        }
-
-        //onclick Method
-        @Override
-        public void onClick(View v) {
-
-            //when a work order is selected display its information
-            Intent intent = new Intent(getBaseContext(), WorkOrderViewActivity.class);
-
-            //send the current work order to the display activity
-            intent.putExtra(WorkOrderViewActivity.workOrderCode, workOrder);
-
-            //send the current user to the display activity
-            intent.putExtra(WorkOrderViewActivity.userCode, user);
-
-            startActivity(intent);
-        }
     }
 
-    private class WorkOrderAdapter extends RecyclerView.Adapter<WorkOrderHolder>{
-
-        private WorkOrder[] workOrderList;
-
-        //constructor
-        public WorkOrderAdapter(WorkOrder[] workOrderList){this.workOrderList = workOrderList;}
-
-        //create a holder for the workOrder
-        @NonNull
-        @Override
-        public WorkOrderHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-            LayoutInflater layoutInflater = LayoutInflater.from(getBaseContext());
-            return new WorkOrderHolder(layoutInflater, parent);
-        }
-
-        //bind the work order information to the holder item
-        @Override
-        public void onBindViewHolder(@NonNull WorkOrderHolder holder, int position) {
-            WorkOrder workOrder = workOrderList[position];
-            holder.bind(workOrder);
-        }
-
-        //return the total number of addresses
-        @Override
-        public int getItemCount() {
-            return workOrderList.length;
-        }
-    }
 
 
     //this creates the menu options

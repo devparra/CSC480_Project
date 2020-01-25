@@ -70,7 +70,8 @@ public class CreateNewWorkOrderActivity extends AppCompatActivity {
                     startActivity(intent);
 
                 }else{
-
+                    //the description was empty
+                    Toast.makeText(getBaseContext(), "There must be a description", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -126,11 +127,23 @@ public class CreateNewWorkOrderActivity extends AppCompatActivity {
 
         //create JsonObject to send data to web service
         JsonObject json = new JsonObject();
-        json.addProperty("workOrderDescription", workOrder.getDescription());
-        json.addProperty("workOrderCreator", workOrder.getCreator().getUserName());
-        json.addProperty("workOrderDateCreated", workOrder.getSubmissionDate());
-        json.addProperty("workOrderLastActivity", workOrder.getLastActivityDate());
-        //json.addProperty();
+        json.addProperty("wo_description", workOrder.getDescription());
+        json.addProperty("wo_creator", workOrder.getCreator().getUserEmail());
+        if(workOrder.getEditor() != null) {
+            json.addProperty("wo_editor", workOrder.getEditor().getUserEmail());
+        }else{
+            json.addProperty("wo_editor", "null");
+        }
+        json.addProperty("wo_creation_date", workOrder.getSubmissionDate());
+        json.addProperty("wo_edit_date", workOrder.getLastActivityDate());
+        json.addProperty("wo_current_status", workOrder.getCurrentStatus());
+
+        //**********************************************************************************
+
+        //How to send photos????
+
+        //*********************************************************************************
+
 
 
         //create Call object to receive response from web service

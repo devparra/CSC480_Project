@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">HOA</string>
+    <string name="app_name">HOA Application</string>
     <string name="loginButton">Login</string>
     <string name="createNewUserButton">Create New User</string>
     <string name="user_email">User Email</string>

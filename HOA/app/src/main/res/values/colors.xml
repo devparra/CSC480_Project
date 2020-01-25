@@ -6,4 +6,8 @@
 
     <color name="blue">#0000FF</color>
     <color name="white">#FFF</color>
+    <color name="black">#000</color>
+    <color name="orange">#FFA500</color>
+    <color name="red">#F00</color>
+    <color name="green">#0F0</color>
 </resources>

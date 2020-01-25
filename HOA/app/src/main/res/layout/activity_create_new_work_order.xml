@@ -24,6 +24,7 @@
         android:inputType="textCapSentences|textMultiLine"
         android:maxLength="1000"
         android:maxLines="6"
+        android:background="@drawable/edit_text_border"
         app:layout_constraintTop_toBottomOf="@id/workOrderCreateDescriptionLabel"
         app:layout_constraintLeft_toLeftOf="parent"
         />
