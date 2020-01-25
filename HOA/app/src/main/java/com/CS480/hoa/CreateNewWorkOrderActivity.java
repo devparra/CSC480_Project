@@ -13,7 +13,6 @@ import android.widget.Toast;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 import retrofit2.Call;
@@ -26,7 +25,7 @@ public class CreateNewWorkOrderActivity extends AppCompatActivity {
 
     private WorkOrder workOrder;
     private User user;
-    private ArrayList<Image> attachedPhotos;
+    private Image[] attachedPhotos;
 
     private EditText descriptionInput;
     private Button saveButton;

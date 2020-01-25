@@ -87,12 +87,12 @@ public class LoginActivity extends AppCompatActivity implements AccessAdminDialo
 
             //*********************************
             //use until admin main activity is ready
-            Intent intent = new Intent(this, BlankActivity.class);
+            //Intent intent = new Intent(this, BlankActivity.class);
             //*********************************
 
 
             //the user wants to access admin features
-            //Intent intent = new Intent(this, AdminMainActivity.class);
+            Intent intent = new Intent(this, AdminMainActivity.class);
 
             //pass user data to new activity
             intent.putExtra(AdminMainActivity.userCode, user);
@@ -155,7 +155,6 @@ public class LoginActivity extends AppCompatActivity implements AccessAdminDialo
 
                     user = createUser(jsonArray);
 
-
                     if (user.getStatus().equals("1")) {
 
                         //login is successful
@@ -168,25 +167,24 @@ public class LoginActivity extends AppCompatActivity implements AccessAdminDialo
                             AccessAdminDialog dialog = new AccessAdminDialog();
                             dialog.show(manager, "Access Admin");
 
+                        }else {
+
+
+                            //******************************
+                            //use until home owner main activity is ready
+                            Intent intent = new Intent(getBaseContext(), BlankActivity.class);
+                            //*******************************
+
+
+                            //the user does not have admin access
+                            //Intent intent = new Intent(getBaseContext(), HomeOwnerMainActivity.class);
+
+                            //pass user data to new activity
+                            intent.putExtra(HomeOwnerMainActivity.userCode, user);
+
+                            //start the next activity
+                            startActivity(intent);
                         }
-
-
-                        //******************************
-                        //use until home owner main activity is ready
-                        Intent intent = new Intent(getBaseContext(), BlankActivity.class);
-                        //*******************************
-
-
-
-
-                        //the user does not have admin access
-                        //Intent intent = new Intent(getBaseContext(), HomeOwnerMainActivity.class);
-
-                        //pass user data to new activity
-                        intent.putExtra(HomeOwnerMainActivity.userCode, user);
-
-                        //start the next activity
-                        startActivity(intent);
 
                     } else {
 
@@ -241,7 +239,11 @@ public class LoginActivity extends AppCompatActivity implements AccessAdminDialo
 
             User newUser = new User(name, address, email, phone, status, message);
 
-            if (object.get("isAdmin").toString() == "1") {
+
+            String isAdmin = object.get("isAdmin").toString();
+            isAdmin = isAdmin.replace("\"", "");
+
+            if (isAdmin.equals("1")) {
                 newUser.setAdmin(true);
             } else {
                 newUser.setAdmin(false);

@@ -15,6 +15,16 @@ public class User implements Serializable {
 
     //constructors
 
+    //This constructor is for testing only
+    public User(){
+        userName = "Test Name";
+        userAddress = "Test Address";
+        userEmail = "Test Email";
+        userPhone = "Test Phone";
+        userPassword = "password";
+        isAdmin = false;
+    }
+
     //This constructor is used for creating a new user and includes
     //the password that the user inputs
     public User(String name, String address, String email, String phone, String password){

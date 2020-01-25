@@ -20,7 +20,7 @@ public interface RetrofitAPI {
     @POST()
     Call<JsonArray> getWorkOrders(@Body JsonObject object);
 
-    @POST()
+    @POST("retrieveAdminWO")
     Call<JsonArray> getAllWorkOrders(@Body JsonObject object);
 
     @POST("Register")

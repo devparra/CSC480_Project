@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -19,6 +20,8 @@ import android.widget.TextView;
 import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+
+import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,7 +39,7 @@ public class AdminMainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_home_owner_main);
+        setContentView(R.layout.activity_admin_main);
 
         //retrieve the user from the previous activity
         user = (User) getIntent().getSerializableExtra(userCode);
@@ -75,8 +78,8 @@ public class AdminMainActivity extends AppCompatActivity {
             workOrder = wo;
 
             workOrderId.setText(workOrder.getId());
-            workOrderDate.setText(workOrder.getSubmissionDate().toString());
-            workOrderStatus.setText(workOrder.getCurrentStatus().toString());
+            workOrderDate.setText(workOrder.getSubmissionDate());
+            workOrderStatus.setText(workOrder.getCurrentStatus());
 
         }
 
@@ -104,7 +107,14 @@ public class AdminMainActivity extends AppCompatActivity {
         private WorkOrder[] workOrderList;
 
         //constructor
-        public WorkOrderAdapter(WorkOrder[] workOrderList){this.workOrderList = workOrderList;}
+        public WorkOrderAdapter(WorkOrder[] workOrderList){
+
+
+            System.out.println("*********************************" + workOrderList.length);
+
+
+
+            this.workOrderList = workOrderList;}
 
         //create a holder for the workOrder
         @NonNull
@@ -133,7 +143,7 @@ public class AdminMainActivity extends AppCompatActivity {
     //web service and update the recycler view
     private void getData(){
         //update url to access web service
-        Database.changeBaseURL("");
+        Database.changeBaseURL("https://g2sp4z1w94.execute-api.us-east-1.amazonaws.com/");
 
         //create retrofit object
         RetrofitAPI retrofit = Database.createService(RetrofitAPI.class);
@@ -143,7 +153,7 @@ public class AdminMainActivity extends AppCompatActivity {
 
         //add user email to JsonObject
         //This will be used to look up all workorders created by this user
-        json.addProperty("email", user.getUserEmail());
+        json.addProperty("status", "pending");
 
         //create a Call object to receive web service response
         Call<JsonArray> call = retrofit.getAllWorkOrders(json);
@@ -156,20 +166,26 @@ public class AdminMainActivity extends AppCompatActivity {
                 //JsonArray object to store the response from web service
                 JsonArray jsonArray = response.body();
 
+
+
+                System.out.println(jsonArray);
+
+
+
+
+
+                getWorkOrders(jsonArray);
+
                 //if the array is empty then don't populate the recycler view
                 if(jsonArray.size() < 1){
                     blankListTextView.setVisibility(View.VISIBLE);
                 }else {
 
-                    //parse the JsonArray into WorkOrder objects
-                    workOrders = new Gson().fromJson(jsonArray, WorkOrder[].class);
-
-
                     //because the Recyclerview requires the workOrders to be implemented correctly
                     //the Recyclerview initialization will be in the onResponse method
 
                     //recycler view initialization and implementation
-                    recyclerView = findViewById(R.id.recyclerViewHomeOwnerMain);
+                    recyclerView = findViewById(R.id.recyclerViewAdminMain);
 
                     //add dividers between each address
                     DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
@@ -193,6 +209,66 @@ public class AdminMainActivity extends AppCompatActivity {
         });
 
     }//end of getData
+
+
+
+    //this method handles converting the JsonArray into a list of workOrders
+    private void getWorkOrders(JsonArray jsonArray){
+
+        workOrders = new WorkOrder[jsonArray.size()];
+        JsonObject[] jsonObjects = new JsonObject[jsonArray.size()];
+
+        for(int i = 0; i < jsonArray.size(); i++){
+            jsonObjects[i] = (JsonObject) jsonArray.get(i);
+        }
+
+
+
+        System.out.println(jsonObjects);
+
+
+
+        for(int i = 0; i < jsonObjects.length; i++){
+
+            String id = jsonObjects[i].get("id").toString();
+            id = id.replace("\"", "");
+
+            String creator = jsonObjects[i].get("creator").toString();
+            creator = creator.replace("\"", "");
+
+            String admin = jsonObjects[i].get("admin").toString();
+            admin = admin.replace("\"", "");
+
+            String description = jsonObjects[i].get("description").toString();
+            description = description.replace("\"", "");
+
+            String submissionDate = jsonObjects[i].get("submission_date").toString();
+            submissionDate = submissionDate.replace("\"", "");
+
+            String lastActivityDate = jsonObjects[i].get("last_activity_date").toString();
+            lastActivityDate = lastActivityDate.replace("\"", "");
+
+            String currentStatus = jsonObjects[i].get("current_status").toString();
+            currentStatus = currentStatus.replace("\"", "");
+
+            //*****************************************************
+            //Still need to retrieve photos
+
+
+
+            workOrders[i] = new WorkOrder(id, creator, admin, description,
+                    submissionDate, lastActivityDate, currentStatus);
+        }
+
+
+        for(WorkOrder workOrder : workOrders) {
+            System.out.println(workOrder);
+        }
+
+
+
+
+    }
 
 
 
