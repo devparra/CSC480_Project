@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/editWorkOrderButton"
+        android:icon="@drawable/edit_icon"
+        android:title="Edit Work Order"
+        app:showAsAction="ifRoom"
+        />
+
+    <item
+        android:id="@+id/editWorkOrderCancelButton"
+        android:icon="@drawable/cancel_icon"
+        android:title="Cancel Edit"
+        android:visible="false"
+        app:showAsAction="ifRoom"
+        />
+
+    <item
+        android:id="@+id/editWorkOrderSaveButton"
+        android:icon="@drawable/save_icon"
+        android:title="Save Edit"
+        android:visible="false"
+        app:showAsAction="ifRoom"
+        />
+</menu>

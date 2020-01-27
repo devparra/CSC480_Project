@@ -401,6 +401,7 @@ color background_floating_material_dark
 color background_floating_material_light
 color background_material_dark
 color background_material_light
+color black
 color blue
 color bright_foreground_disabled_material_dark
 color bright_foreground_disabled_material_light
@@ -421,6 +422,7 @@ color error_color_material_dark
 color error_color_material_light
 color foreground_material_dark
 color foreground_material_light
+color green
 color highlighted_text_material_dark
 color highlighted_text_material_light
 color material_blue_grey_800
@@ -437,6 +439,7 @@ color material_grey_850
 color material_grey_900
 color notification_action_color_filter
 color notification_icon_bg_color
+color orange
 color primary_dark_material_dark
 color primary_dark_material_light
 color primary_material_dark
@@ -445,6 +448,7 @@ color primary_text_default_material_dark
 color primary_text_default_material_light
 color primary_text_disabled_material_dark
 color primary_text_disabled_material_light
+color red
 color ripple_material_dark
 color ripple_material_light
 color secondary_text_default_material_dark
@@ -683,6 +687,9 @@ drawable btn_radio_off_mtrl
 drawable btn_radio_off_to_on_mtrl_animation
 drawable btn_radio_on_mtrl
 drawable btn_radio_on_to_off_mtrl_animation
+drawable cancel_icon
+drawable edit_icon
+drawable edit_text_border
 drawable ic_launcher_background
 drawable ic_launcher_foreground
 drawable notification_action_background
@@ -697,6 +704,7 @@ drawable notification_template_icon_bg
 drawable notification_template_icon_low_bg
 drawable notification_tile_bg
 drawable notify_panel_notification_icon_bg
+drawable save_icon
 drawable tooltip_frame_dark
 drawable tooltip_frame_light
 id ALT
@@ -758,6 +766,7 @@ id action_text
 id actions
 id activity_chooser_view_content
 id add
+id adminMainBlankListTextView
 id adminMainDateLabel
 id adminMainStatusLabel
 id adminMainWorkOrderLabel
@@ -801,6 +810,9 @@ id editTextPhoneInput
 id editTextStateInput
 id editTextStreetInput
 id editTextZipInput
+id editWorkOrderButton
+id editWorkOrderCancelButton
+id editWorkOrderSaveButton
 id edit_query
 id end
 id expand_activities_button
@@ -811,6 +823,7 @@ id group_divider
 id groups
 id home
 id homeAsUp
+id homeOwnerMainBlankListTextView
 id homeOwnerMainDateLabel
 id homeOwnerMainHeader
 id homeOwnerMainStatusLabel
@@ -850,6 +863,7 @@ id percent
 id progress_circular
 id progress_horizontal
 id radio
+id recyclerViewAdminMain
 id recyclerViewHomeOwnerMain
 id right
 id right_icon
@@ -910,6 +924,8 @@ id up
 id useLogo
 id userNameLogin
 id withText
+id workOrderAttachedPhotoLabel
+id workOrderAttachedPhotoView
 id workOrderCreateAttachPhotoButton
 id workOrderCreateCancelButton
 id workOrderCreateDescriptionInput
@@ -917,12 +933,24 @@ id workOrderCreateDescriptionLabel
 id workOrderCreatePhotoList
 id workOrderCreateRecyclerView
 id workOrderCreateSaveButton
+id workOrderCreatedDateLabel
+id workOrderCreatedDateView
+id workOrderCreatorLabel
+id workOrderDescriptionLabel
+id workOrderDescriptionView
+id workOrderEditedDateLabel
+id workOrderEditedDateView
+id workOrderEditorLabel
+id workOrderIDLabel
+id workOrderIDView
 id workOrderListItemDate
 id workOrderListItemId
 id workOrderListItemStatus
-id workOrderViewDescription
-id workOrderViewID
-id workOrderViewStatus
+id workOrderStatusLabel
+id workOrderViewAttachPhotoButton
+id workOrderViewCreatorInfoButton
+id workOrderViewEditorInfoButton
+id workOrderViewStatusButton
 id wrap
 id wrap_content
 integer abc_config_activityDefaultDur
@@ -991,6 +1019,7 @@ layout support_simple_spinner_dropdown_item
 layout work_order_list_item
 menu admin_main_menu
 menu homeowner_main_menu
+menu view_work_order_menu
 mipmap ic_launcher
 mipmap ic_launcher_round
 string abc_action_bar_home_description
@@ -1022,12 +1051,17 @@ string abc_shareactionprovider_share_with_application
 string abc_toolbar_collapse_description
 string adminAccess
 string app_name
+string approved
 string attachPhoto
+string blankList
 string cancelButton
 string cityLabel
 string createNewUserButton
 string createNewWorkOrder
 string createUserTitle
+string createdBy
+string createdOn
+string denied
 string description
 string dialogMessage
 string editHomeOwners
@@ -1036,6 +1070,7 @@ string firstNameLabel
 string lastNameLabel
 string loginButton
 string password
+string pending
 string phoneLabel
 string rulesAndPolicies
 string saveButton
