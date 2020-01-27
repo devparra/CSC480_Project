@@ -25,4 +25,9 @@
     <string name="rulesAndPolicies">Rules and Policies</string>
     <string name="editHomeOwners">Edit Home Owners</string>
     <string name="blankList">There are no Work Orders to View</string>
+    <string name="createdOn">Created On: </string>
+    <string name="createdBy">Created By: </string>
+    <string name="pending">Pending</string>
+    <string name="denied">Denied</string>
+    <string name="approved">Approved</string>
 </resources>

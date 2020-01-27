@@ -17,7 +17,7 @@ public interface RetrofitAPI {
     @POST()
     Call<JsonArray> getAllUsers(@Body JsonObject object);
 
-    @POST()
+    @POST("retrieveUserWO")
     Call<JsonArray> getWorkOrders(@Body JsonObject object);
 
     @POST("retrieveAdminWO")

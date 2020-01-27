@@ -150,7 +150,7 @@ public class HomeOwnerMainActivity extends AppCompatActivity {
     //the web service and populate the recycler view
     private void getData(){
         //update url to access web service
-        Database.changeBaseURL("");
+        Database.changeBaseURL("https://4tddwwxia9.execute-api.us-east-1.amazonaws.com/");
 
         //create retrofit object
         RetrofitAPI retrofit = Database.createService(RetrofitAPI.class);
@@ -160,7 +160,7 @@ public class HomeOwnerMainActivity extends AppCompatActivity {
 
         //add user email to JsonObject
         //This will be used to look up all workorders created by this user
-        json.addProperty("email", user.getUserEmail());
+        json.addProperty("userEmail", user.getUserEmail());
 
         //create a Call object to receive web service response
         Call<JsonArray> call = retrofit.getWorkOrders(json);
@@ -173,13 +173,16 @@ public class HomeOwnerMainActivity extends AppCompatActivity {
                 //JsonArray object to store the response from web service
                 JsonArray jsonArray = response.body();
 
-                //if the json array is empty then don't populate the recycler view
-                if(jsonArray.size() < 1){
+                System.out.println(jsonArray);
+
+                boolean hasWorkOrder = getWorkOrders(jsonArray);
+
+
+                if(!hasWorkOrder){
+                    //there are no work orders to display
                     blankListTextView.setVisibility(View.VISIBLE);
                 }else {
-                    //parse the JsonArray into WorkOrder objects
-                    workOrders = new Gson().fromJson(jsonArray, WorkOrder[].class);
-
+                    //There are work orders to display
 
                     //because the Recyclerview requires the workOrders to be implemented correctly
                     //the Recyclerview initialization will be in the onResponse method
@@ -203,10 +206,82 @@ public class HomeOwnerMainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
-                System.out.println("Failure***************************");
+                System.out.println("Failure in HomeOwnerMain***************************");
                 System.out.println(t.getMessage());
             }
         });
+    }
+
+
+    //this method handles converting the JsonArray into a list of workOrders
+    private boolean getWorkOrders(JsonArray jsonArray){
+
+        workOrders = new WorkOrder[jsonArray.size()];
+        JsonObject[] jsonObjects = new JsonObject[jsonArray.size()];
+
+        for(int i = 0; i < jsonArray.size(); i++){
+            jsonObjects[i] = (JsonObject) jsonArray.get(i);
+        }
+
+
+
+        System.out.println(jsonObjects);
+
+
+
+
+        for(int i = 0; i < jsonObjects.length; i++){
+
+
+            if(jsonObjects[i].has("status")){
+                if(jsonObjects[i].get("status").toString().equals("\"0\"")){
+
+                    //If the status is zero then there are no work orders to display
+                    return false;
+                }
+            }
+
+
+
+            String id = jsonObjects[i].get("id").toString();
+            id = id.replace("\"", "");
+
+            String creator = jsonObjects[i].get("creator").toString();
+            creator = creator.replace("\"", "");
+
+            String admin = jsonObjects[i].get("admin").toString();
+            admin = admin.replace("\"", "");
+
+            String description = jsonObjects[i].get("description").toString();
+            description = description.replace("\"", "");
+
+            String submissionDate = jsonObjects[i].get("submission_date").toString();
+            submissionDate = submissionDate.replace("\"", "");
+
+            String lastActivityDate = jsonObjects[i].get("last_activity_date").toString();
+            lastActivityDate = lastActivityDate.replace("\"", "");
+
+            String currentStatus = jsonObjects[i].get("current_status").toString();
+            currentStatus = currentStatus.replace("\"", "");
+
+            //*****************************************************
+            //Still need to retrieve photos
+
+
+
+            workOrders[i] = new WorkOrder(id, creator, admin, description,
+                    submissionDate, lastActivityDate, currentStatus);
+        }
+
+
+        //Testing *********************************************************
+        for(WorkOrder workOrder : workOrders) {
+            System.out.println(workOrder);
+        }
+
+
+        return true;
+
     }
 
 

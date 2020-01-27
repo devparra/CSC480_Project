@@ -30,18 +30,41 @@
         android:id="@+id/workOrderCreatedDateLabel"
         style="@style/textView"
         android:padding="@dimen/generalPaddingSpace"
-        android:text="Created On:"
+        android:text="@string/createdOn"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/workOrderIDLabel"
+        />
+
+    <TextView
+        android:id="@+id/workOrderCreatedDateView"
+        style="@style/textView"
+        android:padding="@dimen/generalPaddingSpace"
+        android:text="Sample date 11/11/1111"
+        app:layout_constraintLeft_toLeftOf="@+id/workOrderIDView"
+        app:layout_constraintTop_toTopOf="@+id/workOrderCreatedDateLabel"
         />
 
     <TextView
         android:id="@+id/workOrderCreatorLabel"
         style="@style/textView"
         android:padding="@dimen/generalPaddingSpace"
-        android:text="Created By:"
+        android:text="@string/createdBy"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/workOrderCreatedDateLabel"
+        />
+
+    <Button
+        android:id="@+id/workOrderViewCreatorInfoButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:text="Sample Name"
+        android:padding="@dimen/generalPaddingSpace"
+        android:enabled="false"
+        app:layout_constraintLeft_toLeftOf="@+id/workOrderIDView"
+        app:layout_constraintTop_toTopOf="@+id/workOrderCreatorLabel"
+        app:layout_constraintBottom_toBottomOf="@+id/workOrderCreatorLabel"
         />
 
     <TextView
@@ -51,6 +74,29 @@
         android:text="Last Edited:"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@id/workOrderCreatorLabel"
+        />
+
+    <TextView
+        android:id="@+id/workOrderEditedDateView"
+        style="@style/textView"
+        android:padding="@dimen/generalPaddingSpace"
+        android:text="Sample date 11/11/1111"
+        app:layout_constraintLeft_toLeftOf="@+id/workOrderIDView"
+        app:layout_constraintTop_toTopOf="@+id/workOrderEditedDateLabel"
+        />
+
+    <Button
+        android:id="@+id/workOrderViewEditorInfoButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@android:color/transparent"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        android:text="Sample Name"
+        android:padding="@dimen/generalPaddingSpace"
+        android:enabled="false"
+        app:layout_constraintLeft_toLeftOf="@+id/workOrderIDView"
+        app:layout_constraintTop_toTopOf="@+id/workOrderEditorLabel"
+        app:layout_constraintBottom_toBottomOf="@+id/workOrderEditorLabel"
         />
 
     <TextView
@@ -72,11 +118,12 @@
         app:layout_constraintLeft_toLeftOf="parent"
         />
 
-    <TextView
+    <EditText
         android:id="@+id/workOrderDescriptionView"
         style="@style/textView"
         android:background="@drawable/edit_text_border"
         android:padding="@dimen/generalPaddingSpace"
+        android:enabled="false"
         android:text="Some sample text"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/workOrderDescriptionLabel"
@@ -89,6 +136,19 @@
         android:text="Attached Photots"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/workOrderDescriptionView"
+        />
+
+    <Button
+        android:id="@+id/workOrderViewAttachPhotoButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/attachPhoto"
+        android:visibility="invisible"
+        android:enabled="false"
+        app:layout_constraintTop_toTopOf="@id/workOrderAttachedPhotoLabel"
+        app:layout_constraintBottom_toBottomOf="@id/workOrderAttachedPhotoLabel"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/workOrderAttachedPhotoLabel"
         />
 
     <TextView
@@ -110,14 +170,18 @@
         app:layout_constraintLeft_toLeftOf="parent"
         />
 
-    <TextView
-        android:id="@+id/workOrderStatusView"
-        style="@style/textView"
-        android:text="Pending"
+    <Button
+        android:id="@+id/workOrderViewStatusButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/pending"
         android:background="@color/orange"
         android:padding="@dimen/generalPaddingSpace"
-        app:layout_constraintLeft_toRightOf="@+id/workOrderStatusLabel"
+        android:enabled="false"
+        style="@style/Widget.AppCompat.Button.Borderless"
+        app:layout_constraintLeft_toLeftOf="@+id/workOrderIDView"
         app:layout_constraintTop_toTopOf="@+id/workOrderStatusLabel"
+        app:layout_constraintBottom_toBottomOf="@+id/workOrderStatusLabel"
 
         />
 

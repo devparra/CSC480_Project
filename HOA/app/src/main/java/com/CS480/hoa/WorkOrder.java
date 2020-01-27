@@ -99,9 +99,17 @@ public class WorkOrder implements Serializable {
     //setters
     public void setId(String id){this.id = id;}
     public void setCreator(String creator){
+
+        //*********************************************************************
+        //this needs to be replaces with pulling user data from the web service
+        //*********************************************************************
         this.creator = new User();
     }
     public void setEditor(String admin){
+
+        //*********************************************************************
+        //this needs to be replaces with pulling user data from the web service
+        //*********************************************************************
         this.admin = new User();
     }
 

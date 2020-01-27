@@ -104,14 +104,14 @@ public class LoginActivity extends AppCompatActivity implements AccessAdminDialo
 
             //**************************************
             //use this until home owner main activity is ready
-            Intent intent = new Intent(this, BlankActivity.class);
+            //Intent intent = new Intent(this, BlankActivity.class);
             //****************************************
 
 
 
 
             //the user wants to access regular user features
-            //Intent intent = new Intent(this, HomeOwnerMainActivity.class);
+            Intent intent = new Intent(this, HomeOwnerMainActivity.class);
 
             //pass user data to new activity
             intent.putExtra(HomeOwnerMainActivity.userCode, user);
@@ -172,12 +172,12 @@ public class LoginActivity extends AppCompatActivity implements AccessAdminDialo
 
                             //******************************
                             //use until home owner main activity is ready
-                            Intent intent = new Intent(getBaseContext(), BlankActivity.class);
+                            //Intent intent = new Intent(getBaseContext(), BlankActivity.class);
                             //*******************************
 
 
                             //the user does not have admin access
-                            //Intent intent = new Intent(getBaseContext(), HomeOwnerMainActivity.class);
+                            Intent intent = new Intent(getBaseContext(), HomeOwnerMainActivity.class);
 
                             //pass user data to new activity
                             intent.putExtra(HomeOwnerMainActivity.userCode, user);
@@ -201,7 +201,7 @@ public class LoginActivity extends AppCompatActivity implements AccessAdminDialo
 
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
-                System.out.println("Failure****************************************");
+                System.out.println("Failure in Login****************************************");
                 System.out.println(t.getMessage());
             }
         });

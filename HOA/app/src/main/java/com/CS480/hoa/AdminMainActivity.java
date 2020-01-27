@@ -174,12 +174,14 @@ public class AdminMainActivity extends AppCompatActivity {
 
 
 
-                getWorkOrders(jsonArray);
+                boolean hasWorkOrders = getWorkOrders(jsonArray);
 
                 //if the array is empty then don't populate the recycler view
-                if(jsonArray.size() < 1){
+                if(!hasWorkOrders){
+                    //There are no work orders to display
                     blankListTextView.setVisibility(View.VISIBLE);
                 }else {
+                    //There are work orders to display
 
                     //because the Recyclerview requires the workOrders to be implemented correctly
                     //the Recyclerview initialization will be in the onResponse method
@@ -213,7 +215,7 @@ public class AdminMainActivity extends AppCompatActivity {
 
 
     //this method handles converting the JsonArray into a list of workOrders
-    private void getWorkOrders(JsonArray jsonArray){
+    private boolean getWorkOrders(JsonArray jsonArray){
 
         workOrders = new WorkOrder[jsonArray.size()];
         JsonObject[] jsonObjects = new JsonObject[jsonArray.size()];
@@ -225,6 +227,15 @@ public class AdminMainActivity extends AppCompatActivity {
 
 
         System.out.println(jsonObjects);
+
+        if(jsonObjects[0].has("status")){
+
+            if(jsonObjects[0].get("status").toString().equals("\"0\"")){
+
+                //if status is 0 then there are no work orders to display
+                return false;
+            }
+        }
 
 
 
@@ -261,11 +272,12 @@ public class AdminMainActivity extends AppCompatActivity {
         }
 
 
+        //Testing *************************************************************
         for(WorkOrder workOrder : workOrders) {
             System.out.println(workOrder);
         }
 
-
+        return true;
 
 
     }
