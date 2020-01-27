@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="com.CS480.hoa"
+    android:targetSandboxVersion="2"
+    android:versionCode="1"
+    android:versionName="1.0" >
+
+    <uses-sdk
+        android:minSdkVersion="15"
+        android:targetSdkVersion="29" />
+
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
+    <application
+        android:allowBackup="true"
+        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+        android:debuggable="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:roundIcon="@mipmap/ic_launcher_round"
+        android:supportsRtl="true"
+        android:testOnly="true"
+        android:theme="@style/AppTheme" >
+        <activity android:name="com.CS480.hoa.BlankActivity" />
+        <activity
+            android:name="com.CS480.hoa.EditRulesAndPoliciesActivity"
+            android:parentActivityName="com.CS480.hoa.AdminMainActivity" />
+        <activity
+            android:name="com.CS480.hoa.ViewRulesAndPoliciesActivity"
+            android:parentActivityName="com.CS480.hoa.HomeOwnerMainActivity" />
+        <activity
+            android:name="com.CS480.hoa.EditHomeOwnerActivity"
+            android:parentActivityName="com.CS480.hoa.AdminMainActivity" />
+        <activity android:name="com.CS480.hoa.WorkOrderViewActivity" />
+        <activity
+            android:name="com.CS480.hoa.CreateNewWorkOrderActivity"
+            android:parentActivityName="com.CS480.hoa.HomeOwnerMainActivity" />
+        <activity android:name="com.CS480.hoa.AdminMainActivity" />
+        <activity android:name="com.CS480.hoa.HomeOwnerMainActivity" />
+        <activity
+            android:name="com.CS480.hoa.CreateNewHomeOwnerActivity"
+            android:parentActivityName="com.CS480.hoa.LoginActivity" />
+        <activity android:name="com.CS480.hoa.LoginActivity" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+    </application>
+
+</manifest>
