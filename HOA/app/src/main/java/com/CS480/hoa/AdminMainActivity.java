@@ -31,6 +31,9 @@ public class AdminMainActivity extends AppCompatActivity {
 
     public static final String userCode = "com.CS480.hoa.adminMain";
 
+    //request code used for child activities returning to this activity
+    //private final int adminMainRequestCode = 2;
+
     private RecyclerView recyclerView;
     private TextView blankListTextView;
     private User user;
@@ -90,11 +93,15 @@ public class AdminMainActivity extends AppCompatActivity {
             //when a work order is selected display its information
             Intent intent = new Intent(getBaseContext(), WorkOrderViewActivity.class);
 
-            //send the current work order to the display activity
-            intent.putExtra(WorkOrderViewActivity.workOrderCode, workOrder);
+            Bundle bundle = new Bundle();
 
-            //send the current user to the display activity
-            intent.putExtra(WorkOrderViewActivity.userCode, user);
+            //add necessary data to the bundle
+            bundle.putSerializable(WorkOrderViewActivity.workOrderCode, workOrder);
+            bundle.putSerializable(WorkOrderViewActivity.userCode, user);
+            bundle.putString(WorkOrderViewActivity.callingActivityCode, AdminMainActivity.userCode);
+
+            //append bundle to intent
+            intent.putExtras(bundle);
 
             startActivity(intent);
         }
@@ -109,12 +116,8 @@ public class AdminMainActivity extends AppCompatActivity {
         //constructor
         public WorkOrderAdapter(WorkOrder[] workOrderList){
 
-
-            System.out.println("*********************************" + workOrderList.length);
-
-
-
-            this.workOrderList = workOrderList;}
+            this.workOrderList = workOrderList;
+        }
 
         //create a holder for the workOrder
         @NonNull
@@ -166,14 +169,6 @@ public class AdminMainActivity extends AppCompatActivity {
                 //JsonArray object to store the response from web service
                 JsonArray jsonArray = response.body();
 
-
-
-                System.out.println(jsonArray);
-
-
-
-
-
                 boolean hasWorkOrders = getWorkOrders(jsonArray);
 
                 //if the array is empty then don't populate the recycler view
@@ -224,10 +219,6 @@ public class AdminMainActivity extends AppCompatActivity {
             jsonObjects[i] = (JsonObject) jsonArray.get(i);
         }
 
-
-
-        System.out.println(jsonObjects);
-
         if(jsonObjects[0].has("status")){
 
             if(jsonObjects[0].get("status").toString().equals("\"0\"")){
@@ -271,16 +262,21 @@ public class AdminMainActivity extends AppCompatActivity {
                     submissionDate, lastActivityDate, currentStatus);
         }
 
-
-        //Testing *************************************************************
-        for(WorkOrder workOrder : workOrders) {
-            System.out.println(workOrder);
-        }
-
         return true;
 
 
     }
+
+
+
+    //This is if the back button is pressed
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent();
+        setResult(RESULT_OK, intent);
+        super.onBackPressed();
+    }
+
 
 
 
@@ -337,6 +333,10 @@ public class AdminMainActivity extends AppCompatActivity {
                 startActivity(intent);
 
                 return true;
+
+            case R.id.parent:
+                //The back navigation button is pressed
+                onBackPressed();
 
             default:
                 return super.onOptionsItemSelected(item);

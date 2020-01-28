@@ -6,13 +6,11 @@ import androidx.fragment.app.FragmentManager;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -21,6 +19,9 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class LoginActivity extends AppCompatActivity implements AccessAdminDialog.AccessAdminSelectedListener {
+
+    //request code used for child activities returning to this activity
+    private final int loginRequestCode = 1;
 
     private EditText userEmail;
     private EditText userPassword;
@@ -72,11 +73,30 @@ public class LoginActivity extends AppCompatActivity implements AccessAdminDialo
 
                 //go straight to the create new home owner activity
                 Intent intent = new Intent(getBaseContext(), CreateNewHomeOwnerActivity.class);
-                startActivity(intent);
+                startActivityForResult(intent, loginRequestCode);
             }
         });
 
     }
+
+
+    //This method handles if the back button is used to return to this activity
+    //This simply blanks out the input fields
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(requestCode == loginRequestCode){
+
+            if(resultCode == RESULT_OK){
+                userEmail.setText("");
+                userPassword.setText("");
+            }
+        }
+    }
+
+
 
     //The following method handles the selection from the AlertDialog
     //that asked if the user wants to access admin features
@@ -170,12 +190,6 @@ public class LoginActivity extends AppCompatActivity implements AccessAdminDialo
                         }else {
 
 
-                            //******************************
-                            //use until home owner main activity is ready
-                            //Intent intent = new Intent(getBaseContext(), BlankActivity.class);
-                            //*******************************
-
-
                             //the user does not have admin access
                             Intent intent = new Intent(getBaseContext(), HomeOwnerMainActivity.class);
 
@@ -183,7 +197,7 @@ public class LoginActivity extends AppCompatActivity implements AccessAdminDialo
                             intent.putExtra(HomeOwnerMainActivity.userCode, user);
 
                             //start the next activity
-                            startActivity(intent);
+                            startActivityForResult(intent, loginRequestCode);
                         }
 
                     } else {
