@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:paddingLeft="@dimen/paddingLeftDialog">
+
+
+    <TextView
+        style="@style/textView"
+        android:text="@string/name"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        />
+
+    <TextView
+        android:id="@+id/viewPersonalInformationName"
+        style="@style/textView"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="@+id/viewPersonalInformationAddress"
+        />
+
+    <TextView
+        android:id="@+id/viewPersonalInformationAddressLabel"
+        style="@style/textView"
+        android:text="@string/address"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewPersonalInformationName"
+        />
+
+    <TextView
+        android:id="@+id/viewPersonalInformationAddress"
+        style="@style/textView"
+        android:layout_marginLeft="@dimen/generalMarginSpace"
+        app:layout_constraintTop_toBottomOf="@+id/viewPersonalInformationName"
+        app:layout_constraintLeft_toRightOf="@+id/viewPersonalInformationAddressLabel"
+        />
+
+    <TextView
+        style="@style/textView"
+        android:text="@string/phone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewPersonalInformationAddress"
+        />
+
+    <TextView
+        android:id="@+id/viewPersonalInformationPhone"
+        style="@style/textView"
+        app:layout_constraintTop_toBottomOf="@+id/viewPersonalInformationAddress"
+        app:layout_constraintLeft_toLeftOf="@+id/viewPersonalInformationAddress"
+        />
+
+    <TextView
+        style="@style/textView"
+        android:text="@string/email"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/viewPersonalInformationPhone"
+        />
+
+    <TextView
+        android:id="@+id/viewPersonalInformationEmail"
+        style="@style/textView"
+        app:layout_constraintTop_toBottomOf="@+id/viewPersonalInformationPhone"
+        app:layout_constraintLeft_toLeftOf="@+id/viewPersonalInformationAddress"
+        />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

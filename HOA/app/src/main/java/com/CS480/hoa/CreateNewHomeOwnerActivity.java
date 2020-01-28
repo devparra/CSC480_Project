@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -87,6 +88,15 @@ public class CreateNewHomeOwnerActivity extends AppCompatActivity {
         });
 
     }//end of onCreate
+
+
+    //this is for if the back button is pressed
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent();
+        setResult(RESULT_OK, intent);
+        super.onBackPressed();
+    }
 
 
 
@@ -197,4 +207,17 @@ public class CreateNewHomeOwnerActivity extends AppCompatActivity {
             }
         });
     }//end of sendData
+
+
+    //This is used if the back navigation button is pressed
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch(item.getItemId()){
+            case R.id.parent:
+                onBackPressed();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 }

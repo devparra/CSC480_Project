@@ -61,7 +61,6 @@
         style="@style/Widget.AppCompat.Button.Borderless"
         android:text="Sample Name"
         android:padding="@dimen/generalPaddingSpace"
-        android:enabled="false"
         app:layout_constraintLeft_toLeftOf="@+id/workOrderIDView"
         app:layout_constraintTop_toTopOf="@+id/workOrderCreatorLabel"
         app:layout_constraintBottom_toBottomOf="@+id/workOrderCreatorLabel"
@@ -93,7 +92,6 @@
         style="@style/Widget.AppCompat.Button.Borderless"
         android:text="Sample Name"
         android:padding="@dimen/generalPaddingSpace"
-        android:enabled="false"
         app:layout_constraintLeft_toLeftOf="@+id/workOrderIDView"
         app:layout_constraintTop_toTopOf="@+id/workOrderEditorLabel"
         app:layout_constraintBottom_toBottomOf="@+id/workOrderEditorLabel"
@@ -183,6 +181,17 @@
         app:layout_constraintTop_toTopOf="@+id/workOrderStatusLabel"
         app:layout_constraintBottom_toBottomOf="@+id/workOrderStatusLabel"
 
+        />
+
+    <Button
+        android:id="@+id/workOrderViewReturnButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="@dimen/generalPaddingSpace"
+        android:text="@string/GoBack"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

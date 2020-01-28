@@ -16,7 +16,6 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -28,6 +27,9 @@ import retrofit2.Response;
 public class HomeOwnerMainActivity extends AppCompatActivity {
 
     public static final String userCode = "com.CS480.hoa.homeOwnerMain";
+
+    //request code used for child activities returning to this activity
+    //private final int homeOwnerMainRequestCode = 3;
 
     private RecyclerView recyclerView;
     private TextView blankListTextView;
@@ -103,11 +105,15 @@ public class HomeOwnerMainActivity extends AppCompatActivity {
             //when a work order is selected display its information
             Intent intent = new Intent(getBaseContext(), WorkOrderViewActivity.class);
 
-            //send the current work order to the display activity
-            intent.putExtra(WorkOrderViewActivity.workOrderCode, workOrder);
+            Bundle bundle = new Bundle();
 
-            //send the current user to the display activity
-            intent.putExtra(WorkOrderViewActivity.userCode, user);
+            //add necessary data to the bundle
+            bundle.putSerializable(WorkOrderViewActivity.workOrderCode, workOrder);
+            bundle.putSerializable(WorkOrderViewActivity.userCode, user);
+            bundle.putString(WorkOrderViewActivity.callingActivityCode, HomeOwnerMainActivity.userCode);
+
+            //append the bundle to the intent
+            intent.putExtras(bundle);
 
             startActivity(intent);
         }
@@ -286,6 +292,34 @@ public class HomeOwnerMainActivity extends AppCompatActivity {
 
 
 
+//    //This method handles if the back button is used to return to this activity
+//    //This simply blanks out the input fields
+//    @Override
+//    public void onActivityResult(int requestCode, int resultCode, Intent data){
+//
+//        super.onActivityResult(requestCode, resultCode, data);
+//
+//        if(requestCode == homeOwnerMainRequestCode){
+//
+//            if(resultCode == RESULT_OK){
+//                userEmail.setText("");
+//                userPassword.setText("");
+//            }
+//        }
+//    }
+
+
+
+    //This is if the back button is pressed
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent();
+        setResult(RESULT_OK, intent);
+        super.onBackPressed();
+    }
+
+
+
     //this creates the menu options
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
@@ -312,6 +346,13 @@ public class HomeOwnerMainActivity extends AppCompatActivity {
                 intent.putExtra(ViewRulesAndPoliciesActivity.userCode, user);
 
                 startActivity(intent);
+
+                return true;
+
+            case R.id.parent:
+
+                //This is called if the back navigation button is pressed
+                onBackPressed();
 
                 return true;
 

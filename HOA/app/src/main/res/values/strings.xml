@@ -5,8 +5,15 @@
     <string name="user_email">User Email</string>
     <string name="password">Password</string>
     <string name="adminAccess">Access Admin Features</string>
+    <string name="displayPersonalInformation">Personal Information</string>
     <string name="dialogMessage">Do you want to access Admin features?</string>
+    <string name="statusChange">Status Change</string>
+    <string name="statusSelect">Select the Status</string>
     <string name="createUserTitle">Create New User</string>
+    <string name="name">Name:</string>
+    <string name="address">Address:</string>
+    <string name="phone">Phone:</string>
+    <string name="email">Email:</string>
     <string name="firstNameLabel">First Name</string>
     <string name="lastNameLabel">Last Name</string>
     <string name="streetLabel">Street</string>
@@ -17,6 +24,7 @@
     <string name="emailLabel">Email</string>
     <string name="saveButton">Save</string>
     <string name="cancelButton">Cancel</string>
+    <string name="GoBack">Return</string>
     <string name="createNewWorkOrder">New Work Order</string>
     <string name="description">Description</string>
     <string name="attachPhoto">Attach Photo</string>
@@ -30,4 +38,10 @@
     <string name="pending">Pending</string>
     <string name="denied">Denied</string>
     <string name="approved">Approved</string>
+
+    <string-array name="statusOptions">
+        <item>Pending</item>
+        <item>Approved</item>
+        <item>Denied</item>
+    </string-array>
 </resources>

@@ -35,8 +35,12 @@
         <activity
             android:name="com.CS480.hoa.CreateNewWorkOrderActivity"
             android:parentActivityName="com.CS480.hoa.HomeOwnerMainActivity" />
-        <activity android:name="com.CS480.hoa.AdminMainActivity" />
-        <activity android:name="com.CS480.hoa.HomeOwnerMainActivity" />
+        <activity
+            android:name="com.CS480.hoa.AdminMainActivity"
+            android:parentActivityName="com.CS480.hoa.LoginActivity" />
+        <activity
+            android:name="com.CS480.hoa.HomeOwnerMainActivity"
+            android:parentActivityName="com.CS480.hoa.LoginActivity" />
         <activity
             android:name="com.CS480.hoa.CreateNewHomeOwnerActivity"
             android:parentActivityName="com.CS480.hoa.LoginActivity" />

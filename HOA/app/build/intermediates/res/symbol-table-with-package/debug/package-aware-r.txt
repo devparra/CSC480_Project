@@ -23,6 +23,7 @@ anim btn_radio_to_off_mtrl_ring_outer_path_animation
 anim btn_radio_to_on_mtrl_dot_group_animation
 anim btn_radio_to_on_mtrl_ring_outer_animation
 anim btn_radio_to_on_mtrl_ring_outer_path_animation
+array statusOptions
 attr actionBarDivider
 attr actionBarItemBackground
 attr actionBarPopupTheme
@@ -556,6 +557,7 @@ dimen editTextWidth
 dimen fastscroll_default_thickness
 dimen fastscroll_margin
 dimen fastscroll_minimum_range
+dimen generalMarginSpace
 dimen generalPaddingSpace
 dimen highlight_alpha_material_colored
 dimen highlight_alpha_material_dark
@@ -584,6 +586,7 @@ dimen notification_subtext_size
 dimen notification_top_pad
 dimen notification_top_pad_large_text
 dimen outerMarginSpace
+dimen paddingLeftDialog
 dimen textSize
 dimen tooltip_corner_radius
 dimen tooltip_horizontal_padding
@@ -810,9 +813,9 @@ id editTextPhoneInput
 id editTextStateInput
 id editTextStreetInput
 id editTextZipInput
-id editWorkOrderButton
-id editWorkOrderCancelButton
-id editWorkOrderSaveButton
+id editWorkOrderCancelMenu
+id editWorkOrderMenu
+id editWorkOrderSaveMenu
 id edit_query
 id end
 id expand_activities_button
@@ -923,6 +926,11 @@ id uniform
 id up
 id useLogo
 id userNameLogin
+id viewPersonalInformationAddress
+id viewPersonalInformationAddressLabel
+id viewPersonalInformationEmail
+id viewPersonalInformationName
+id viewPersonalInformationPhone
 id withText
 id workOrderAttachedPhotoLabel
 id workOrderAttachedPhotoView
@@ -950,6 +958,7 @@ id workOrderStatusLabel
 id workOrderViewAttachPhotoButton
 id workOrderViewCreatorInfoButton
 id workOrderViewEditorInfoButton
+id workOrderViewReturnButton
 id workOrderViewStatusButton
 id wrap
 id wrap_content
@@ -1006,6 +1015,7 @@ layout activity_login
 layout activity_view_rules_and_policies
 layout activity_work_order_view
 layout custom_dialog
+layout display_personal_information
 layout notification_action
 layout notification_action_tombstone
 layout notification_template_custom_big
@@ -1022,6 +1032,7 @@ menu homeowner_main_menu
 menu view_work_order_menu
 mipmap ic_launcher
 mipmap ic_launcher_round
+string GoBack
 string abc_action_bar_home_description
 string abc_action_bar_up_description
 string abc_action_menu_overflow_description
@@ -1049,6 +1060,7 @@ string abc_searchview_description_voice
 string abc_shareactionprovider_share_with
 string abc_shareactionprovider_share_with_application
 string abc_toolbar_collapse_description
+string address
 string adminAccess
 string app_name
 string approved
@@ -1064,18 +1076,24 @@ string createdOn
 string denied
 string description
 string dialogMessage
+string displayPersonalInformation
 string editHomeOwners
+string email
 string emailLabel
 string firstNameLabel
 string lastNameLabel
 string loginButton
+string name
 string password
 string pending
+string phone
 string phoneLabel
 string rulesAndPolicies
 string saveButton
 string search_menu_title
 string stateLabel
+string statusChange
+string statusSelect
 string status_bar_notification_info_overflow
 string streetLabel
 string test
