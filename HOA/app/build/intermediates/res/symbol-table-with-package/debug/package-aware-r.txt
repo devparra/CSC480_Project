@@ -569,6 +569,8 @@ dimen hint_pressed_alpha_material_light
 dimen item_touch_helper_max_drag_scroll_per_frame
 dimen item_touch_helper_swipe_escape_max_velocity
 dimen item_touch_helper_swipe_escape_velocity
+dimen listIDWidth
+dimen listTextSize
 dimen loginMarginSpace
 dimen notification_action_icon_size
 dimen notification_action_text_size
@@ -588,6 +590,7 @@ dimen notification_top_pad_large_text
 dimen outerMarginSpace
 dimen paddingLeftDialog
 dimen textSize
+dimen titleTextSize
 dimen tooltip_corner_radius
 dimen tooltip_horizontal_padding
 dimen tooltip_margin
@@ -708,6 +711,7 @@ drawable notification_template_icon_low_bg
 drawable notification_tile_bg
 drawable notify_panel_notification_icon_bg
 drawable save_icon
+drawable test_image
 drawable tooltip_frame_dark
 drawable tooltip_frame_light
 id ALT
@@ -789,6 +793,7 @@ id checkbox
 id checked
 id chronometer
 id collapseActionView
+id commentListItem
 id content
 id contentPanel
 id createCancelButton
@@ -804,6 +809,7 @@ id dialog_button
 id dimensions
 id direct
 id disableHome
+id editHomeOwnerTitle
 id editTextCityInput
 id editTextEmailInput
 id editTextFirstNameInput
@@ -867,7 +873,9 @@ id progress_circular
 id progress_horizontal
 id radio
 id recyclerViewAdminMain
+id recyclerViewEditHomeOwner
 id recyclerViewHomeOwnerMain
+id recyclerViewViewComments
 id right
 id right_icon
 id right_side
@@ -932,8 +940,6 @@ id viewPersonalInformationEmail
 id viewPersonalInformationName
 id viewPersonalInformationPhone
 id withText
-id workOrderAttachedPhotoLabel
-id workOrderAttachedPhotoView
 id workOrderCreateAttachPhotoButton
 id workOrderCreateCancelButton
 id workOrderCreateDescriptionInput
@@ -954,12 +960,16 @@ id workOrderIDView
 id workOrderListItemDate
 id workOrderListItemId
 id workOrderListItemStatus
-id workOrderStatusLabel
 id workOrderViewAttachPhotoButton
+id workOrderViewCommentRecyclerView
+id workOrderViewCommentsButton
+id workOrderViewCommentsLabel
 id workOrderViewCreatorInfoButton
 id workOrderViewEditorInfoButton
+id workOrderViewPhotoButton
 id workOrderViewReturnButton
 id workOrderViewStatusButton
+id workOrderViewStatusLabel
 id wrap
 id wrap_content
 integer abc_config_activityDefaultDur
@@ -1012,6 +1022,7 @@ layout activity_edit_home_owner
 layout activity_edit_rules_and_policies
 layout activity_home_owner_main
 layout activity_login
+layout activity_view_comments
 layout activity_view_rules_and_policies
 layout activity_work_order_view
 layout custom_dialog
@@ -1026,6 +1037,7 @@ layout select_dialog_item_material
 layout select_dialog_multichoice_material
 layout select_dialog_singlechoice_material
 layout support_simple_spinner_dropdown_item
+layout work_order_comment_list_item
 layout work_order_list_item
 menu admin_main_menu
 menu homeowner_main_menu
@@ -1098,7 +1110,7 @@ string status_bar_notification_info_overflow
 string streetLabel
 string test
 string user_email
-string workOrderList
+string workOrderListID
 string zipLabel
 style AlertDialog_AppCompat
 style AlertDialog_AppCompat_Light

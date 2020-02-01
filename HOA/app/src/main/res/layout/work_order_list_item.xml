@@ -4,12 +4,15 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="horizontal"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:layout_margin="@dimen/generalMarginSpace">
 
     <TextView
         android:id="@+id/workOrderListItemId"
-        style="@style/textView"
+        android:layout_width="@dimen/listIDWidth"
+        android:layout_height="wrap_content"
         android:text="@string/test"
+        android:textSize="@dimen/listTextSize"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />
@@ -17,14 +20,15 @@
     <TextView
         android:id="@+id/workOrderListItemDate"
         style="@style/textView"
+        android:textSize="@dimen/listTextSize"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toRightOf="@+id/workOrderListItemId"
-        app:layout_constraintRight_toLeftOf="@+id/workOrderListItemStatus"
         />
 
     <TextView
         android:id="@+id/workOrderListItemStatus"
         style="@style/textView"
+        android:textSize="@dimen/listTextSize"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         />

@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import androidx.fragment.app.DialogFragment;
 
-import java.io.Serializable;
 
 public class ViewUserDialog extends DialogFragment {
 

@@ -3,8 +3,11 @@ package com.CS480.hoa;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.media.Image;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,6 +16,10 @@ import android.widget.Toast;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import org.json.JSONArray;
+
+import java.io.ByteArrayOutputStream;
+import java.util.ArrayList;
 import java.util.Date;
 
 import retrofit2.Call;
@@ -25,7 +32,7 @@ public class CreateNewWorkOrderActivity extends AppCompatActivity {
 
     private WorkOrder workOrder;
     private User user;
-    private Image[] attachedPhotos;
+    private Drawable[] attachedPhotos;
 
     private EditText descriptionInput;
     private Button saveButton;
@@ -94,11 +101,14 @@ public class CreateNewWorkOrderActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
+                //get Image from the camera
             }
         });
     }
 
 
+    //The only required field is the description.
+    //This ensures description is not empty
     private boolean validateForm(){
 
         if(descriptionInput.getText().toString().isEmpty()){
@@ -108,6 +118,8 @@ public class CreateNewWorkOrderActivity extends AppCompatActivity {
         return true;
     }
 
+
+    //This method creates a new work order object
     private WorkOrder createWorkOrder(){
 
         String description = descriptionInput.getText().toString();
@@ -116,6 +128,8 @@ public class CreateNewWorkOrderActivity extends AppCompatActivity {
         return new WorkOrder(user, description, rightNow, attachedPhotos);
     }
 
+
+    //This sends the work order data to the web service
     private void sendData(){
 
         //update url to access web service
@@ -126,16 +140,35 @@ public class CreateNewWorkOrderActivity extends AppCompatActivity {
 
         //create JsonObject to send data to web service
         JsonObject json = new JsonObject();
-        json.addProperty("wo_description", workOrder.getDescription());
-        json.addProperty("wo_creator", workOrder.getCreator().getUserEmail());
+
+        json.addProperty("description", workOrder.getDescription());
+        json.addProperty("creator", workOrder.getCreator().getUserEmail());
         if(workOrder.getEditor() != null) {
-            json.addProperty("wo_editor", workOrder.getEditor().getUserEmail());
+            json.addProperty("admin", workOrder.getEditor().getUserEmail());
         }else{
-            json.addProperty("wo_editor", "null");
+            json.addProperty("admin", "null");
         }
-        json.addProperty("wo_creation_date", workOrder.getSubmissionDate());
-        json.addProperty("wo_edit_date", workOrder.getLastActivityDate());
-        json.addProperty("wo_current_status", workOrder.getCurrentStatus());
+        json.addProperty("submissionDate", workOrder.getSubmissionDate());
+        json.addProperty("lastActivityDate", workOrder.getLastActivityDate());
+        json.addProperty("currentStatus", workOrder.getCurrentStatus());
+
+        if(attachedPhotos.length > 0) {
+            ArrayList<String> photoList = new ArrayList<>();
+
+            for (Drawable photo : attachedPhotos) {
+
+                BitmapDrawable drawable = (BitmapDrawable) photo;
+                Bitmap bitmap = drawable.getBitmap();
+                photoList.add(encodeToBase64(bitmap, Bitmap.CompressFormat.JPEG, 100));
+            }
+
+            json.addProperty("attachedPhotos", String.valueOf(new JSONArray(photoList)));
+
+        }else{
+
+            json.addProperty("attachedPhotos", "empty");
+        }
+
 
         //**********************************************************************************
 
@@ -189,5 +222,13 @@ public class CreateNewWorkOrderActivity extends AppCompatActivity {
                 System.out.println(t.getMessage());
             }
         });
+    }
+
+    //this converts a bitmap for an image into a base64 string
+    public static String encodeToBase64(Bitmap image, Bitmap.CompressFormat compressFormat, int quality) {
+
+        ByteArrayOutputStream byteArrayOS = new ByteArrayOutputStream();
+        image.compress(compressFormat, quality, byteArrayOS);
+        return Base64.encodeToString(byteArrayOS.toByteArray(), Base64.NO_WRAP);
     }
 }
