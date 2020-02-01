@@ -1,17 +1,24 @@
 package com.CS480.hoa;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import java.util.Date;
 
 public class WorkOrderViewActivity extends AppCompatActivity implements StatusChangeDialog.StatusChangeSelectedListener {
 
@@ -24,16 +31,19 @@ public class WorkOrderViewActivity extends AppCompatActivity implements StatusCh
     private User user; //The current user that is viewing the workOrder
     private WorkOrder workOrder;
 
-    private Button addPhototButton;
+    private Drawable[] newImages;
+
+    private Button addPhotoButton;
     private Button currentStatusButton;
     private Button creatorInfoButton;
     private Button editorInfoButton;
     private Button returnButton;
+    private Button viewPhotos;
     private TextView idTextView;
-    private EditText descriptionEditText;
+    private TextView descriptionTextView;
     private TextView creationDateTextView;
     private TextView lastActivityTextView;
-    private TextView attachedPhotoTextView;
+    private RecyclerView commentRecyclerView;
 
     private MenuItem menuEdit;
     private MenuItem menuSave;
@@ -53,17 +63,20 @@ public class WorkOrderViewActivity extends AppCompatActivity implements StatusCh
         //get the calling activity code
         callingActivity = getIntent().getStringExtra(callingActivityCode);
 
+        //set up array to hold many additional photos if needed
+        newImages = new Drawable[workOrder.getAttachedPhotos().length + 10];
+
         //assign all objects to variables
-        addPhototButton = findViewById(R.id.workOrderViewAttachPhotoButton);
+        addPhotoButton = findViewById(R.id.workOrderViewAttachPhotoButton);
         currentStatusButton = findViewById(R.id.workOrderViewStatusButton);
         creatorInfoButton = findViewById(R.id.workOrderViewCreatorInfoButton);
         editorInfoButton = findViewById(R.id.workOrderViewEditorInfoButton);
         returnButton = findViewById(R.id.workOrderViewReturnButton);
         idTextView = findViewById(R.id.workOrderIDView);
-        descriptionEditText = findViewById(R.id.workOrderDescriptionView);
+        descriptionTextView = findViewById(R.id.workOrderDescriptionView);
         creationDateTextView = findViewById(R.id.workOrderCreatedDateView);
         lastActivityTextView = findViewById(R.id.workOrderEditedDateView);
-        attachedPhotoTextView = findViewById(R.id.workOrderAttachedPhotoView);
+        viewPhotos = findViewById(R.id.workOrderViewPhotoButton);
 
         //populate the fields with the information from the WorkOrder object
         currentStatusButton.setText(workOrder.getCurrentStatus());
@@ -74,19 +87,33 @@ public class WorkOrderViewActivity extends AppCompatActivity implements StatusCh
 
         idTextView.setText(workOrder.getId());
 
-        descriptionEditText.setText(workOrder.getDescription());
+        descriptionTextView.setText(workOrder.getDescription());
 
         creationDateTextView.setText(workOrder.getSubmissionDate());
 
         lastActivityTextView.setText(workOrder.getLastActivityDate());
 
+        //only make photo button visible if there are photos to view
+        if(workOrder.getAttachedPhotos().length < 1){
+            viewPhotos.setEnabled(false);
+            viewPhotos.setVisibility(View.INVISIBLE);
+        }
 
+        //Set up recycler view for comments
 
-        //***********************************************
-        //This needs to be replaced with actual images
-        //***********************************************
-        attachedPhotoTextView.setText("Test data");
+        commentRecyclerView = findViewById(R.id.workOrderViewCommentRecyclerView);
 
+        //add dividers between each comment
+        DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(commentRecyclerView.getContext(),
+                DividerItemDecoration.VERTICAL);
+        commentRecyclerView.addItemDecoration(dividerItemDecoration);
+
+        //linear layout for vertical scrolling
+        commentRecyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
+
+        //send list of comments to the setAdapter
+        WorkOrderViewActivity.CommentAdapter adapter = new WorkOrderViewActivity.CommentAdapter(workOrder.getComments());
+        commentRecyclerView.setAdapter(adapter);
 
         //onClick listener for all Buttons
 
@@ -140,7 +167,7 @@ public class WorkOrderViewActivity extends AppCompatActivity implements StatusCh
 
 
         //onClick for adding additional photo
-        addPhototButton.setOnClickListener(new View.OnClickListener() {
+        addPhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 //activate camera to add a photo
@@ -148,7 +175,19 @@ public class WorkOrderViewActivity extends AppCompatActivity implements StatusCh
         });
 
 
+        //onClick for viewing attached photos
+        viewPhotos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+
     }//end onCreate
+
+
+
 
 
     //This method handles the choice received from the status change dialog
@@ -173,6 +212,9 @@ public class WorkOrderViewActivity extends AppCompatActivity implements StatusCh
             currentStatusButton.setBackgroundColor(getResources().getColor(R.color.red));
         }
     }
+
+
+
 
 
     //This takes care of the back button
@@ -201,6 +243,9 @@ public class WorkOrderViewActivity extends AppCompatActivity implements StatusCh
     }
 
 
+
+
+
     //this method creates the options menu for the view work order
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
@@ -212,6 +257,10 @@ public class WorkOrderViewActivity extends AppCompatActivity implements StatusCh
 
         return super.onCreateOptionsMenu(menu);
     }
+
+
+
+
 
     //this method handles the menu item that are selected
     @Override
@@ -227,9 +276,8 @@ public class WorkOrderViewActivity extends AppCompatActivity implements StatusCh
                     currentStatusButton.setEnabled(true);
                 }
 
-                descriptionEditText.setEnabled(true);
-                addPhototButton.setVisibility(View.VISIBLE);
-                addPhototButton.setEnabled(true);
+                addPhotoButton.setVisibility(View.VISIBLE);
+                addPhotoButton.setEnabled(true);
 
                 menuEdit.setVisible(false);
                 menuSave.setVisible(true);
@@ -240,15 +288,38 @@ public class WorkOrderViewActivity extends AppCompatActivity implements StatusCh
             case R.id.editWorkOrderSaveMenu:
                 //save the changes that where made to the database
 
+                workOrder.setLastActivityDate(new Date());
+                workOrder.setEditor(user);
+
+                if(currentStatusButton.getText().toString().equals(getResources().getString(R.string.pending))){
+                    workOrder.setCurrentStatus("pending");
+                }else if(currentStatusButton.getText().toString().equals(getResources().getString(R.string.approved))){
+                    workOrder.setCurrentStatus("approved");
+                }else {
+                    workOrder.setCurrentStatus("denied");
+                }
+
+                //if new photos have been added
+                if(newImages.length > 0){
+                    Drawable[] temp = workOrder.getAttachedPhotos();
+
+                    for(int i = 0; i < newImages.length; i++){
+                        temp[i + temp.length] = newImages[i];
+                    }
+
+                    workOrder.setAttachedPhotos(temp);
+                }
+
+                //send the saved changes to the web service
                 sendData(workOrder);
 
-                descriptionEditText.setEnabled(false);
-                addPhototButton.setVisibility(View.INVISIBLE);
-                addPhototButton.setEnabled(false);
+                //disable input options
+                addPhotoButton.setVisibility(View.INVISIBLE);
+                addPhotoButton.setEnabled(false);
                 currentStatusButton.setEnabled(false);
 
 
-                //disable the appropriate fields
+                //update menu choices
                 menuEdit.setVisible(true);
                 menuSave.setVisible(false);
                 menuCancel.setVisible(false);
@@ -258,16 +329,28 @@ public class WorkOrderViewActivity extends AppCompatActivity implements StatusCh
             case R.id.editWorkOrderCancelMenu:
 
 
-                descriptionEditText.setEnabled(false);
-                addPhototButton.setVisibility(View.INVISIBLE);
-                addPhototButton.setEnabled(false);
+                //disable input options
+                addPhotoButton.setVisibility(View.INVISIBLE);
+                addPhotoButton.setEnabled(false);
                 currentStatusButton.setEnabled(false);
 
 
-                //disable the appropriate fields
+                //update menu choices
                 menuEdit.setVisible(true);
                 menuSave.setVisible(false);
                 menuCancel.setVisible(false);
+
+                //return any changed values to the original values
+                if(workOrder.getCurrentStatus().equals("pending")){
+                    currentStatusButton.setText(getResources().getString(R.string.pending));
+                    currentStatusButton.setBackgroundColor(getResources().getColor(R.color.orange));
+                }else if(workOrder.getCurrentStatus().equals("approved")){
+                    currentStatusButton.setText(getResources().getString(R.string.approved));
+                    currentStatusButton.setBackgroundColor(getResources().getColor(R.color.green));
+                }else{
+                    currentStatusButton.setText(getResources().getString(R.string.denied));
+                    currentStatusButton.setBackgroundColor(getResources().getColor(R.color.red));
+                }
 
                 return true;
 
@@ -276,6 +359,9 @@ public class WorkOrderViewActivity extends AppCompatActivity implements StatusCh
         }
 
     }
+
+
+
 
 
     //This method will send the updated data to the web service
@@ -289,4 +375,83 @@ public class WorkOrderViewActivity extends AppCompatActivity implements StatusCh
 
     }
 
+
+
+
+
+    //This method is used to create each line item in the recycler view
+    private class CommentHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+
+        //TextViews from the list item for display
+        private TextView commentTitle;
+
+        //constructor
+        public CommentHolder(LayoutInflater inflater, ViewGroup parent) {
+            super(inflater.inflate(R.layout.work_order_list_item, parent, false));
+            itemView.setOnClickListener(this);
+
+            commentTitle = findViewById(R.id.commentListItem);
+        }
+
+        //binding the data from the work order object to the clickable item
+        public void bind(String comment){
+
+            commentTitle.setText(comment.substring(0,20));
+
+        }
+
+        //onclick Method
+        @Override
+        public void onClick(View v) {
+
+            //when a work order is selected display its information
+            Intent intent = new Intent(getBaseContext(), WorkOrderViewActivity.class);
+
+            Bundle bundle = new Bundle();
+
+            //add necessary data to the bundle
+            bundle.putSerializable(WorkOrderViewActivity.workOrderCode, workOrder);
+            bundle.putSerializable(WorkOrderViewActivity.userCode, user);
+            bundle.putString(WorkOrderViewActivity.callingActivityCode, AdminMainActivity.userCode);
+
+            //append bundle to intent
+            intent.putExtras(bundle);
+
+            startActivity(intent);
+        }
+    }
+
+
+    //This method takes the list of work orders and generates a holder for each one
+    private class CommentAdapter extends RecyclerView.Adapter<WorkOrderViewActivity.CommentHolder>{
+
+        private String[] comments;
+
+        //constructor
+        public CommentAdapter(String[] comments){
+
+            this.comments = comments;
+        }
+
+        //create a holder for the workOrder
+        @NonNull
+        @Override
+        public WorkOrderViewActivity.CommentHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+            LayoutInflater layoutInflater = LayoutInflater.from(getBaseContext());
+            return new WorkOrderViewActivity.CommentHolder(layoutInflater, parent);
+        }
+
+        //bind the work order information to the holder item
+        @Override
+        public void onBindViewHolder(@NonNull WorkOrderViewActivity.CommentHolder holder, int position) {
+            String comment = comments[position];
+            holder.bind(comment);
+        }
+
+        //return the total number of addresses
+        @Override
+        public int getItemCount() {
+            return comments.length;
+        }
+    }
 }

@@ -22,6 +22,7 @@
         android:supportsRtl="true"
         android:testOnly="true"
         android:theme="@style/AppTheme" >
+        <activity android:name="com.CS480.hoa.ViewCommentsActivity" />
         <activity android:name="com.CS480.hoa.BlankActivity" />
         <activity
             android:name="com.CS480.hoa.EditRulesAndPoliciesActivity"

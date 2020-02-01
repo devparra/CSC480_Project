@@ -1,5 +1,6 @@
 package com.CS480.hoa;
 
+import android.graphics.drawable.Drawable;
 import android.media.Image;
 
 import java.io.Serializable;
@@ -15,12 +16,13 @@ public class WorkOrder implements Serializable {
 
     private String id;
     private User creator; //the initial user that creates the work order
-    private User admin;  //the last admin user to make any changes to the work order
+    private User editor;  //the last admin user to make any changes to the work order
     private String description; //users description of work to be done
     private Date submissionDate; //the date the work order was submitted
     private Date lastActivityDate; //the date the last change was made to the work order
     private status currentStatus; //the current status of the work order
-    private Image[] attachedPhotos; //a list of all attached photos
+    private String[] comments;
+    private Drawable[] attachedPhotos; //a list of all attached photos
 
     //several different constructors
 
@@ -31,10 +33,10 @@ public class WorkOrder implements Serializable {
     //the submission Date and last activity date are the same here
     //there is no admin editor at this time
     public WorkOrder(User creator, String description, Date submissionDate,
-                     Image[] attachedPhotos){
+                     Drawable[] attachedPhotos){
         this.id = "-99";
         this.creator = creator;
-        this.admin = null;
+        this.editor = creator;
         this.description = description;
         this.submissionDate = submissionDate;
         this.lastActivityDate = submissionDate;
@@ -44,12 +46,12 @@ public class WorkOrder implements Serializable {
 
     //RETRIEVING WORK ORDER FROM DATABASE
     //whatever values are stored in the database will be directly placed into each variable
-    public WorkOrder(String id, User creator, User admin, String description,
+    public WorkOrder(String id, User creator, User editor, String description,
                      Date submissionDate, Date lastActivityDate, status currentStatus,
-                     Image[] attachedPhotos){
+                     Drawable[] attachedPhotos){
         this.id = id;
         this.creator = creator;
-        this.admin = admin;
+        this.editor = editor;
         this.description = description;
         this.submissionDate = submissionDate;
         this.lastActivityDate = lastActivityDate;
@@ -71,7 +73,7 @@ public class WorkOrder implements Serializable {
     //getters
     public String getId(){return id;}
     public User getCreator(){return creator;}
-    public User getEditor(){return admin;}
+    public User getEditor(){return editor;}
     public String getDescription(){return description;}
     public String getSubmissionDate(){
 
@@ -94,7 +96,8 @@ public class WorkOrder implements Serializable {
             return "Pending";
 
     }
-    public Image[] getAttachedPhotos(){return attachedPhotos;}
+    public String[] getComments(){return comments;}
+    public Drawable[] getAttachedPhotos(){return attachedPhotos;}
 
     //setters
     public void setId(String id){this.id = id;}
@@ -105,12 +108,16 @@ public class WorkOrder implements Serializable {
         //*********************************************************************
         this.creator = new User();
     }
-    public void setEditor(String admin){
+    public void setEditor(String editor){
 
         //*********************************************************************
         //this needs to be replaces with pulling user data from the web service
         //*********************************************************************
-        this.admin = new User();
+        this.editor = new User();
+    }
+
+    public void setEditor(User user){
+        this.editor = user;
     }
 
     public void setDescription(String description){this.description = description;}
@@ -137,6 +144,10 @@ public class WorkOrder implements Serializable {
         }
     }
 
+    public void setLastActivityDate(Date date){
+        this.lastActivityDate = date;
+    }
+
     public void setCurrentStatus(String currentStatus){
         if(currentStatus.equals("approved")){
             this.currentStatus = status.APPROVED;
@@ -147,7 +158,8 @@ public class WorkOrder implements Serializable {
         }
     }
 
-    public void setAttachedPhotos(Image[] attachedPhotos){this.attachedPhotos = attachedPhotos;}
+    public void setComments(String[] comments){this.comments = comments;}
+    public void setAttachedPhotos(Drawable[] attachedPhotos){this.attachedPhotos = attachedPhotos;}
 
 
     //****************************************************************

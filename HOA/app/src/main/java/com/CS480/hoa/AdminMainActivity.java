@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -21,6 +22,10 @@ import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.Date;
 
 import retrofit2.Call;
@@ -169,6 +174,7 @@ public class AdminMainActivity extends AppCompatActivity {
                 //JsonArray object to store the response from web service
                 JsonArray jsonArray = response.body();
 
+                //translate the Json Array into a list of work orders
                 boolean hasWorkOrders = getWorkOrders(jsonArray);
 
                 //if the array is empty then don't populate the recycler view
@@ -219,6 +225,8 @@ public class AdminMainActivity extends AppCompatActivity {
             jsonObjects[i] = (JsonObject) jsonArray.get(i);
         }
 
+
+        //check to see if there are any work orders to display
         if(jsonObjects[0].has("status")){
 
             if(jsonObjects[0].get("status").toString().equals("\"0\"")){
@@ -229,7 +237,7 @@ public class AdminMainActivity extends AppCompatActivity {
         }
 
 
-
+        //This will only execute if there are work orders to display
         for(int i = 0; i < jsonObjects.length; i++){
 
             String id = jsonObjects[i].get("id").toString();
@@ -257,14 +265,77 @@ public class AdminMainActivity extends AppCompatActivity {
             //Still need to retrieve photos
 
 
+            System.out.println(jsonObjects[i].get("attached_photos").toString());
+
+
+            Drawable[] attachedPhotos = getImages(jsonObjects[i].get("attached_photos").toString());
+
+
 
             workOrders[i] = new WorkOrder(id, creator, admin, description,
                     submissionDate, lastActivityDate, currentStatus);
+
+            workOrders[i].setAttachedPhotos(attachedPhotos);
         }
 
         return true;
 
 
+    }
+
+
+
+
+    //This method splits the input string into a list of image urls
+    //and then retrieves the image using each url
+    private Drawable[] getImages(String input){
+
+        //clean up the string
+        input = input.replace("\"", "");
+        input = input.replace("[", "");
+        input = input.replace("]", "");
+
+        //if there are more then one image their urls will be separated by a comma
+        String[] photoUrls = input.split(",");
+
+        //create the Drawable array to return
+        Drawable[] photoList = new Drawable[photoUrls.length];
+
+        //count to track the progress through the array
+        int count = 0;
+
+        //retrieve each image from the web service
+        for(String photoUrl : photoUrls){
+            photoList[count] = getImage(photoUrl, count);
+
+
+            //This will only be null if there was an error
+            if(photoList[count] == null){
+                return null;
+            }
+        }
+
+        //return the array of Drawables
+        return photoList;
+    }
+
+
+
+    //This method takes a string url and retrieves the image it holds
+    private Drawable getImage(String url, int number){
+        try {
+            InputStream input = (InputStream) new URL(url).getContent();
+            Drawable image = Drawable.createFromStream(input,"photo" + number);
+
+            return image;
+
+        }catch(MalformedURLException error){
+            System.out.println(error.getMessage());
+        }catch(IOException error){
+            System.out.println(error.getMessage());
+        }
+
+        return null;
     }
 
 

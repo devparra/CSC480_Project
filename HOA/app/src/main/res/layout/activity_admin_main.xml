@@ -19,24 +19,24 @@
 
         <TextView
             android:id="@+id/adminMainWorkOrderLabel"
-            style="@style/textView"
-            android:text="@string/workOrderList"
+            style="@style/title"
+            android:text="@string/workOrderListID"
+            android:layout_width="@dimen/listIDWidth"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             />
 
         <TextView
             android:id="@+id/adminMainDateLabel"
-            style="@style/textView"
+            style="@style/title"
             android:text="Date"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/adminMainWorkOrderLabel"
-            app:layout_constraintRight_toLeftOf="@+id/adminMainStatusLabel"
             />
 
         <TextView
             android:id="@+id/adminMainStatusLabel"
-            style="@style/textView"
+            style="@style/title"
             android:text="Status"
             app:layout_constraintTop_toTopOf="parent"
 
