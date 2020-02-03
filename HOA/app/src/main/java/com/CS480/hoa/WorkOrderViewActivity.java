@@ -1,6 +1,7 @@
 package com.CS480.hoa;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
@@ -17,10 +18,24 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+
+import org.json.JSONArray;
+
+import java.util.ArrayList;
 import java.util.Date;
 
-public class WorkOrderViewActivity extends AppCompatActivity implements StatusChangeDialog.StatusChangeSelectedListener {
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+public class WorkOrderViewActivity extends AppCompatActivity
+        implements StatusChangeDialog.StatusChangeSelectedListener,
+        DeleteWorkOrderDialog.DeleteWorkOrderSelectedListener,
+        AddCommentDialog.AddCommentSelectedListener {
 
     public static final String workOrderCode = "com.CS480.hoa.workOrderView.workOrder";
     public static final String userCode = "com.CS480.hoa.workOrderView.user";
@@ -39,15 +54,13 @@ public class WorkOrderViewActivity extends AppCompatActivity implements StatusCh
     private Button editorInfoButton;
     private Button returnButton;
     private Button viewPhotos;
+    private Button addComment;
     private TextView idTextView;
     private TextView descriptionTextView;
     private TextView creationDateTextView;
     private TextView lastActivityTextView;
     private RecyclerView commentRecyclerView;
 
-    private MenuItem menuEdit;
-    private MenuItem menuSave;
-    private MenuItem menuCancel;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -64,7 +77,11 @@ public class WorkOrderViewActivity extends AppCompatActivity implements StatusCh
         callingActivity = getIntent().getStringExtra(callingActivityCode);
 
         //set up array to hold many additional photos if needed
-        newImages = new Drawable[workOrder.getAttachedPhotos().length + 10];
+        if(workOrder.getAttachedPhotos() == null){
+            newImages = new Drawable[10];
+        }else {
+            newImages = new Drawable[workOrder.getAttachedPhotos().length + 10];
+        }
 
         //assign all objects to variables
         addPhotoButton = findViewById(R.id.workOrderViewAttachPhotoButton);
@@ -72,6 +89,7 @@ public class WorkOrderViewActivity extends AppCompatActivity implements StatusCh
         creatorInfoButton = findViewById(R.id.workOrderViewCreatorInfoButton);
         editorInfoButton = findViewById(R.id.workOrderViewEditorInfoButton);
         returnButton = findViewById(R.id.workOrderViewReturnButton);
+        addComment = findViewById(R.id.workOrderViewAddCommentsButton);
         idTextView = findViewById(R.id.workOrderIDView);
         descriptionTextView = findViewById(R.id.workOrderDescriptionView);
         creationDateTextView = findViewById(R.id.workOrderCreatedDateView);
@@ -81,9 +99,26 @@ public class WorkOrderViewActivity extends AppCompatActivity implements StatusCh
         //populate the fields with the information from the WorkOrder object
         currentStatusButton.setText(workOrder.getCurrentStatus());
 
-        creatorInfoButton.setText(workOrder.getCreator().getUserName());
+        //The status change feature is only accessed by admin
+        if(callingActivity.equals(AdminMainActivity.userCode)){
+            currentStatusButton.setEnabled(true);
+        }
 
-        editorInfoButton.setText(workOrder.getEditor().getUserName());
+        //check to ensure that creator is not null
+        if(workOrder.getCreator() == null){
+            creatorInfoButton.setText("Unknown");
+            creatorInfoButton.setEnabled(false);
+        }else {
+            creatorInfoButton.setText(workOrder.getCreator().getUserName());
+        }
+
+        //check to ensure that the editor is not null
+        if(workOrder.getEditor() == null){
+            editorInfoButton.setText("Unknown");
+            editorInfoButton.setEnabled(false);
+        }else {
+            editorInfoButton.setText(workOrder.getEditor().getUserName());
+        }
 
         idTextView.setText(workOrder.getId());
 
@@ -94,7 +129,7 @@ public class WorkOrderViewActivity extends AppCompatActivity implements StatusCh
         lastActivityTextView.setText(workOrder.getLastActivityDate());
 
         //only make photo button visible if there are photos to view
-        if(workOrder.getAttachedPhotos().length < 1){
+        if(workOrder.getAttachedPhotos() == null || workOrder.getAttachedPhotos().length < 1){
             viewPhotos.setEnabled(false);
             viewPhotos.setVisibility(View.INVISIBLE);
         }
@@ -112,8 +147,25 @@ public class WorkOrderViewActivity extends AppCompatActivity implements StatusCh
         commentRecyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
 
         //send list of comments to the setAdapter
-        WorkOrderViewActivity.CommentAdapter adapter = new WorkOrderViewActivity.CommentAdapter(workOrder.getComments());
-        commentRecyclerView.setAdapter(adapter);
+
+        //**************************************************************************
+        //temporary until comments are working
+        //****************************************************************************
+            String[] testMessage = new String[1];
+            testMessage[0] = "No Comments";
+            WorkOrderViewActivity.CommentAdapter adapter = new WorkOrderViewActivity.CommentAdapter(testMessage);
+            commentRecyclerView.setAdapter(adapter);
+
+            //end of temporary code
+            //********************************************************************8
+
+
+
+//            //this is the code to keep once things are working
+//            WorkOrderViewActivity.CommentAdapter adapter = new WorkOrderViewActivity.CommentAdapter(workOrder.getComments());
+//            commentRecyclerView.setAdapter(adapter);
+
+
 
         //onClick listener for all Buttons
 
@@ -166,6 +218,17 @@ public class WorkOrderViewActivity extends AppCompatActivity implements StatusCh
         });
 
 
+        //onClick for the add Comments button
+        addComment.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentManager manager = getSupportFragmentManager();
+                AddCommentDialog dialog = new AddCommentDialog();
+                dialog.show(manager, "Add Comment");
+            }
+        });
+
+
         //onClick for adding additional photo
         addPhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -198,22 +261,95 @@ public class WorkOrderViewActivity extends AppCompatActivity implements StatusCh
 
         if(which == 0){
 
-            currentStatusButton.setText(getResources().getString(R.string.pending));
-            currentStatusButton.setBackgroundColor(getResources().getColor(R.color.orange));
+            if(!currentStatusButton.getText().toString().equals("Pending")) {
+
+                currentStatusButton.setText(getResources().getString(R.string.pending));
+                currentStatusButton.setBackgroundColor(getResources().getColor(R.color.orange));
+
+                workOrder.setCurrentStatus("pending");
+
+                updateData();
+            }
 
         }else if(which == 1){
 
-            currentStatusButton.setText(getResources().getString(R.string.approved));
-            currentStatusButton.setBackgroundColor(getResources().getColor(R.color.green));
+            if(!currentStatusButton.getText().toString().equals("Approved")) {
+                currentStatusButton.setText(getResources().getString(R.string.approved));
+                currentStatusButton.setBackgroundColor(getResources().getColor(R.color.green));
+
+                workOrder.setCurrentStatus("approved");
+
+                updateData();
+            }
 
         }else{
 
-            currentStatusButton.setText(getResources().getString(R.string.denied));
-            currentStatusButton.setBackgroundColor(getResources().getColor(R.color.red));
+            if(currentStatusButton.getText().toString().equals("Denied")) {
+                currentStatusButton.setText(getResources().getString(R.string.denied));
+                currentStatusButton.setBackgroundColor(getResources().getColor(R.color.red));
+
+                workOrder.setCurrentStatus("denied");
+
+                updateData();
+            }
+        }
+    }//end statusChangeChoice
+
+
+
+
+    //This method handles adding an new comment to the work order
+    public void addCommentClick(int which, String newComment){
+
+        //if cancel is selected this method does nothing
+
+        if(which == AlertDialog.BUTTON_POSITIVE) {
+            //there is a new message to add
+            String[] comments;
+
+            if (workOrder.getComments()[0].equals("No Comments")) {
+
+                //This is the first comment to be added
+                comments = new String[1];
+
+                comments[0] = newComment;
+
+            } else {
+
+                comments = new String[workOrder.getComments().length + 1];
+
+
+                //move all of old comments into the new list
+                int count = 0;
+
+                for (String comment : workOrder.getComments()) {
+                    comments[count] = comment;
+                    count++;
+                }
+
+                //add the new comment to the list
+                comments[count] = newComment;
+            }
+
+            //update the work order
+            workOrder.setComments(comments);
+
+            //update the database
+            updateData();
         }
     }
 
 
+
+
+    //this handles the response from the delete work order dialog
+    public void deleteWorkOrderClick(int which){
+
+        if(which == AlertDialog.BUTTON_POSITIVE){
+            deleteData();
+        }
+
+    }
 
 
 
@@ -223,7 +359,7 @@ public class WorkOrderViewActivity extends AppCompatActivity implements StatusCh
 
         Intent intent;
 
-        if(callingActivityCode.equals(HomeOwnerMainActivity.userCode)){
+        if(callingActivity.equals(HomeOwnerMainActivity.userCode)){
 
             //Return to the HomeOwnerMain activity
             intent = new Intent(getBaseContext(), HomeOwnerMainActivity.class);
@@ -236,7 +372,7 @@ public class WorkOrderViewActivity extends AppCompatActivity implements StatusCh
         }
 
         //return the current user to the previous activity
-        intent.putExtra(callingActivityCode, user);
+        intent.putExtra(callingActivity, user);
 
         startActivity(intent);
 
@@ -246,136 +382,171 @@ public class WorkOrderViewActivity extends AppCompatActivity implements StatusCh
 
 
 
-    //this method creates the options menu for the view work order
+    //this method creates the options menu for the admin user
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.view_work_order_menu, menu);
 
-        menuEdit = menu.findItem(R.id.editWorkOrderMenu);
-        menuSave = menu.findItem(R.id.editWorkOrderSaveMenu);
-        menuCancel = menu.findItem(R.id.editWorkOrderCancelMenu);
+        //only allow users to delete their work orders
+        if(callingActivity.equals(HomeOwnerMainActivity.userCode)){
+
+            menu.findItem(R.id.deleteWorkOrderMenuItem).setVisible(true);
+            menu.findItem(R.id.deleteWorkOrderMenuItem).setEnabled(true);
+        }
 
         return super.onCreateOptionsMenu(menu);
     }
 
-
-
-
-
     //this method handles the menu item that are selected
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
+    public boolean onOptionsItemSelected(MenuItem item){
 
-        switch(item.getItemId()){
-            case R.id.editWorkOrderMenu:
-                //enable the appropriate fields for editing
+        switch (item.getItemId()){
+            case R.id.deleteWorkOrderMenuItem:
 
-                //only enable the status button if the previous activity was admin main
-                if(callingActivity.equals(AdminMainActivity.userCode)){
-
-                    currentStatusButton.setEnabled(true);
-                }
-
-                addPhotoButton.setVisibility(View.VISIBLE);
-                addPhotoButton.setEnabled(true);
-
-                menuEdit.setVisible(false);
-                menuSave.setVisible(true);
-                menuCancel.setVisible(true);
-
-                return true;
-
-            case R.id.editWorkOrderSaveMenu:
-                //save the changes that where made to the database
-
-                workOrder.setLastActivityDate(new Date());
-                workOrder.setEditor(user);
-
-                if(currentStatusButton.getText().toString().equals(getResources().getString(R.string.pending))){
-                    workOrder.setCurrentStatus("pending");
-                }else if(currentStatusButton.getText().toString().equals(getResources().getString(R.string.approved))){
-                    workOrder.setCurrentStatus("approved");
-                }else {
-                    workOrder.setCurrentStatus("denied");
-                }
-
-                //if new photos have been added
-                if(newImages.length > 0){
-                    Drawable[] temp = workOrder.getAttachedPhotos();
-
-                    for(int i = 0; i < newImages.length; i++){
-                        temp[i + temp.length] = newImages[i];
-                    }
-
-                    workOrder.setAttachedPhotos(temp);
-                }
-
-                //send the saved changes to the web service
-                sendData(workOrder);
-
-                //disable input options
-                addPhotoButton.setVisibility(View.INVISIBLE);
-                addPhotoButton.setEnabled(false);
-                currentStatusButton.setEnabled(false);
-
-
-                //update menu choices
-                menuEdit.setVisible(true);
-                menuSave.setVisible(false);
-                menuCancel.setVisible(false);
-
-                return true;
-
-            case R.id.editWorkOrderCancelMenu:
-
-
-                //disable input options
-                addPhotoButton.setVisibility(View.INVISIBLE);
-                addPhotoButton.setEnabled(false);
-                currentStatusButton.setEnabled(false);
-
-
-                //update menu choices
-                menuEdit.setVisible(true);
-                menuSave.setVisible(false);
-                menuCancel.setVisible(false);
-
-                //return any changed values to the original values
-                if(workOrder.getCurrentStatus().equals("pending")){
-                    currentStatusButton.setText(getResources().getString(R.string.pending));
-                    currentStatusButton.setBackgroundColor(getResources().getColor(R.color.orange));
-                }else if(workOrder.getCurrentStatus().equals("approved")){
-                    currentStatusButton.setText(getResources().getString(R.string.approved));
-                    currentStatusButton.setBackgroundColor(getResources().getColor(R.color.green));
-                }else{
-                    currentStatusButton.setText(getResources().getString(R.string.denied));
-                    currentStatusButton.setBackgroundColor(getResources().getColor(R.color.red));
-                }
+                FragmentManager manager = getSupportFragmentManager();
+                DeleteWorkOrderDialog dialog = new DeleteWorkOrderDialog();
+                dialog.show(manager, "Delete Work Order");
 
                 return true;
 
             default:
-                return super.onOptionsItemSelected(item);
+               return super.onOptionsItemSelected(item);
         }
-
     }
-
 
 
 
 
     //This method will send the updated data to the web service
-    private void sendData(WorkOrder workOrder){
-
-        //First check to see if any changes were made
+    private void updateData(){
 
 
-        //There are changes, send data to web service
+        workOrder.setLastActivityDate(new Date());
+        workOrder.setEditor(user);
 
+        //send update for workorder to the web service
+        //update url to access web service
+        Database.changeBaseURL("https://c9tas4uave.execute-api.us-east-1.amazonaws.com/");
+
+        //create retrofit object
+        RetrofitAPI retrofit = Database.createService(RetrofitAPI.class);
+
+        //create a JsonObject to store data to send to web service
+        JsonObject json = new JsonObject();
+
+        //add current workorder data to JsonObject
+        json.addProperty("wo_creator", workOrder.getCreator().getUserEmail());
+        json.addProperty("wo_admin", workOrder.getEditor().getUserEmail());
+        json.addProperty("wo_description", workOrder.getDescription());
+        json.addProperty("wo_submissionDate", workOrder.getSubmissionDate());
+        json.addProperty("wo_lastActivityDate", workOrder.getLastActivityDate());
+        json.addProperty("wo_currentStatus", workOrder.getCurrentStatus());
+
+        ArrayList<String> comments = new ArrayList<>();
+        for(String comment : workOrder.getComments()){
+            comments.add(comment);
+        }
+        json.addProperty("wo_comments", String.valueOf(new JSONArray(comments)));
+
+        if(workOrder.getAttachedPhotos() != null && workOrder.getAttachedPhotos().length > 0){
+
+            ArrayList<String> photoList = new ArrayList<>();
+
+            for (Drawable photo : workOrder.getAttachedPhotos()) {
+
+                //separate class for converting to Base64 string
+                photoList.add(ConvertImage.convertImageToString(photo));
+            }
+
+            json.addProperty("attachedPhotos", String.valueOf(new JSONArray(photoList)));
+
+        }else{
+            ArrayList<String> photoList = new ArrayList<>();
+            photoList.add("empty");
+            json.addProperty("attachedPhotos", String.valueOf(new JSONArray(photoList)));
+        }
+
+
+            //create a Call object to receive web service response
+        Call<JsonArray> call = retrofit.updateWorkOrder(json);
+
+        call.enqueue(new Callback<JsonArray>() {
+            @Override
+            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+
+                JsonArray jsonArray = response.body();
+
+                JsonObject object = (JsonObject) jsonArray.get(0);
+
+                String status = object.get("status").toString();
+                status = status.replace("\"", "");
+
+                if(status.equals("0")){
+                    Toast.makeText(getBaseContext(), "There was a problem with saving to database", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getBaseContext(), "The database was successfully updated", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonArray> call, Throwable t) {
+                System.out.println("Failure work order view update*******************");
+                System.out.println(t.getMessage());
+            }
+        });
 
     }
 
 
+
+
+    //this method removes the work order from the database
+    private void deleteData(){
+        //send update for workorder to the web service
+        //update url to access web service
+        Database.changeBaseURL("https://5dvcszdpoc.execute-api.us-east-1.amazonaws.com/");
+
+        //create retrofit object
+        RetrofitAPI retrofit = Database.createService(RetrofitAPI.class);
+
+        //create a JsonObject to store data to send to web service
+        JsonObject json = new JsonObject();
+
+        //add current workorder data to JsonObject
+        json.addProperty("wo_id", workOrder.getId());
+
+        //create a Call object to receive web service response
+        Call<JsonArray> call = retrofit.deleteWorkOrder(json);
+
+        call.enqueue(new Callback<JsonArray>() {
+            @Override
+            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+                JsonArray jsonArray = response.body();
+
+                JsonObject object = (JsonObject) jsonArray.get(0);
+
+                String status = object.get("status").toString();
+                status = status.replace("\"", "");
+
+                if(status.equals("0")){
+                    Toast.makeText(getBaseContext(), "There was a problem with deleting the work order", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(getBaseContext(), "The work order was successfully deleted", Toast.LENGTH_SHORT).show();
+                }
+
+                //return to the users main page
+                onBackPressed();
+            }
+
+            @Override
+            public void onFailure(Call<JsonArray> call, Throwable t) {
+
+            }
+        });
+
+
+    }
 
 
 
@@ -384,40 +555,36 @@ public class WorkOrderViewActivity extends AppCompatActivity implements StatusCh
 
         //TextViews from the list item for display
         private TextView commentTitle;
+        private String message;
 
         //constructor
         public CommentHolder(LayoutInflater inflater, ViewGroup parent) {
-            super(inflater.inflate(R.layout.work_order_list_item, parent, false));
+            super(inflater.inflate(R.layout.work_order_comment_list_item, parent, false));
             itemView.setOnClickListener(this);
 
-            commentTitle = findViewById(R.id.commentListItem);
+            commentTitle = itemView.findViewById(R.id.commentListItem);
         }
 
         //binding the data from the work order object to the clickable item
         public void bind(String comment){
 
-            commentTitle.setText(comment.substring(0,20));
+            message = comment;
 
+            if(comment.length() > 26) {
+                commentTitle.setText(comment.substring(0, 25));
+            }else{
+                commentTitle.setText(comment);
+            }
         }
 
         //onclick Method
         @Override
         public void onClick(View v) {
 
-            //when a work order is selected display its information
-            Intent intent = new Intent(getBaseContext(), WorkOrderViewActivity.class);
-
-            Bundle bundle = new Bundle();
-
-            //add necessary data to the bundle
-            bundle.putSerializable(WorkOrderViewActivity.workOrderCode, workOrder);
-            bundle.putSerializable(WorkOrderViewActivity.userCode, user);
-            bundle.putString(WorkOrderViewActivity.callingActivityCode, AdminMainActivity.userCode);
-
-            //append bundle to intent
-            intent.putExtras(bundle);
-
-            startActivity(intent);
+            //display comment in a dialog
+            FragmentManager manager = getSupportFragmentManager();
+            CommentViewDialog dialog = new CommentViewDialog(message);
+            dialog.show(manager, "show comment");
         }
     }
 
@@ -428,9 +595,9 @@ public class WorkOrderViewActivity extends AppCompatActivity implements StatusCh
         private String[] comments;
 
         //constructor
-        public CommentAdapter(String[] comments){
+        public CommentAdapter(String[] stringList) {
 
-            this.comments = comments;
+            comments = stringList;
         }
 
         //create a holder for the workOrder
@@ -445,12 +612,14 @@ public class WorkOrderViewActivity extends AppCompatActivity implements StatusCh
         @Override
         public void onBindViewHolder(@NonNull WorkOrderViewActivity.CommentHolder holder, int position) {
             String comment = comments[position];
+
             holder.bind(comment);
         }
 
         //return the total number of addresses
         @Override
         public int getItemCount() {
+            
             return comments.length;
         }
     }

@@ -38,6 +38,10 @@
     <string name="pending">Pending</string>
     <string name="denied">Denied</string>
     <string name="approved">Approved</string>
+    <string name="deleteWO">Delete Work Order</string>
+    <string name="deleteWOMessage">Are you sure you want to delete this work order?</string>
+    <string name="comment">Comment</string>
+    <string name="addComment">Enter Comment</string>
 
     <string-array name="statusOptions">
         <item>Pending</item>

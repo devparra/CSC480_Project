@@ -265,22 +265,48 @@ public class AdminMainActivity extends AppCompatActivity {
             //Still need to retrieve photos
 
 
-            System.out.println(jsonObjects[i].get("attached_photos").toString());
-
-
             Drawable[] attachedPhotos = getImages(jsonObjects[i].get("attached_photos").toString());
+
 
 
 
             workOrders[i] = new WorkOrder(id, creator, admin, description,
                     submissionDate, lastActivityDate, currentStatus);
 
-            workOrders[i].setAttachedPhotos(attachedPhotos);
+
+            if(attachedPhotos != null){
+
+                workOrders[i].setAttachedPhotos(attachedPhotos);
+            }
+
+            //add comments
+            //String[] comments = getComments(jsonObjects[i].get("comments").toString());
+
+
+
+            //temporary use until proper comments are returned from web service
+            //*******************************************************************
+            String[] comments = new String[5];
+            workOrders[i].setComments(comments);
         }
 
         return true;
 
 
+    }
+
+
+
+
+    //This method splits the input string into a list of comments
+    private String[] getComments(String input){
+        //clean up the string
+        input = input.replace("\"", "");
+        input = input.replace("[", "");
+        input = input.replace("]", "");
+
+        //if there are more then one comment they will be separated by a comma
+        return input.split(",");
     }
 
 

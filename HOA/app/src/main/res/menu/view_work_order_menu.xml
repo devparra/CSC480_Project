@@ -1,26 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
-    <item
-        android:id="@+id/editWorkOrderMenu"
-        android:icon="@drawable/edit_icon"
-        android:title="Edit Work Order"
-        app:showAsAction="ifRoom"
-        />
 
     <item
-        android:id="@+id/editWorkOrderCancelMenu"
-        android:icon="@drawable/cancel_icon"
-        android:title="Cancel Edit"
-        android:visible="false"
+        android:id="@+id/deleteWorkOrderMenuItem"
+        android:title="Delete Work Order"
+        android:icon="@drawable/delete_icon"
         app:showAsAction="ifRoom"
-        />
-
-    <item
-        android:id="@+id/editWorkOrderSaveMenu"
-        android:icon="@drawable/save_icon"
-        android:title="Save Edit"
         android:visible="false"
-        app:showAsAction="ifRoom"
+        android:enabled="false"
         />
 </menu>
