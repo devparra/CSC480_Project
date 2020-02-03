@@ -77,7 +77,7 @@ public class LoginActivity extends AppCompatActivity implements AccessAdminDialo
             }
         });
 
-    }
+    }//end onCreate
 
 
     //This method handles if the back button is used to return to this activity
@@ -105,12 +105,6 @@ public class LoginActivity extends AppCompatActivity implements AccessAdminDialo
 
         if(which == AlertDialog.BUTTON_POSITIVE){
 
-            //*********************************
-            //use until admin main activity is ready
-            //Intent intent = new Intent(this, BlankActivity.class);
-            //*********************************
-
-
             //the user wants to access admin features
             Intent intent = new Intent(this, AdminMainActivity.class);
 
@@ -121,13 +115,6 @@ public class LoginActivity extends AppCompatActivity implements AccessAdminDialo
             startActivity(intent);
 
         }else{
-
-            //**************************************
-            //use this until home owner main activity is ready
-            //Intent intent = new Intent(this, BlankActivity.class);
-            //****************************************
-
-
 
 
             //the user wants to access regular user features
@@ -236,23 +223,26 @@ public class LoginActivity extends AppCompatActivity implements AccessAdminDialo
         message = message.replace("\"", "");
 
 
+        User newUser = new User(status, message);
+
+
         if(object.size() > 2) {
 
             String name = object.get("userName").toString();
             name = name.replace("\"", "");
+            newUser.setName(name);
 
             String address = object.get("userAddress").toString();
             address = address.replace("\"", "");
+            newUser.setAddress(address);
 
             String phone = object.get("userPhone").toString();
             phone = phone.replace("\"", "");
+            newUser.setPhone(phone);
 
             String email = object.get("userEmail").toString();
             email = email.replace("\"", "");
-
-
-            User newUser = new User(name, address, email, phone, status, message);
-
+            newUser.setEmail(email);
 
             String isAdmin = object.get("isAdmin").toString();
             isAdmin = isAdmin.replace("\"", "");
@@ -263,10 +253,9 @@ public class LoginActivity extends AppCompatActivity implements AccessAdminDialo
                 newUser.setAdmin(false);
             }
 
-            return newUser;
-        } else{
-            return new User(status, message);
         }
+
+        return newUser;
 
     }//end of getUser
 }

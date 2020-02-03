@@ -693,8 +693,7 @@ drawable btn_radio_off_mtrl
 drawable btn_radio_off_to_on_mtrl_animation
 drawable btn_radio_on_mtrl
 drawable btn_radio_on_to_off_mtrl_animation
-drawable cancel_icon
-drawable edit_icon
+drawable delete_icon
 drawable edit_text_border
 drawable ic_launcher_background
 drawable ic_launcher_foreground
@@ -710,7 +709,6 @@ drawable notification_template_icon_bg
 drawable notification_template_icon_low_bg
 drawable notification_tile_bg
 drawable notify_panel_notification_icon_bg
-drawable save_icon
 drawable test_image
 drawable tooltip_frame_dark
 drawable tooltip_frame_light
@@ -773,6 +771,7 @@ id action_text
 id actions
 id activity_chooser_view_content
 id add
+id addCommentEditText
 id adminMainBlankListTextView
 id adminMainDateLabel
 id adminMainStatusLabel
@@ -805,6 +804,7 @@ id custom
 id customPanel
 id decor_content_parent
 id default_activity_button
+id deleteWorkOrderMenuItem
 id dialog_button
 id dimensions
 id direct
@@ -819,9 +819,6 @@ id editTextPhoneInput
 id editTextStateInput
 id editTextStreetInput
 id editTextZipInput
-id editWorkOrderCancelMenu
-id editWorkOrderMenu
-id editWorkOrderSaveMenu
 id edit_query
 id end
 id expand_activities_button
@@ -960,6 +957,7 @@ id workOrderIDView
 id workOrderListItemDate
 id workOrderListItemId
 id workOrderListItemStatus
+id workOrderViewAddCommentsButton
 id workOrderViewAttachPhotoButton
 id workOrderViewCommentRecyclerView
 id workOrderViewCommentsButton
@@ -1025,6 +1023,7 @@ layout activity_login
 layout activity_view_comments
 layout activity_view_rules_and_policies
 layout activity_work_order_view
+layout add_comment
 layout custom_dialog
 layout display_personal_information
 layout notification_action
@@ -1072,6 +1071,7 @@ string abc_searchview_description_voice
 string abc_shareactionprovider_share_with
 string abc_shareactionprovider_share_with_application
 string abc_toolbar_collapse_description
+string addComment
 string address
 string adminAccess
 string app_name
@@ -1080,11 +1080,14 @@ string attachPhoto
 string blankList
 string cancelButton
 string cityLabel
+string comment
 string createNewUserButton
 string createNewWorkOrder
 string createUserTitle
 string createdBy
 string createdOn
+string deleteWO
+string deleteWOMessage
 string denied
 string description
 string dialogMessage

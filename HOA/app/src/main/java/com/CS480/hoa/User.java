@@ -29,7 +29,7 @@ public class User implements Serializable {
     //the password that the user inputs
     public User(String name, String address, String email, String phone, String password){
         userName = name;
-        userAddress = address;
+        setAddress(address);
         userEmail = email;
         userPhone = phone;
         userPassword = password;
@@ -39,14 +39,12 @@ public class User implements Serializable {
 
     //This constructor is user for creating a user during login and
     //does not include the password or isAdmin
-    public User(String name, String address, String email, String phone, String status, String message){
+    public User(String name, String address, String email, String phone){
         userName = name;
-        userAddress = address;
+        setAddress(address);
         userEmail = email;
         userPhone = phone;
         userPassword = "";
-        this.status = status;
-        this.message = message;
     }
 
 
@@ -69,7 +67,11 @@ public class User implements Serializable {
 
     //setters
     public void setName(String name){userName = name;}
-    public void setAddress(String address){userAddress = address;}
+    public void setAddress(String address){
+
+        address = address.replace("\\n", "\n");
+        userAddress = address;
+    }
     public void setEmail(String email){userEmail = email;}
     public void setPhone(String phone){userPhone = phone;}
     public void setPassword(String password){userPassword = password;}

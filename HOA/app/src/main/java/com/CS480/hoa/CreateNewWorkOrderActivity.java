@@ -3,11 +3,8 @@ package com.CS480.hoa;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Base64;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -18,7 +15,6 @@ import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 
-import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -44,6 +40,9 @@ public class CreateNewWorkOrderActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_new_work_order);
+
+        //maximum of 5 photos for each work order
+        attachedPhotos = new Drawable[5];
 
         //retrieve the user from previous activity
         user = (User) getIntent().getSerializableExtra(userCode);
@@ -102,6 +101,7 @@ public class CreateNewWorkOrderActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 //get Image from the camera
+
             }
         });
     }
@@ -133,7 +133,7 @@ public class CreateNewWorkOrderActivity extends AppCompatActivity {
     private void sendData(){
 
         //update url to access web service
-        Database.changeBaseURL("");
+        Database.changeBaseURL("https://gtcyxyfpt5.execute-api.us-east-1.amazonaws.com/");
 
         //create retrofit object
         RetrofitAPI retrofit = Database.createService(RetrofitAPI.class);
@@ -143,39 +143,35 @@ public class CreateNewWorkOrderActivity extends AppCompatActivity {
 
         json.addProperty("description", workOrder.getDescription());
         json.addProperty("creator", workOrder.getCreator().getUserEmail());
-        if(workOrder.getEditor() != null) {
-            json.addProperty("admin", workOrder.getEditor().getUserEmail());
-        }else{
-            json.addProperty("admin", "null");
-        }
+        json.addProperty("admin", workOrder.getEditor().getUserEmail());
         json.addProperty("submissionDate", workOrder.getSubmissionDate());
         json.addProperty("lastActivityDate", workOrder.getLastActivityDate());
         json.addProperty("currentStatus", workOrder.getCurrentStatus());
 
-        if(attachedPhotos.length > 0) {
+        ArrayList<String> commentList = new ArrayList<>();
+        commentList.add("empty");
+        json.addProperty("comments", String.valueOf((new JSONArray(commentList))));
+
+        if(attachedPhotos[0] != null) {
             ArrayList<String> photoList = new ArrayList<>();
 
             for (Drawable photo : attachedPhotos) {
 
-                BitmapDrawable drawable = (BitmapDrawable) photo;
-                Bitmap bitmap = drawable.getBitmap();
-                photoList.add(encodeToBase64(bitmap, Bitmap.CompressFormat.JPEG, 100));
+                //separate class for converting to Base64 string
+                photoList.add(ConvertImage.convertImageToString(photo));
             }
 
             json.addProperty("attachedPhotos", String.valueOf(new JSONArray(photoList)));
 
         }else{
-
-            json.addProperty("attachedPhotos", "empty");
+            ArrayList<String> photoList = new ArrayList<>();
+            photoList.add("empty");
+            json.addProperty("attachedPhotos", String.valueOf(new JSONArray(photoList)));
         }
 
 
-        //**********************************************************************************
 
-        //How to send photos????
-
-        //*********************************************************************************
-
+        System.out.println(json);
 
 
         //create Call object to receive response from web service
@@ -224,11 +220,5 @@ public class CreateNewWorkOrderActivity extends AppCompatActivity {
         });
     }
 
-    //this converts a bitmap for an image into a base64 string
-    public static String encodeToBase64(Bitmap image, Bitmap.CompressFormat compressFormat, int quality) {
 
-        ByteArrayOutputStream byteArrayOS = new ByteArrayOutputStream();
-        image.compress(compressFormat, quality, byteArrayOS);
-        return Base64.encodeToString(byteArrayOS.toByteArray(), Base64.NO_WRAP);
-    }
 }

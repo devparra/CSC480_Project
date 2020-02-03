@@ -1,18 +1,24 @@
 package com.CS480.hoa;
 
 import android.graphics.drawable.Drawable;
-import android.media.Image;
+
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 
 import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
 public class WorkOrder implements Serializable {
 
     public enum status{PENDING, DENIED, APPROVED}
 
-    private SimpleDateFormat dateFormat = new SimpleDateFormat("mm/dd/yyyy");
+    private SimpleDateFormat dateFormat = new SimpleDateFormat("MM/dd/yyyy");
 
     private String id;
     private User creator; //the initial user that creates the work order
@@ -42,6 +48,11 @@ public class WorkOrder implements Serializable {
         this.lastActivityDate = submissionDate;
         this.currentStatus = status.PENDING;
         this.attachedPhotos = attachedPhotos;
+
+        String[] comment = new String[1];
+        comment[0] = "There are no comments";
+
+        this.comments = comment;
     }
 
     //RETRIEVING WORK ORDER FROM DATABASE
@@ -99,21 +110,19 @@ public class WorkOrder implements Serializable {
     public String[] getComments(){return comments;}
     public Drawable[] getAttachedPhotos(){return attachedPhotos;}
 
+
+
+
     //setters
     public void setId(String id){this.id = id;}
     public void setCreator(String creator){
 
-        //*********************************************************************
-        //this needs to be replaces with pulling user data from the web service
-        //*********************************************************************
-        this.creator = new User();
+        getUser(creator, "creator");
     }
+
     public void setEditor(String editor){
 
-        //*********************************************************************
-        //this needs to be replaces with pulling user data from the web service
-        //*********************************************************************
-        this.editor = new User();
+        getUser(editor, "editor");
     }
 
     public void setEditor(User user){
@@ -162,13 +171,78 @@ public class WorkOrder implements Serializable {
     public void setAttachedPhotos(Drawable[] attachedPhotos){this.attachedPhotos = attachedPhotos;}
 
 
-    //****************************************************************
-    //future implementation to obtain actual user from webservice
-//
-//    private User getUser(String user){
-//        //Implementation to retrieve use data from web service
-//
-//    }
+    private void getUser(String email, String whichUser){
+        //Implementation to retrieve use data from web service
+
+        //update url to access web service
+        Database.changeBaseURL("https://7d0xmalo45.execute-api.us-east-1.amazonaws.com/");
+
+        //create retrofit object
+        RetrofitAPI retrofit = Database.createService(RetrofitAPI.class);
+
+        //create a JsonObject to store data to send to web service
+        JsonObject json = new JsonObject();
+
+        //add user email to JsonObject
+        //This will be used to look up all workorders created by this user
+        json.addProperty("userEmail", email);
+
+        //create a Call object to receive web service response
+        Call<JsonArray> call = retrofit.getUser(json);
+
+        call.enqueue(new Callback<JsonArray>() {
+            @Override
+            public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+
+                JsonArray jsonArray = response.body();
+
+                //create a user object to assign to this attribute
+                if(whichUser.equals("creator")) {
+                    creator = createUser(jsonArray);
+                }else{
+                    editor = createUser(jsonArray);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<JsonArray> call, Throwable t) {
+                System.out.println("Failure in WorkOrder class getUser method*********************");
+                System.out.println(t.getMessage());
+            }
+        });
+    }
+
+
+
+    //this method takes a JsonArray, retrieves the data and uses it to create a User object
+    private User createUser(JsonArray jsonArray){
+
+        JsonObject object = (JsonObject) jsonArray.get(0);
+
+        if(object.size() > 2) {
+
+            String name = object.get("userName").toString();
+            name = name.replace("\"", "");
+
+            String address = object.get("userAddress").toString();
+            address = address.replace("\"", "");
+
+            String phone = object.get("userPhone").toString();
+            phone = phone.replace("\"", "");
+
+            String email = object.get("userEmail").toString();
+            email = email.replace("\"", "");
+
+
+            User newUser = new User(name, address, email, phone);
+
+            return newUser;
+
+        } else{
+            return null;
+        }
+
+    }//end of getUser
 
 
     @Override

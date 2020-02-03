@@ -130,7 +130,7 @@
         android:id="@+id/workOrderViewPhotoButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Photos"
+        android:text="View Photos"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/workOrderViewAttachPhotoButton"
         app:layout_constraintTop_toBottomOf="@+id/workOrderDescriptionView"
@@ -141,8 +141,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/attachPhoto"
-        android:visibility="invisible"
-        android:enabled="false"
         app:layout_constraintTop_toTopOf="@id/workOrderViewPhotoButton"
         app:layout_constraintBottom_toBottomOf="@id/workOrderViewPhotoButton"
         app:layout_constraintRight_toRightOf="parent"
@@ -185,7 +183,6 @@
         android:layout_height="wrap_content"
         android:text="@string/pending"
         android:background="@color/orange"
-        android:padding="@dimen/generalPaddingSpace"
         android:enabled="false"
         style="@style/Widget.AppCompat.Button.Borderless"
         app:layout_constraintLeft_toLeftOf="@+id/workOrderIDView"
@@ -195,7 +192,7 @@
         />
 
     <Button
-        android:id="@+id/workOrderViewCommentsButton"
+        android:id="@+id/workOrderViewAddCommentsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Add Comment"
