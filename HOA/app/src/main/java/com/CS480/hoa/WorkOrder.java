@@ -1,5 +1,6 @@
 package com.CS480.hoa;
 
+import android.graphics.Bitmap;
 import android.graphics.drawable.Drawable;
 
 import com.google.gson.JsonArray;
@@ -28,7 +29,7 @@ public class WorkOrder implements Serializable {
     private Date lastActivityDate; //the date the last change was made to the work order
     private status currentStatus; //the current status of the work order
     private String[] comments;
-    private Drawable[] attachedPhotos; //a list of all attached photos
+    private Bitmap[] attachedPhotos; //a list of all attached photos
 
     //several different constructors
 
@@ -39,7 +40,7 @@ public class WorkOrder implements Serializable {
     //the submission Date and last activity date are the same here
     //there is no admin editor at this time
     public WorkOrder(User creator, String description, Date submissionDate,
-                     Drawable[] attachedPhotos){
+                     Bitmap[] attachedPhotos){
         this.id = "-99";
         this.creator = creator;
         this.editor = creator;
@@ -50,24 +51,25 @@ public class WorkOrder implements Serializable {
         this.attachedPhotos = attachedPhotos;
 
         String[] comment = new String[1];
-        comment[0] = "There are no comments";
+        comment[0] = "No comments";
 
         this.comments = comment;
     }
 
     //RETRIEVING WORK ORDER FROM DATABASE
     //whatever values are stored in the database will be directly placed into each variable
-    public WorkOrder(String id, User creator, User editor, String description,
-                     Date submissionDate, Date lastActivityDate, status currentStatus,
-                     Drawable[] attachedPhotos){
+    public WorkOrder(String id, String creator, String editor, String description,
+                     String submissionDate, String lastActivityDate, String currentStatus,
+                     String[] comments, Bitmap[] attachedPhotos){
         this.id = id;
-        this.creator = creator;
-        this.editor = editor;
+        setCreator(creator);
+        setEditor(editor);
         this.description = description;
-        this.submissionDate = submissionDate;
-        this.lastActivityDate = lastActivityDate;
-        this.currentStatus = currentStatus;
-        this.attachedPhotos = attachedPhotos;
+        setSubmissionDate(submissionDate);
+        setLastActivityDate(lastActivityDate);
+        setCurrentStatus(currentStatus);
+        setComments(comments);
+        setAttachedPhotos(attachedPhotos);
     }
 
     public WorkOrder(String id, String creator, String admin, String description,
@@ -108,7 +110,7 @@ public class WorkOrder implements Serializable {
 
     }
     public String[] getComments(){return comments;}
-    public Drawable[] getAttachedPhotos(){return attachedPhotos;}
+    public Bitmap[] getAttachedPhotos(){return attachedPhotos;}
 
 
 
@@ -158,9 +160,9 @@ public class WorkOrder implements Serializable {
     }
 
     public void setCurrentStatus(String currentStatus){
-        if(currentStatus.equals("approved")){
+        if(currentStatus.equals("Approved")){
             this.currentStatus = status.APPROVED;
-        }else if(currentStatus.equals("denied")){
+        }else if(currentStatus.equals("Denied")){
             this.currentStatus = status.DENIED;
         }else {
             this.currentStatus = status.PENDING;
@@ -168,7 +170,7 @@ public class WorkOrder implements Serializable {
     }
 
     public void setComments(String[] comments){this.comments = comments;}
-    public void setAttachedPhotos(Drawable[] attachedPhotos){this.attachedPhotos = attachedPhotos;}
+    public void setAttachedPhotos(Bitmap[] attachedPhotos){this.attachedPhotos = attachedPhotos;}
 
 
     private void getUser(String email, String whichUser){
@@ -217,7 +219,7 @@ public class WorkOrder implements Serializable {
     //this method takes a JsonArray, retrieves the data and uses it to create a User object
     private User createUser(JsonArray jsonArray){
 
-        JsonObject object = (JsonObject) jsonArray.get(0);
+        JsonObject object = jsonArray.get(0).getAsJsonObject();
 
         if(object.size() > 2) {
 
@@ -236,9 +238,13 @@ public class WorkOrder implements Serializable {
 
             User newUser = new User(name, address, email, phone);
 
+
             return newUser;
 
         } else{
+
+
+            System.out.println("Returning Null from WorkOrder createUser ******************************");
             return null;
         }
 
@@ -250,13 +256,18 @@ public class WorkOrder implements Serializable {
 
         String string = "";
 
-        string += "ID: " + getId();
-        string += "CREATOR: " + getCreator();
-        string += "LAST EDITOR: " + getEditor();
-        string += "DESCRIPTION: " + getDescription();
-        string += "SUBMIT DATE: " + getSubmissionDate();
-        string += "LAST ACTIVITY DATE: " + getLastActivityDate();
-        string += "STATUS: " + getCurrentStatus();
+        string += "ID: " + getId() + "\n";
+        string += "CREATOR: " + getCreator() + "\n";
+        string += "LAST EDITOR: " + getEditor() + "\n";
+        string += "DESCRIPTION: " + getDescription() + "\n";
+        string += "SUBMIT DATE: " + getSubmissionDate() + "\n";
+        string += "LAST ACTIVITY DATE: " + getLastActivityDate() + "\n";
+        string += "STATUS: " + getCurrentStatus() + "\n";
+        string += "Comments: \n";
+        for(String comment : comments){
+            string += comment + "\n";
+        }
+        string += "Photos: " + getAttachedPhotos();
 
         return string;
     }

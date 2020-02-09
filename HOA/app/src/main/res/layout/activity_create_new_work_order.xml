@@ -21,6 +21,7 @@
         android:id="@+id/workOrderCreateDescriptionInput"
         android:layout_width="match_parent"
         android:layout_height="@dimen/descriptionInputHeight"
+        android:padding="@dimen/generalPaddingSpace"
         android:inputType="textCapSentences|textMultiLine"
         android:gravity="top"
         android:maxLength="1000"
