@@ -158,23 +158,23 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/workOrderViewCommentRecyclerView"
-        android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:background="@drawable/edit_text_border"
         android:padding="@dimen/generalPaddingSpace"
-        android:text="List of photos"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/workOrderViewCommentsLabel"
+        app:layout_constraintBottom_toTopOf="@+id/workOrderViewStatusButton"
         />
+
 
     <TextView
         android:id="@+id/workOrderViewStatusLabel"
         style="@style/textView"
-        android:text="Current Status:"
         android:padding="@dimen/generalPaddingSpace"
-        app:layout_constraintTop_toBottomOf="@+id/workOrderViewCommentRecyclerView"
+        android:text="Current Status:"
+        app:layout_constraintBottom_toTopOf="@+id/workOrderViewAddCommentsButton"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/workOrderViewCommentsButton"
         />
 
     <Button
@@ -186,7 +186,6 @@
         android:enabled="false"
         style="@style/Widget.AppCompat.Button.Borderless"
         app:layout_constraintLeft_toLeftOf="@+id/workOrderIDView"
-        app:layout_constraintTop_toTopOf="@+id/workOrderViewStatusLabel"
         app:layout_constraintBottom_toBottomOf="@+id/workOrderViewStatusLabel"
 
         />
@@ -207,7 +206,7 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/generalPaddingSpace"
         android:text="@string/GoBack"
-        app:layout_constraintLeft_toRightOf="@+id/workOrderViewCommentsButton"
+        app:layout_constraintLeft_toRightOf="@+id/workOrderViewAddCommentsButton"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         />

@@ -2,13 +2,16 @@ package com.CS480.hoa;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.media.Image;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,21 +21,21 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
-import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class AdminMainActivity extends AppCompatActivity {
+public class AdminMainActivity extends AppCompatActivity implements
+        StatusChangeDialog.StatusChangeSelectedListener {
 
     public static final String userCode = "com.CS480.hoa.adminMain";
 
@@ -41,6 +44,8 @@ public class AdminMainActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private TextView blankListTextView;
+    private Button changeStatusButton;
+    private String listStatus;
     private User user;
     private WorkOrder[] workOrders;
 
@@ -53,15 +58,35 @@ public class AdminMainActivity extends AppCompatActivity {
         user = (User) getIntent().getSerializableExtra(userCode);
 
         blankListTextView = findViewById(R.id.adminMainBlankListTextView);
+        changeStatusButton = findViewById(R.id.adminMainStatusButton);
+        recyclerView = findViewById(R.id.recyclerViewAdminMain);
 
+        //set the initial list view to pending work orders
+        listStatus = "pending";
+
+
+        //add onclick listener for the status change button
+        changeStatusButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                //Dialog to choose which status to set
+                FragmentManager manager = getSupportFragmentManager();
+                StatusChangeDialog dialog = new StatusChangeDialog();
+                dialog.show(manager, "Status Change");
+            }
+        });
 
         //get the list of workorders from web service
-        getData();
+        getData(listStatus);
 
     }
 
 
-    //This method is used to create each line item in the recycler view
+
+
+
+    //This class is used to create each line item in the recycler view
     private class WorkOrderHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         //the current work order object
@@ -95,25 +120,104 @@ public class AdminMainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
 
-            //when a work order is selected display its information
-            Intent intent = new Intent(getBaseContext(), WorkOrderViewActivity.class);
 
-            Bundle bundle = new Bundle();
 
-            //add necessary data to the bundle
-            bundle.putSerializable(WorkOrderViewActivity.workOrderCode, workOrder);
-            bundle.putSerializable(WorkOrderViewActivity.userCode, user);
-            bundle.putString(WorkOrderViewActivity.callingActivityCode, AdminMainActivity.userCode);
 
-            //append bundle to intent
-            intent.putExtras(bundle);
 
-            startActivity(intent);
+            //save photos to drive
+            try {
+                Intent intent = new Intent(getBaseContext(), WorkOrderViewActivity.class);
+
+                Bundle bundle = new Bundle();
+
+                Bitmap[] photos = workOrder.getAttachedPhotos();
+
+                bundle.putInt("totalPhotos", photos.length);
+
+                for(int i = 0; i < photos.length; i++){
+
+                    String filename = "photo" + i + ".png";
+
+                    //write file to storage
+                    FileOutputStream stream = getBaseContext().openFileOutput(filename, Context.MODE_PRIVATE);
+                    photos[i].compress(Bitmap.CompressFormat.PNG, 100, stream);
+
+                    //Cleanup
+                    stream.close();
+                    photos[i].recycle();
+
+                    bundle.putString("filename" + i, filename);
+                }
+
+                //clear work order photos because bitmap is not serializable
+                workOrder.setAttachedPhotos(null);
+
+                //add work order
+                bundle.putSerializable(WorkOrderViewActivity.workOrderCode, workOrder);
+
+                //add current user
+                bundle.putSerializable(WorkOrderViewActivity.userCode, user);
+
+                //let the next activity know where to return to
+                bundle.putString(WorkOrderViewActivity.callingActivityCode, AdminMainActivity.userCode);
+
+
+                //add bundle to intent
+                intent.putExtras(bundle);
+
+                //Pop intent
+                startActivity(intent);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+
+
+
+
+//
+//            //when a work order is selected display its information
+//            Intent intent = new Intent(getBaseContext(), WorkOrderViewActivity.class);
+//
+//            Bitmap[] photos = workOrder.getAttachedPhotos();
+//
+//            Bundle bundle = new Bundle();
+//
+//            //add necessary data to the bundle
+//
+//
+//            //send the number of photos
+//            bundle.putInt("totalPhotos", photos.length);
+//
+//            //send the photos
+//            for(int i = 0; i < photos.length; i++){
+//                bundle.putParcelable("photo" + i, photos[i]);
+//            }
+//
+//            //clear the photos in the work order because bitmap is not serializable
+//            workOrder.setAttachedPhotos(null);
+//
+//            //add work order
+//            bundle.putSerializable(WorkOrderViewActivity.workOrderCode, workOrder);
+//
+//            //add current user
+//            bundle.putSerializable(WorkOrderViewActivity.userCode, user);
+//
+//            //let the next activity know where to return to
+//            bundle.putString(WorkOrderViewActivity.callingActivityCode, AdminMainActivity.userCode);
+//
+//            //append bundle to intent
+//            intent.putExtras(bundle);
+//
+//            startActivity(intent);
+
+
         }
     }
 
 
-    //This method takes the list of work orders and generates a holder for each one
+    //This class takes the list of work orders and generates a holder for each one
     private class WorkOrderAdapter extends RecyclerView.Adapter<AdminMainActivity.WorkOrderHolder>{
 
         private WorkOrder[] workOrderList;
@@ -147,9 +251,49 @@ public class AdminMainActivity extends AppCompatActivity {
     }
 
 
+
+
+
+
+    //This method handles the choice from the dialog box to select which type of
+    //work orders to display
+    @Override
+    public void statusChangeChoice(int which) {
+
+        if(which == 0){
+
+            //if pending is already displayed do nothing
+            if(!listStatus.equals("pending")){
+                listStatus = "pending";
+                getData(listStatus);
+            }
+
+        }else if(which == 1){
+
+            //if approved is already displayed do nothing
+            if(!listStatus.equals("approved")){
+                listStatus = "approved";
+                getData(listStatus);
+            }
+
+        }else{
+
+            //if denied is already displayed do nothing
+            if(listStatus.equals("denied")){
+                listStatus = "denied";
+                getData(listStatus);
+            }
+
+        }
+    }//end statusChangeChoice
+
+
+
+
+
     //This method is used to retrieve work order data from
     //web service and update the recycler view
-    private void getData(){
+    private void getData(String listStatus){
         //update url to access web service
         Database.changeBaseURL("https://g2sp4z1w94.execute-api.us-east-1.amazonaws.com/");
 
@@ -161,7 +305,7 @@ public class AdminMainActivity extends AppCompatActivity {
 
         //add user email to JsonObject
         //This will be used to look up all workorders created by this user
-        json.addProperty("status", "pending");
+        json.addProperty("status", listStatus);
 
         //create a Call object to receive web service response
         Call<JsonArray> call = retrofit.getAllWorkOrders(json);
@@ -188,7 +332,6 @@ public class AdminMainActivity extends AppCompatActivity {
                     //the Recyclerview initialization will be in the onResponse method
 
                     //recycler view initialization and implementation
-                    recyclerView = findViewById(R.id.recyclerViewAdminMain);
 
                     //add dividers between each address
                     DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
@@ -206,12 +349,14 @@ public class AdminMainActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
-                System.out.println("Failure**********************");
+                System.out.println("Failure in Admin Main**********************");
                 System.out.println(t.getMessage());
             }
         });
 
     }//end of getData
+
+
 
 
 
@@ -222,7 +367,14 @@ public class AdminMainActivity extends AppCompatActivity {
         JsonObject[] jsonObjects = new JsonObject[jsonArray.size()];
 
         for(int i = 0; i < jsonArray.size(); i++){
-            jsonObjects[i] = (JsonObject) jsonArray.get(i);
+            jsonObjects[i] = jsonArray.get(i).getAsJsonObject();
+
+
+
+            System.out.println(jsonObjects[i]);
+
+
+
         }
 
 
@@ -261,18 +413,18 @@ public class AdminMainActivity extends AppCompatActivity {
             String currentStatus = jsonObjects[i].get("current_status").toString();
             currentStatus = currentStatus.replace("\"", "");
 
-            //*****************************************************
-            //Still need to retrieve photos
-
-
-            Drawable[] attachedPhotos = getImages(jsonObjects[i].get("attached_photos").toString());
-
-
-
 
             workOrders[i] = new WorkOrder(id, creator, admin, description,
                     submissionDate, lastActivityDate, currentStatus);
 
+
+
+
+            //*****************************************************
+            //Still need to retrieve photos
+
+
+            Bitmap[] attachedPhotos = getImages(jsonObjects[i].get("attached_photos").toString());
 
             if(attachedPhotos != null){
 
@@ -280,13 +432,9 @@ public class AdminMainActivity extends AppCompatActivity {
             }
 
             //add comments
-            //String[] comments = getComments(jsonObjects[i].get("comments").toString());
+            String[] comments = getComments(jsonObjects[i].get("comments").toString());
 
 
-
-            //temporary use until proper comments are returned from web service
-            //*******************************************************************
-            String[] comments = new String[5];
             workOrders[i].setComments(comments);
         }
 
@@ -300,13 +448,16 @@ public class AdminMainActivity extends AppCompatActivity {
 
     //This method splits the input string into a list of comments
     private String[] getComments(String input){
+
         //clean up the string
         input = input.replace("\"", "");
         input = input.replace("[", "");
         input = input.replace("]", "");
 
         //if there are more then one comment they will be separated by a comma
-        return input.split(",");
+        String[] comments = input.split(",");
+
+        return comments;
     }
 
 
@@ -314,7 +465,7 @@ public class AdminMainActivity extends AppCompatActivity {
 
     //This method splits the input string into a list of image urls
     //and then retrieves the image using each url
-    private Drawable[] getImages(String input){
+    private Bitmap[] getImages(String input){
 
         //clean up the string
         input = input.replace("\"", "");
@@ -325,7 +476,7 @@ public class AdminMainActivity extends AppCompatActivity {
         String[] photoUrls = input.split(",");
 
         //create the Drawable array to return
-        Drawable[] photoList = new Drawable[photoUrls.length];
+        Bitmap[] photoList = new Bitmap[photoUrls.length];
 
         //count to track the progress through the array
         int count = 0;
@@ -339,6 +490,9 @@ public class AdminMainActivity extends AppCompatActivity {
             if(photoList[count] == null){
                 return null;
             }
+
+
+            count++;
         }
 
         //return the array of Drawables
@@ -348,20 +502,42 @@ public class AdminMainActivity extends AppCompatActivity {
 
 
     //This method takes a string url and retrieves the image it holds
-    private Drawable getImage(String url, int number){
+    private Bitmap getImage(String url, int number){
+
+        //**************************************************************
+        //the following code is used if string is base64
+
         try {
-            InputStream input = (InputStream) new URL(url).getContent();
-            Drawable image = Drawable.createFromStream(input,"photo" + number);
+            Bitmap bitmap = ConvertImage.convertBase64ToDrawable(url);
 
-            return image;
+            return bitmap;
 
-        }catch(MalformedURLException error){
-            System.out.println(error.getMessage());
-        }catch(IOException error){
+        }catch(Exception error){
             System.out.println(error.getMessage());
         }
 
+
+
+        //**************************************************************
+        //the following code is used if string is a url
+
+//        try {
+//            InputStream input = (InputStream) new URL(url).getContent();
+//            BufferedInputStream bufferedInputStream = new BufferedInputStream(input);
+//
+//            Bitmap image = BitmapFactory.decodeStream(bufferedInputStream);
+//
+//            return image;
+//
+//        }catch(MalformedURLException error){
+//            System.out.println(error.getMessage());
+//        }catch(IOException error){
+//            System.out.println(error.getMessage());
+//        }
+
         return null;
+
+
     }
 
 

@@ -3,8 +3,12 @@ package com.CS480.hoa;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -13,9 +17,6 @@ import android.widget.Toast;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import org.json.JSONArray;
-
-import java.util.ArrayList;
 import java.util.Date;
 
 import retrofit2.Call;
@@ -25,10 +26,13 @@ import retrofit2.Response;
 public class CreateNewWorkOrderActivity extends AppCompatActivity {
 
     public static final String userCode = "com.CS480.hoa.createNewWorkOrder";
+    public static final int requestImageCapture = 1;
+    public static final int MAXPHOTOS = 5;
+
 
     private WorkOrder workOrder;
     private User user;
-    private Drawable[] attachedPhotos;
+    private Bitmap[] attachedPhotos;
 
     private EditText descriptionInput;
     private Button saveButton;
@@ -42,7 +46,7 @@ public class CreateNewWorkOrderActivity extends AppCompatActivity {
         setContentView(R.layout.activity_create_new_work_order);
 
         //maximum of 5 photos for each work order
-        attachedPhotos = new Drawable[5];
+        attachedPhotos = new Bitmap[MAXPHOTOS];
 
         //retrieve the user from previous activity
         user = (User) getIntent().getSerializableExtra(userCode);
@@ -100,11 +104,34 @@ public class CreateNewWorkOrderActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                //get Image from the camera
+                //check for max photo limit
+                if(attachedPhotos[MAXPHOTOS - 1] == null) {
 
+                    PackageManager pm = getBaseContext().getPackageManager();
+
+                    //next check to ensure a camera is available
+                    //If there is no camera then this onClick will do nothing
+                    if (pm.hasSystemFeature(PackageManager.FEATURE_CAMERA_ANY)) {
+
+                        //activate the camera and retrieve the photo
+                        startCamera();
+
+                    } else {
+                        //There is no camera app available
+                        Toast.makeText(getBaseContext(),"There is a problem with accessing the camera", Toast.LENGTH_SHORT).show();
+                    }
+
+                } else {
+                    //the photo max has been reached
+                    Toast.makeText(getBaseContext(), "The maximum photos for this work order has been reached", Toast.LENGTH_SHORT).show();
+                }
             }
         });
-    }
+
+    }//end of onCreate
+
+
+
 
 
     //The only required field is the description.
@@ -119,6 +146,9 @@ public class CreateNewWorkOrderActivity extends AppCompatActivity {
     }
 
 
+
+
+
     //This method creates a new work order object
     private WorkOrder createWorkOrder(){
 
@@ -127,6 +157,9 @@ public class CreateNewWorkOrderActivity extends AppCompatActivity {
 
         return new WorkOrder(user, description, rightNow, attachedPhotos);
     }
+
+
+
 
 
     //This sends the work order data to the web service
@@ -148,31 +181,39 @@ public class CreateNewWorkOrderActivity extends AppCompatActivity {
         json.addProperty("lastActivityDate", workOrder.getLastActivityDate());
         json.addProperty("currentStatus", workOrder.getCurrentStatus());
 
-        ArrayList<String> commentList = new ArrayList<>();
-        commentList.add("empty");
-        json.addProperty("comments", String.valueOf((new JSONArray(commentList))));
+        JsonArray commentList = new JsonArray();
+        commentList.add("No Comments");
+
+        json.add("comments", commentList);
+
 
         if(attachedPhotos[0] != null) {
-            ArrayList<String> photoList = new ArrayList<>();
 
-            for (Drawable photo : attachedPhotos) {
 
-                //separate class for converting to Base64 string
-                photoList.add(ConvertImage.convertImageToString(photo));
+            System.out.println(attachedPhotos[0]);
+
+
+
+            //there are photos to send to web service
+            JsonArray photoList = new JsonArray();
+
+            for (int i = 0; i < attachedPhotos.length; i++) {
+
+                if (attachedPhotos[i] != null) {
+                    //separate class for converting to Base64 string
+                    photoList.add(ConvertImage.convertImageToString(attachedPhotos[i]));
+
+                }
             }
 
-            json.addProperty("attachedPhotos", String.valueOf(new JSONArray(photoList)));
+            json.add("attachedPhotos", photoList);
 
         }else{
-            ArrayList<String> photoList = new ArrayList<>();
+            //There are no photos to send to web service
+            JsonArray photoList = new JsonArray();
             photoList.add("empty");
-            json.addProperty("attachedPhotos", String.valueOf(new JSONArray(photoList)));
+            json.add("attachedPhotos", photoList);
         }
-
-
-
-        System.out.println(json);
-
 
         //create Call object to receive response from web service
         Call<JsonArray> call = retrofit.newWorkOrder(json);
@@ -214,11 +255,48 @@ public class CreateNewWorkOrderActivity extends AppCompatActivity {
 
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
-                System.out.println("Failure*************************");
+                System.out.println("Failure Create New Work Order*************************");
                 System.out.println(t.getMessage());
             }
         });
     }
 
 
+
+
+    //This method is used to interact with the camera and retrieve a photo
+    private void startCamera(){
+
+        Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if(takePhotoIntent.resolveActivity(getPackageManager()) != null){
+            startActivityForResult(takePhotoIntent,requestImageCapture);
+        }
+
+    }
+
+
+
+
+    //This method handles what the camera returns to this application
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode,resultCode,data);
+
+        if(requestCode == requestImageCapture && resultCode == RESULT_OK){
+
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+
+
+            //cycle through attachedPhotos to find the first blank spot
+            int index;
+
+            for(index = 0; index < MAXPHOTOS - 1; index++){
+                if(attachedPhotos[index] == null) break;
+            }
+
+                attachedPhotos[index] = imageBitmap;
+
+        }
+    }
 }

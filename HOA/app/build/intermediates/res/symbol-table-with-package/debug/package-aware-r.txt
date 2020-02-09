@@ -774,6 +774,7 @@ id add
 id addCommentEditText
 id adminMainBlankListTextView
 id adminMainDateLabel
+id adminMainStatusButton
 id adminMainStatusLabel
 id adminMainWorkOrderLabel
 id adminMenuEditHomeOwner
@@ -936,6 +937,7 @@ id viewPersonalInformationAddressLabel
 id viewPersonalInformationEmail
 id viewPersonalInformationName
 id viewPersonalInformationPhone
+id viewPhotoImageView
 id withText
 id workOrderCreateAttachPhotoButton
 id workOrderCreateCancelButton
@@ -960,7 +962,6 @@ id workOrderListItemStatus
 id workOrderViewAddCommentsButton
 id workOrderViewAttachPhotoButton
 id workOrderViewCommentRecyclerView
-id workOrderViewCommentsButton
 id workOrderViewCommentsLabel
 id workOrderViewCreatorInfoButton
 id workOrderViewEditorInfoButton
@@ -1021,6 +1022,7 @@ layout activity_edit_rules_and_policies
 layout activity_home_owner_main
 layout activity_login
 layout activity_view_comments
+layout activity_view_photo
 layout activity_view_rules_and_policies
 layout activity_work_order_view
 layout add_comment
@@ -1074,6 +1076,7 @@ string abc_toolbar_collapse_description
 string addComment
 string address
 string adminAccess
+string adminMainStatusButton
 string app_name
 string approved
 string attachPhoto

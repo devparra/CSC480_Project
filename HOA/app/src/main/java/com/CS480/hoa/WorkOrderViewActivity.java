@@ -9,8 +9,12 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -25,12 +29,15 @@ import com.google.gson.JsonObject;
 
 import org.json.JSONArray;
 
+import java.io.FileInputStream;
 import java.util.ArrayList;
 import java.util.Date;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.CS480.hoa.CreateNewWorkOrderActivity.MAXPHOTOS;
 
 public class WorkOrderViewActivity extends AppCompatActivity
         implements StatusChangeDialog.StatusChangeSelectedListener,
@@ -40,8 +47,10 @@ public class WorkOrderViewActivity extends AppCompatActivity
     public static final String workOrderCode = "com.CS480.hoa.workOrderView.workOrder";
     public static final String userCode = "com.CS480.hoa.workOrderView.user";
     public static final String callingActivityCode = "com.CS480.hoa.workOrderView.callingActivity";
+    private final int requestImageCapture = 1;
 
     private String callingActivity;
+    private String[] filenames;
 
     private User user; //The current user that is viewing the workOrder
     private WorkOrder workOrder;
@@ -53,8 +62,8 @@ public class WorkOrderViewActivity extends AppCompatActivity
     private Button creatorInfoButton;
     private Button editorInfoButton;
     private Button returnButton;
-    private Button viewPhotos;
-    private Button addComment;
+    private Button viewPhotosButton;
+    private Button addCommentButton;
     private TextView idTextView;
     private TextView descriptionTextView;
     private TextView creationDateTextView;
@@ -67,8 +76,36 @@ public class WorkOrderViewActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_work_order_view);
 
+        //retrieve the number of photos
+        int numberOfPhotos = getIntent().getIntExtra("totalPhotos", 0);
+
+        //retrieve each photo
+        Bitmap[] photos = new Bitmap[numberOfPhotos];
+        filenames = new String[numberOfPhotos];
+
+        for(int i = 0; i < numberOfPhotos; i++){
+
+            //get filename from the intent
+            filenames[i] = getIntent().getStringExtra("filename" + i);
+
+            Bitmap bmp = null;
+
+            try {
+                FileInputStream is = getBaseContext().openFileInput(filenames[i]);
+                bmp = BitmapFactory.decodeStream(is);
+                is.close();
+            } catch (Exception e) {
+                System.out.println("Error reading filename**************************");
+                e.printStackTrace();
+            }
+
+            photos[i] = bmp;
+
+        }
+
         //retrieve the work order data from the previous activity
         workOrder = (WorkOrder) getIntent().getSerializableExtra(workOrderCode);
+        workOrder.setAttachedPhotos(photos);
 
         //retrieve the current user that will be viewing the work order
         user = (User) getIntent().getSerializableExtra(userCode);
@@ -85,23 +122,38 @@ public class WorkOrderViewActivity extends AppCompatActivity
 
         //assign all objects to variables
         addPhotoButton = findViewById(R.id.workOrderViewAttachPhotoButton);
+        viewPhotosButton = findViewById(R.id.workOrderViewPhotoButton);
         currentStatusButton = findViewById(R.id.workOrderViewStatusButton);
         creatorInfoButton = findViewById(R.id.workOrderViewCreatorInfoButton);
         editorInfoButton = findViewById(R.id.workOrderViewEditorInfoButton);
         returnButton = findViewById(R.id.workOrderViewReturnButton);
-        addComment = findViewById(R.id.workOrderViewAddCommentsButton);
+        addCommentButton = findViewById(R.id.workOrderViewAddCommentsButton);
         idTextView = findViewById(R.id.workOrderIDView);
         descriptionTextView = findViewById(R.id.workOrderDescriptionView);
         creationDateTextView = findViewById(R.id.workOrderCreatedDateView);
         lastActivityTextView = findViewById(R.id.workOrderEditedDateView);
-        viewPhotos = findViewById(R.id.workOrderViewPhotoButton);
 
         //populate the fields with the information from the WorkOrder object
         currentStatusButton.setText(workOrder.getCurrentStatus());
 
+        if(workOrder.getCurrentStatus().equals("Pending")){
+            currentStatusButton.setBackgroundColor(getResources().getColor(R.color.orange));
+        } else if(workOrder.getCurrentStatus().equals("Approved")){
+            currentStatusButton.setBackgroundColor(getResources().getColor(R.color.green));
+        } else {
+            currentStatusButton.setBackgroundColor(getResources().getColor(R.color.red));
+        }
+
         //The status change feature is only accessed by admin
         if(callingActivity.equals(AdminMainActivity.userCode)){
             currentStatusButton.setEnabled(true);
+        }
+
+        //if the work order has the maximum photos, remove option to add more
+        //MAXPHOTOS is in the CreateNewWorkOrderActivity
+        if(workOrder.getAttachedPhotos().length == MAXPHOTOS){
+            addPhotoButton.setEnabled(false);
+            addPhotoButton.setVisibility(View.INVISIBLE);
         }
 
         //check to ensure that creator is not null
@@ -121,18 +173,16 @@ public class WorkOrderViewActivity extends AppCompatActivity
         }
 
         idTextView.setText(workOrder.getId());
-
         descriptionTextView.setText(workOrder.getDescription());
-
         creationDateTextView.setText(workOrder.getSubmissionDate());
-
         lastActivityTextView.setText(workOrder.getLastActivityDate());
 
         //only make photo button visible if there are photos to view
-        if(workOrder.getAttachedPhotos() == null || workOrder.getAttachedPhotos().length < 1){
-            viewPhotos.setEnabled(false);
-            viewPhotos.setVisibility(View.INVISIBLE);
+        if(workOrder.getAttachedPhotos() == null){
+            viewPhotosButton.setEnabled(false);
+            viewPhotosButton.setVisibility(View.INVISIBLE);
         }
+
 
         //Set up recycler view for comments
 
@@ -147,23 +197,8 @@ public class WorkOrderViewActivity extends AppCompatActivity
         commentRecyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
 
         //send list of comments to the setAdapter
-
-        //**************************************************************************
-        //temporary until comments are working
-        //****************************************************************************
-            String[] testMessage = new String[1];
-            testMessage[0] = "No Comments";
-            WorkOrderViewActivity.CommentAdapter adapter = new WorkOrderViewActivity.CommentAdapter(testMessage);
-            commentRecyclerView.setAdapter(adapter);
-
-            //end of temporary code
-            //********************************************************************8
-
-
-
-//            //this is the code to keep once things are working
-//            WorkOrderViewActivity.CommentAdapter adapter = new WorkOrderViewActivity.CommentAdapter(workOrder.getComments());
-//            commentRecyclerView.setAdapter(adapter);
+        WorkOrderViewActivity.CommentAdapter adapter = new WorkOrderViewActivity.CommentAdapter(workOrder.getComments());
+        commentRecyclerView.setAdapter(adapter);
 
 
 
@@ -219,7 +254,7 @@ public class WorkOrderViewActivity extends AppCompatActivity
 
 
         //onClick for the add Comments button
-        addComment.setOnClickListener(new View.OnClickListener() {
+        addCommentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentManager manager = getSupportFragmentManager();
@@ -234,15 +269,42 @@ public class WorkOrderViewActivity extends AppCompatActivity
             @Override
             public void onClick(View v) {
                 //activate camera to add a photo
+
+                //MAXPHOTOS is in the CreateNewWorkOrderActivity
+                if(workOrder.getAttachedPhotos().length == MAXPHOTOS){
+                    //the work order already has the maximum number of photos
+                    Toast.makeText(getBaseContext(),"This work order has the maximum photos", Toast.LENGTH_SHORT).show();
+                } else {
+
+                    //There is room for more photos
+                    startCamera();
+
+                }
+
             }
         });
 
 
         //onClick for viewing attached photos
-        viewPhotos.setOnClickListener(new View.OnClickListener() {
+        viewPhotosButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
+                //display the photos
+                Intent intent = new Intent(getBaseContext(), ViewPhotoActivity.class);
+                Bundle bundle = new Bundle();
+
+
+                for(int i = 0; i < filenames.length; i++){
+                    bundle.putString("filename" + i, filenames[i]);
+                }
+
+                //add current list of photos to the bundle
+                bundle.putInt("totalPhotos", filenames.length);
+
+                intent.putExtras(bundle);
+
+                startActivity(intent);
             }
         });
 
@@ -315,6 +377,7 @@ public class WorkOrderViewActivity extends AppCompatActivity
                 comments[0] = newComment;
 
             } else {
+                //There are already comments for this work order
 
                 comments = new String[workOrder.getComments().length + 1];
 
@@ -337,7 +400,7 @@ public class WorkOrderViewActivity extends AppCompatActivity
             //update the database
             updateData();
         }
-    }
+    }//end of addCommentClick
 
 
 
@@ -397,6 +460,11 @@ public class WorkOrderViewActivity extends AppCompatActivity
         return super.onCreateOptionsMenu(menu);
     }
 
+
+
+
+
+
     //this method handles the menu item that are selected
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
@@ -421,9 +489,17 @@ public class WorkOrderViewActivity extends AppCompatActivity
     //This method will send the updated data to the web service
     private void updateData(){
 
-
+        //update the last activity date
         workOrder.setLastActivityDate(new Date());
+        lastActivityTextView.setText(workOrder.getLastActivityDate());
+
+        //update the last person to make changes to the work order
         workOrder.setEditor(user);
+        editorInfoButton.setText(workOrder.getEditor().getUserName());
+
+        //update the comments list
+        WorkOrderViewActivity.CommentAdapter adapter = new WorkOrderViewActivity.CommentAdapter(workOrder.getComments());
+        commentRecyclerView.setAdapter(adapter);
 
         //send update for workorder to the web service
         //update url to access web service
@@ -436,6 +512,7 @@ public class WorkOrderViewActivity extends AppCompatActivity
         JsonObject json = new JsonObject();
 
         //add current workorder data to JsonObject
+        json.addProperty("wo_id", workOrder.getId());
         json.addProperty("wo_creator", workOrder.getCreator().getUserEmail());
         json.addProperty("wo_admin", workOrder.getEditor().getUserEmail());
         json.addProperty("wo_description", workOrder.getDescription());
@@ -443,28 +520,46 @@ public class WorkOrderViewActivity extends AppCompatActivity
         json.addProperty("wo_lastActivityDate", workOrder.getLastActivityDate());
         json.addProperty("wo_currentStatus", workOrder.getCurrentStatus());
 
-        ArrayList<String> comments = new ArrayList<>();
+        JsonArray comments = new JsonArray();
         for(String comment : workOrder.getComments()){
             comments.add(comment);
         }
-        json.addProperty("wo_comments", String.valueOf(new JSONArray(comments)));
+        json.add("wo_comments", comments);
+
+
+
+        System.out.println("WorkOrderView*********************************************************************");
+        System.out.println(workOrder.getAttachedPhotos().length);
+
+
+
+
+
 
         if(workOrder.getAttachedPhotos() != null && workOrder.getAttachedPhotos().length > 0){
 
-            ArrayList<String> photoList = new ArrayList<>();
+            JsonArray photoList = new JsonArray();
 
-            for (Drawable photo : workOrder.getAttachedPhotos()) {
+            for (int i = 0; i < workOrder.getAttachedPhotos().length; i++) {
+
+
+
+                System.out.println(workOrder.getAttachedPhotos()[i]);
+
+
+
+
 
                 //separate class for converting to Base64 string
-                photoList.add(ConvertImage.convertImageToString(photo));
+                photoList.add(ConvertImage.convertImageToString(workOrder.getAttachedPhotos()[i]));
             }
 
-            json.addProperty("attachedPhotos", String.valueOf(new JSONArray(photoList)));
+            json.add("wo_attachedPhotos", photoList);
 
         }else{
-            ArrayList<String> photoList = new ArrayList<>();
+            JsonArray photoList = new JsonArray();
             photoList.add("empty");
-            json.addProperty("attachedPhotos", String.valueOf(new JSONArray(photoList)));
+            json.add("wo_attachedPhotos", photoList);
         }
 
 
@@ -477,7 +572,7 @@ public class WorkOrderViewActivity extends AppCompatActivity
 
                 JsonArray jsonArray = response.body();
 
-                JsonObject object = (JsonObject) jsonArray.get(0);
+                JsonObject object = jsonArray.get(0).getAsJsonObject();
 
                 String status = object.get("status").toString();
                 status = status.replace("\"", "");
@@ -542,15 +637,20 @@ public class WorkOrderViewActivity extends AppCompatActivity
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
 
+                System.out.println("Failure in WorkOrderView Delete*********************");
+                System.out.println(t.getMessage());
             }
         });
 
 
-    }
+    }//end deleteData
 
 
 
-    //This method is used to create each line item in the recycler view
+
+
+
+    //This class is used to create each line item in the recycler view
     private class CommentHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
         //TextViews from the list item for display
@@ -589,7 +689,7 @@ public class WorkOrderViewActivity extends AppCompatActivity
     }
 
 
-    //This method takes the list of work orders and generates a holder for each one
+    //This class takes the list of work orders and generates a holder for each one
     private class CommentAdapter extends RecyclerView.Adapter<WorkOrderViewActivity.CommentHolder>{
 
         private String[] comments;
@@ -623,4 +723,50 @@ public class WorkOrderViewActivity extends AppCompatActivity
             return comments.length;
         }
     }
+
+
+
+
+
+    //This method is used to interact with the camera and retrieve a photo
+    private void startCamera(){
+
+        Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        if(takePhotoIntent.resolveActivity(getPackageManager()) != null){
+            startActivityForResult(takePhotoIntent,requestImageCapture);
+        }
+
+    }
+
+
+
+
+    //This method handles what the camera returns to this application
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode,resultCode,data);
+
+        if(requestCode == requestImageCapture && resultCode == RESULT_OK){
+
+            Bundle extras = data.getExtras();
+            Bitmap imageBitmap = (Bitmap) extras.get("data");
+
+
+            //cycle through attachedPhotos to find the first blank spot
+            //MAXPHOTOS is in the CreateNewWorkOrderActivity
+            Bitmap[] attachedPhotos = new Bitmap[workOrder.getAttachedPhotos().length + 1];
+
+            for(int i = 0; i < workOrder.getAttachedPhotos().length; i++){
+
+                attachedPhotos[i] = workOrder.getAttachedPhotos()[i];
+            }
+
+            attachedPhotos[attachedPhotos.length - 1] = imageBitmap;
+
+            workOrder.setAttachedPhotos(attachedPhotos);
+
+            updateData();
+
+        }
+    }//end onActivityResult
 }

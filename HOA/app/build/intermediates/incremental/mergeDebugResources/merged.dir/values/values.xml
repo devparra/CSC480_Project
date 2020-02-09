@@ -435,19 +435,24 @@
     <string name="abc_shareactionprovider_share_with">Share with</string>
     <string name="abc_shareactionprovider_share_with_application">Share with <ns1:g example="Mail" id="application_name">%s</ns1:g></string>
     <string name="abc_toolbar_collapse_description">Collapse</string>
+    <string name="addComment">Enter Comment</string>
     <string name="address">Address:</string>
     <string name="adminAccess">Access Admin Features</string>
+    <string name="adminMainStatusButton">Select status to View</string>
     <string name="app_name">HOA Application</string>
     <string name="approved">Approved</string>
     <string name="attachPhoto">Attach Photo</string>
     <string name="blankList">There are no Work Orders to View</string>
     <string name="cancelButton">Cancel</string>
     <string name="cityLabel">City</string>
+    <string name="comment">Comment</string>
     <string name="createNewUserButton">Create New User</string>
     <string name="createNewWorkOrder">New Work Order</string>
     <string name="createUserTitle">Create New User</string>
     <string name="createdBy">Created By: </string>
     <string name="createdOn">Created On: </string>
+    <string name="deleteWO">Delete Work Order</string>
+    <string name="deleteWOMessage">Are you sure you want to delete this work order?</string>
     <string name="denied">Denied</string>
     <string name="description">Description</string>
     <string name="dialogMessage">Do you want to access Admin features?</string>
