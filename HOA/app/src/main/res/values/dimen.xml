@@ -12,4 +12,5 @@
     <dimen name="generalMarginSpace">5dp</dimen>
     <dimen name="editTextWidth">225dp</dimen>
     <dimen name="descriptionInputHeight">160dp</dimen>
+    <dimen name="homeOwnerListNameSize">200dp</dimen>
 </resources>

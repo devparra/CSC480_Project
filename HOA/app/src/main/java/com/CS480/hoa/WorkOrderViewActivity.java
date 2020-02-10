@@ -11,7 +11,6 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -27,10 +26,7 @@ import android.widget.Toast;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import org.json.JSONArray;
-
 import java.io.FileInputStream;
-import java.util.ArrayList;
 import java.util.Date;
 
 import retrofit2.Call;
@@ -448,7 +444,7 @@ public class WorkOrderViewActivity extends AppCompatActivity
     //this method creates the options menu for the admin user
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
-        getMenuInflater().inflate(R.menu.view_work_order_menu, menu);
+        getMenuInflater().inflate(R.menu.delete_menu, menu);
 
         //only allow users to delete their work orders
         if(callingActivity.equals(HomeOwnerMainActivity.userCode)){

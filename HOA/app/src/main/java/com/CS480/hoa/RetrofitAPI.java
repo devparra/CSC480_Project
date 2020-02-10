@@ -17,6 +17,9 @@ public interface RetrofitAPI {
     @POST("getUser")
     Call<JsonArray> getUser(@Body JsonObject object);
 
+    @POST()
+    Call<JsonArray> getAllUsers(@Body JsonObject object);
+
     @POST("retrieveUserWO")
     Call<JsonArray> getWorkOrders(@Body JsonObject object);
 
@@ -29,13 +32,13 @@ public interface RetrofitAPI {
     @POST("createWorkOrder")
     Call<JsonArray> newWorkOrder(@Body JsonObject object);
 
-    @POST()
+    @POST("editUser")
     Call<JsonArray> updateUser(@Body JsonObject object);
 
     @POST("editWO")
     Call<JsonArray> updateWorkOrder(@Body JsonObject object);
 
-    @POST()
+    @POST("deleteUser")
     Call<JsonArray> deleteUser(@Body JsonObject object);
 
     @POST("deleteWO")

@@ -592,16 +592,7 @@ public class AdminMainActivity extends AppCompatActivity implements
 
                 //go to edit home owners activity
 
-                //*******************************************
-                //this will be replaced when edit home owners activity is complete
-                intent = new Intent(getBaseContext(), BlankActivity.class);
-                //*******************************************
-
-                //commented out until complete
-                //intent = new Intent(getBaseContext(), EditHomeOwnerActivity.class);
-
-                //send user data to edit home owner activity
-                intent.putExtra(EditHomeOwnerActivity.userCode, user);
+                intent = new Intent(getBaseContext(), EditHomeOwnerMainActivity.class);
 
                 startActivity(intent);
 
@@ -610,6 +601,8 @@ public class AdminMainActivity extends AppCompatActivity implements
             case R.id.parent:
                 //The back navigation button is pressed
                 onBackPressed();
+
+                return true;
 
             default:
                 return super.onOptionsItemSelected(item);

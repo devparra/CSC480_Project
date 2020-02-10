@@ -5,26 +5,171 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_margin="@dimen/outerMarginSpace"
     tools:context=".EditHomeOwnerActivity">
 
-<TextView
-    android:id="@+id/editHomeOwnerTitle"
-    android:layout_height="wrap_content"
-    android:layout_width="wrap_content"
-    android:textSize="@dimen/titleTextSize"
-    android:textStyle="bold"
-    android:text="Home Owners"
-    app:layout_constraintTop_toTopOf="parent"
-    app:layout_constraintLeft_toLeftOf="parent"
-    app:layout_constraintRight_toRightOf="parent"
-    />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerViewEditHomeOwner"
-        android:layout_width="match_parent"
+    <TextView
+        android:id="@+id/textViewEditTitle"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:text="@string/editUserTitle"
+        style="@style/title"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editHomeOwnerTitle" />
+        app:layout_constraintRight_toRightOf="parent"
+        />
 
+    <TextView
+        android:id="@+id/editUserFirstNameLabel"
+        style="@style/textView"
+        android:text="@string/firstNameLabel"
+        app:layout_constraintBottom_toBottomOf="@+id/editUserFirstNameInput"
+        app:layout_constraintTop_toTopOf="@+id/editUserFirstNameInput"
+        app:layout_constraintEnd_toStartOf="@+id/editUserFirstNameInput"
+        app:layout_constraintStart_toStartOf="parent"
+        />
+
+    <EditText
+        android:id="@+id/editUserFirstNameInput"
+        style="@style/editText"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintLeft_toRightOf="@+id/editUserFirstNameLabel"
+        app:layout_constraintStart_toEndOf="@+id/editUserFirstNameLabel"
+        app:layout_constraintTop_toBottomOf="@+id/textViewEditTitle" />
+
+    <TextView
+        style="@style/textView"
+        android:text="@string/lastNameLabel"
+        app:layout_constraintStart_toStartOf="@+id/editUserFirstNameLabel"
+        app:layout_constraintTop_toTopOf="@+id/editUserLastNameInput"
+        app:layout_constraintBottom_toBottomOf="@+id/editUserLastNameInput"
+        />
+
+    <EditText
+        android:id="@+id/editUserLastNameInput"
+        style="@style/editText"
+        app:layout_constraintTop_toBottomOf="@+id/editUserFirstNameInput"
+        app:layout_constraintLeft_toLeftOf="@+id/editUserFirstNameInput"
+        />
+
+    <TextView
+        style="@style/textView"
+        android:text="@string/streetLabel"
+        app:layout_constraintStart_toStartOf="@+id/editUserFirstNameLabel"
+        app:layout_constraintTop_toTopOf="@+id/editUserStreetInput"
+        app:layout_constraintBottom_toBottomOf="@+id/editUserStreetInput"
+        />
+
+    <EditText
+        android:id="@+id/editUserStreetInput"
+        style="@style/editText"
+        app:layout_constraintTop_toBottomOf="@+id/editUserLastNameInput"
+        app:layout_constraintLeft_toLeftOf="@+id/editUserLastNameInput"
+        />
+
+    <TextView
+        style="@style/textView"
+        android:text="@string/cityLabel"
+        app:layout_constraintStart_toStartOf="@+id/editUserFirstNameLabel"
+        app:layout_constraintTop_toTopOf="@+id/editUserCityInput"
+        app:layout_constraintBottom_toBottomOf="@+id/editUserCityInput"
+        />
+
+    <EditText
+        android:id="@+id/editUserCityInput"
+        style="@style/editText"
+        app:layout_constraintTop_toBottomOf="@+id/editUserStreetInput"
+        app:layout_constraintLeft_toLeftOf="@+id/editUserStreetInput"
+        />
+
+    <TextView
+        style="@style/textView"
+        android:text="@string/stateLabel"
+        app:layout_constraintLeft_toLeftOf="@+id/editUserFirstNameLabel"
+        app:layout_constraintTop_toTopOf="@+id/editUserStateInput"
+        app:layout_constraintBottom_toBottomOf="@+id/editUserStateInput"
+        />
+
+    <EditText
+        android:id="@+id/editUserStateInput"
+        style="@style/editText"
+        android:maxLength="@integer/maxStateTextInput"
+        android:layout_width="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/editUserCityInput"
+        app:layout_constraintLeft_toLeftOf="@+id/editUserCityInput"
+        />
+
+    <TextView
+        style="@style/textView"
+        android:text="@string/zipLabel"
+        app:layout_constraintLeft_toLeftOf="@+id/editUserFirstNameLabel"
+        app:layout_constraintTop_toTopOf="@+id/editUserZipInput"
+        app:layout_constraintBottom_toBottomOf="@+id/editUserZipInput"
+        />
+
+    <EditText
+        android:id="@+id/editUserZipInput"
+        style="@style/editText"
+        android:inputType="number"
+        app:layout_constraintTop_toBottomOf="@+id/editUserStateInput"
+        app:layout_constraintLeft_toLeftOf="@+id/editUserStateInput"
+        />
+
+    <TextView
+        style="@style/textView"
+        android:text="@string/phoneLabel"
+        app:layout_constraintLeft_toLeftOf="@+id/editUserFirstNameLabel"
+        app:layout_constraintTop_toTopOf="@+id/editUserPhoneInput"
+        app:layout_constraintBottom_toBottomOf="@+id/editUserPhoneInput"
+        />
+
+    <EditText
+        android:id="@+id/editUserPhoneInput"
+        style="@style/editText"
+        android:inputType="phone"
+        app:layout_constraintTop_toBottomOf="@+id/editUserZipInput"
+        app:layout_constraintLeft_toLeftOf="@+id/editUserZipInput"
+        />
+
+    <TextView
+        style="@style/textView"
+        android:text="@string/emailLabel"
+        app:layout_constraintLeft_toLeftOf="@+id/editUserFirstNameLabel"
+        app:layout_constraintTop_toTopOf="@+id/editUserEmailInput"
+        app:layout_constraintBottom_toBottomOf="@+id/editUserEmailInput"
+        />
+
+    <EditText
+        android:id="@+id/editUserEmailInput"
+        style="@style/editText"
+        android:inputType="textEmailAddress"
+        app:layout_constraintTop_toBottomOf="@+id/editUserPhoneInput"
+        app:layout_constraintLeft_toLeftOf="@+id/editUserPhoneInput"
+        />
+
+
+
+
+    <Button
+        android:id="@+id/editUserSaveButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/outerMarginSpace"
+        android:text="@string/saveButton"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editUserEmailInput"
+        app:layout_constraintRight_toLeftOf="@+id/editUserCancelButton"
+        />
+
+    <Button
+        android:id="@+id/editUserCancelButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/outerMarginSpace"
+        android:text="@string/cancelButton"
+        app:layout_constraintLeft_toRightOf="@+id/editUserSaveButton"
+        app:layout_constraintTop_toBottomOf="@+id/editUserEmailInput"
+        app:layout_constraintRight_toRightOf="parent"
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
