@@ -3,11 +3,13 @@
     package="com.CS480.hoa">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-feature android:name="android.hardware.camera"
-        android:required="false"/>
-    <uses-permission android:name="android.permission.CAMERA" />
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
+
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 
     <application
         android:allowBackup="true"
@@ -16,8 +18,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ViewPhotoActivity"></activity>
-        <activity android:name=".ViewCommentsActivity" />
+        <activity android:name=".ViewPhotoActivity" />
         <activity android:name=".BlankActivity" />
         <activity
             android:name=".EditRulesAndPoliciesActivity"
@@ -26,8 +27,11 @@
             android:name=".ViewRulesAndPoliciesActivity"
             android:parentActivityName=".HomeOwnerMainActivity" />
         <activity
-            android:name=".EditHomeOwnerActivity"
+            android:name=".EditHomeOwnerMainActivity"
             android:parentActivityName=".AdminMainActivity" />
+        <activity
+            android:name=".EditHomeOwnerActivity"
+            android:parentActivityName=".EditHomeOwnerMainActivity" />
         <activity android:name=".WorkOrderViewActivity" />
         <activity
             android:name=".CreateNewWorkOrderActivity"

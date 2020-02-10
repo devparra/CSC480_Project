@@ -28,7 +28,6 @@
         android:testOnly="true"
         android:theme="@style/AppTheme" >
         <activity android:name="com.CS480.hoa.ViewPhotoActivity" />
-        <activity android:name="com.CS480.hoa.ViewCommentsActivity" />
         <activity android:name="com.CS480.hoa.BlankActivity" />
         <activity
             android:name="com.CS480.hoa.EditRulesAndPoliciesActivity"
@@ -37,8 +36,11 @@
             android:name="com.CS480.hoa.ViewRulesAndPoliciesActivity"
             android:parentActivityName="com.CS480.hoa.HomeOwnerMainActivity" />
         <activity
-            android:name="com.CS480.hoa.EditHomeOwnerActivity"
+            android:name="com.CS480.hoa.EditHomeOwnerMainActivity"
             android:parentActivityName="com.CS480.hoa.AdminMainActivity" />
+        <activity
+            android:name="com.CS480.hoa.EditHomeOwnerActivity"
+            android:parentActivityName="com.CS480.hoa.EditHomeOwnerMainActivity" />
         <activity android:name="com.CS480.hoa.WorkOrderViewActivity" />
         <activity
             android:name="com.CS480.hoa.CreateNewWorkOrderActivity"
