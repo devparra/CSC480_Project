@@ -47,6 +47,7 @@
     <string name="adminMainStatusButton">Select status to View</string>
     <string name="homeOwners">Home Owners</string>
     <string name="editUserTitle">Edit User</string>
+    <string name="isAdmin">Admin Access</string>
 
     <string-array name="statusOptions">
         <item>Pending</item>

@@ -1,7 +1,6 @@
 package com.CS480.hoa;
 
 import android.graphics.Bitmap;
-import android.graphics.drawable.Drawable;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -29,7 +28,7 @@ public class WorkOrder implements Serializable {
     private Date lastActivityDate; //the date the last change was made to the work order
     private status currentStatus; //the current status of the work order
     private String[] comments;
-    private Bitmap[] attachedPhotos; //a list of all attached photos
+    private String[] attachedPhotos; //a list of all attached photos
 
     //several different constructors
 
@@ -40,7 +39,7 @@ public class WorkOrder implements Serializable {
     //the submission Date and last activity date are the same here
     //there is no admin editor at this time
     public WorkOrder(User creator, String description, Date submissionDate,
-                     Bitmap[] attachedPhotos){
+                     String[] attachedPhotos){
         this.id = "-99";
         this.creator = creator;
         this.editor = creator;
@@ -60,7 +59,7 @@ public class WorkOrder implements Serializable {
     //whatever values are stored in the database will be directly placed into each variable
     public WorkOrder(String id, String creator, String editor, String description,
                      String submissionDate, String lastActivityDate, String currentStatus,
-                     String[] comments, Bitmap[] attachedPhotos){
+                     String[] comments, String[] attachedPhotos){
         this.id = id;
         setCreator(creator);
         setEditor(editor);
@@ -110,7 +109,7 @@ public class WorkOrder implements Serializable {
 
     }
     public String[] getComments(){return comments;}
-    public Bitmap[] getAttachedPhotos(){return attachedPhotos;}
+    public String[] getAttachedPhotos(){return attachedPhotos;}
 
 
 
@@ -170,7 +169,7 @@ public class WorkOrder implements Serializable {
     }
 
     public void setComments(String[] comments){this.comments = comments;}
-    public void setAttachedPhotos(Bitmap[] attachedPhotos){this.attachedPhotos = attachedPhotos;}
+    public void setAttachedPhotos(String[] attachedPhotos){this.attachedPhotos = attachedPhotos;}
 
 
     private void getUser(String email, String whichUser){

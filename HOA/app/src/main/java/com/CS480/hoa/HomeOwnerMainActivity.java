@@ -6,10 +6,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -21,14 +18,6 @@ import android.widget.TextView;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
-
-import java.io.BufferedInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -112,41 +101,9 @@ public class HomeOwnerMainActivity extends AppCompatActivity {
         @Override
         public void onClick(View v) {
 
-
-            //save photos to drive
-            try {
                 Intent intent = new Intent(getBaseContext(), WorkOrderViewActivity.class);
 
                 Bundle bundle = new Bundle();
-
-                Bitmap[] photos = workOrder.getAttachedPhotos();
-
-                bundle.putInt("totalPhotos", photos.length);
-
-                for(int i = 0; i < photos.length; i++){
-
-
-                    System.out.println(workOrder.getAttachedPhotos()[i]);
-                    System.out.println(photos[i]);
-
-
-
-
-                    String filename = "photo" + i + ".png";
-
-                    //write file to storage
-                    FileOutputStream stream = getBaseContext().openFileOutput(filename, Context.MODE_PRIVATE);
-                    photos[i].compress(Bitmap.CompressFormat.PNG, 100, stream);
-
-                    //Cleanup
-                    stream.close();
-                    photos[i].recycle();
-
-                    bundle.putString("filename" + i, filename);
-                }
-
-                //clear work order photos because bitmap is not serializable
-                workOrder.setAttachedPhotos(null);
 
                 //add work order
                 bundle.putSerializable(WorkOrderViewActivity.workOrderCode, workOrder);
@@ -155,7 +112,7 @@ public class HomeOwnerMainActivity extends AppCompatActivity {
                 bundle.putSerializable(WorkOrderViewActivity.userCode, user);
 
                 //let the next activity know where to return to
-                bundle.putString(WorkOrderViewActivity.callingActivityCode, AdminMainActivity.userCode);
+                bundle.putString(WorkOrderViewActivity.callingActivityCode, userCode);
 
 
                 //add bundle to intent
@@ -163,31 +120,6 @@ public class HomeOwnerMainActivity extends AppCompatActivity {
 
                 //Pop intent
                 startActivity(intent);
-
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-
-
-
-
-
-
-//            //when a work order is selected display its information
-//            Intent intent = new Intent(getBaseContext(), WorkOrderViewActivity.class);
-//
-//            Bundle bundle = new Bundle();
-//
-//            //add necessary data to the bundle
-//            bundle.putSerializable(WorkOrderViewActivity.workOrderCode, workOrder);
-//            bundle.putSerializable(WorkOrderViewActivity.userCode, user);
-//            bundle.putString(WorkOrderViewActivity.callingActivityCode, HomeOwnerMainActivity.userCode);
-//
-//            //append the bundle to the intent
-//            intent.putExtras(bundle);
-//
-//            startActivity(intent);
         }
     }
 
@@ -292,15 +224,6 @@ public class HomeOwnerMainActivity extends AppCompatActivity {
     //this method handles converting the JsonArray into a list of workOrders
     private boolean getWorkOrders(JsonArray jsonArray){
 
-
-        System.out.println("HomeOwnerMain jsonArray******************************************");
-        System.out.println(jsonArray);
-
-
-
-
-
-
         workOrders = new WorkOrder[jsonArray.size()];
         JsonObject[] jsonObjects = new JsonObject[jsonArray.size()];
 
@@ -350,26 +273,18 @@ public class HomeOwnerMainActivity extends AppCompatActivity {
             String[] comments = commentString.split(",");
 
 
-            Bitmap[] attachedPhotos = getImages(jsonObjects[i].get("attached_photos").toString());
+            String attachedPhoto = jsonObjects[i].get("attached_photos").toString();
+            attachedPhoto = attachedPhoto.replace("[", "");
+            attachedPhoto = attachedPhoto.replace("]", "");
+            attachedPhoto = attachedPhoto.replace("\"", "");
 
-
-            //*****************************************************
-            //Still need to retrieve photos
-
-
+            String[] attachedPhotos = attachedPhoto.split(",");
 
             workOrders[i] = new WorkOrder(id, creator, admin, description,
                     submissionDate, lastActivityDate, currentStatus);
 
             workOrders[i].setAttachedPhotos(attachedPhotos);
             workOrders[i].setComments(comments);
-
-
-
-            System.out.println("HomeOwnerMain********************************************");
-            System.out.println(workOrders[i]);
-
-
 
         }
 
@@ -378,105 +293,6 @@ public class HomeOwnerMainActivity extends AppCompatActivity {
     }
 
 
-
-
-    //This method splits the input string into a list of image urls
-    //and then retrieves the image using each url
-    private Bitmap[] getImages(String input){
-
-
-        //clean up the string
-        input = input.replace("\"", "");
-        input = input.replace("[", "");
-        input = input.replace("]", "");
-
-        //if there are more then one image their urls will be separated by a comma
-        String[] photoUrls = input.split(",");
-
-        //create the Drawable array to return
-        Bitmap[] photoList = new Bitmap[photoUrls.length];
-
-        //count to track the progress through the array
-        int count = 0;
-
-        //retrieve each image from the web service
-        for(String photoUrl : photoUrls){
-            photoList[count] = getImage(photoUrl, count);
-
-
-            //This will only be null if there was an error
-            if(photoList[count] == null){
-                return null;
-            }
-
-
-            count++;
-
-        }
-
-
-
-
-        System.out.println("*******************************************************************");
-        System.out.println(photoList);
-        System.out.println("*******************************************************************");
-
-
-
-        //return the array of Bitmaps
-        return photoList;
-    }
-
-
-
-    //This method takes a string url and retrieves the image it holds
-    private Bitmap getImage(String url, int number){
-
-        //**************************************************************
-        //the following code is used if string is base64
-
-        try {
-
-
-            System.out.println("*************************************************");
-            System.out.println(url);
-            System.out.println("*************************************************");
-
-
-
-
-
-            Bitmap bitmap = ConvertImage.convertBase64ToDrawable(url);
-
-            return bitmap;
-
-        }catch(Exception error){
-            System.out.println(error.getMessage());
-        }
-
-
-
-        //**************************************************************
-        //the following code is used if string is a url
-
-//        try {
-//            InputStream input = (InputStream) new URL(url).getContent();
-//            BufferedInputStream bufferedInputStream = new BufferedInputStream(input);
-//
-//            Bitmap image = BitmapFactory.decodeStream(bufferedInputStream);
-//
-//            return image;
-//
-//        }catch(MalformedURLException error){
-//            System.out.println(error.getMessage());
-//        }catch(IOException error){
-//            System.out.println(error.getMessage());
-//        }
-
-        return null;
-
-
-    }
 
 
 

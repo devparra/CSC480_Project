@@ -147,7 +147,42 @@
         app:layout_constraintLeft_toLeftOf="@+id/editUserPhoneInput"
         />
 
+    <TextView
+        style="@style/textView"
+        android:text="@string/isAdmin"
+        app:layout_constraintBottom_toBottomOf="@+id/setAdminAccessRadioButtons"
+        app:layout_constraintStart_toStartOf="@+id/editUserFirstNameLabel"
+        app:layout_constraintTop_toTopOf="@+id/setAdminAccessRadioButtons"
+        />
 
+    <RadioGroup
+        android:id="@+id/setAdminAccessRadioButtons"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_margin="@dimen/generalMarginSpace"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/editUserEmailInput"
+        app:layout_constraintStart_toStartOf="@+id/editUserEmailInput"
+        >
+
+        <RadioButton
+            android:id="@+id/editUserIsAdminYesRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Yes"
+            android:layout_margin="@dimen/generalMarginSpace"
+            />
+
+        <RadioButton
+            android:id="@+id/editUserIsAdminNoRadioButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="No"
+            android:layout_margin="@dimen/generalMarginSpace"
+            />
+
+    </RadioGroup>
 
 
     <Button
@@ -157,7 +192,7 @@
         android:layout_marginTop="@dimen/outerMarginSpace"
         android:text="@string/saveButton"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editUserEmailInput"
+        app:layout_constraintTop_toBottomOf="@+id/setAdminAccessRadioButtons"
         app:layout_constraintRight_toLeftOf="@+id/editUserCancelButton"
         />
 
@@ -168,7 +203,7 @@
         android:layout_marginTop="@dimen/outerMarginSpace"
         android:text="@string/cancelButton"
         app:layout_constraintLeft_toRightOf="@+id/editUserSaveButton"
-        app:layout_constraintTop_toBottomOf="@+id/editUserEmailInput"
+        app:layout_constraintTop_toBottomOf="@+id/setAdminAccessRadioButtons"
         app:layout_constraintRight_toRightOf="parent"
         />
 

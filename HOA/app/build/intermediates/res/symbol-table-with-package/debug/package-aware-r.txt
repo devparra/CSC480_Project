@@ -826,6 +826,8 @@ id editUserCityInput
 id editUserEmailInput
 id editUserFirstNameInput
 id editUserFirstNameLabel
+id editUserIsAdminNoRadioButton
+id editUserIsAdminYesRadioButton
 id editUserLastNameInput
 id editUserPhoneInput
 id editUserSaveButton
@@ -904,6 +906,7 @@ id search_plate
 id search_src_text
 id search_voice_btn
 id select_dialog_listview
+id setAdminAccessRadioButtons
 id shortcut
 id showCustom
 id showHome
@@ -973,7 +976,6 @@ id workOrderListItemDate
 id workOrderListItemId
 id workOrderListItemStatus
 id workOrderViewAddCommentsButton
-id workOrderViewAttachPhotoButton
 id workOrderViewCommentRecyclerView
 id workOrderViewCommentsLabel
 id workOrderViewCreatorInfoButton
@@ -1117,6 +1119,7 @@ string email
 string emailLabel
 string firstNameLabel
 string homeOwners
+string isAdmin
 string lastNameLabel
 string loginButton
 string name
@@ -1536,3 +1539,4 @@ styleable Toolbar android_gravity android_minHeight buttonGravity collapseConten
 styleable View android_theme android_focusable paddingEnd paddingStart theme
 styleable ViewBackgroundHelper android_background backgroundTint backgroundTintMode
 styleable ViewStubCompat android_id android_layout android_inflatedId
+xml file_paths

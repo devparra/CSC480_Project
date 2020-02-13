@@ -11,6 +11,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
@@ -33,6 +34,9 @@ public class EditHomeOwnerActivity extends AppCompatActivity implements
     private EditText zip;
     private EditText phone;
     private EditText email;
+
+    private RadioButton isAdminYes;
+    private RadioButton isAdminNo;
 
     private Button saveButton;
     private Button cancelButton;
@@ -57,6 +61,9 @@ public class EditHomeOwnerActivity extends AppCompatActivity implements
         zip = findViewById(R.id.editUserZipInput);
         phone = findViewById(R.id.editUserPhoneInput);
         email = findViewById(R.id.editUserEmailInput);
+
+        isAdminNo = findViewById(R.id.editUserIsAdminNoRadioButton);
+        isAdminYes = findViewById(R.id.editUserIsAdminYesRadioButton);
 
         saveButton = findViewById(R.id.editUserSaveButton);
         cancelButton = findViewById(R.id.editUserCancelButton);
@@ -98,27 +105,58 @@ public class EditHomeOwnerActivity extends AppCompatActivity implements
 
 
     //this method is used to populate the edit texts with user information
-    private void populateFields(){
+    private void populateFields() {
 
-        //set the name fields
-        String[] name = user.getUserName().split(" ");
-        firstName.setText(name[0]);
-        lastName.setText(name[1]);
+        try {
+            //set the name fields
+            String[] name = user.getUserName().split(" ");
+            firstName.setText(name[0]);
+            lastName.setText(name[1]);
+        } catch (IndexOutOfBoundsException error) {
+            firstName.setText("Unknown");
+            lastName.setText("unknown");
+        }
 
-        //set the address fields
-        String[] address1 = user.getUserAddress().split("\\n");
-        street.setText(address1[0]);
+        try {
+            //set the address fields
+            String[] address1 = user.getUserAddress().split("\\n");
+            street.setText(address1[0]);
 
-        String[] address2 = address1[1].split(",");
-        city.setText(address2[0]);
 
-        String[] address3 = address2[1].split(" ");
-        state.setText(address3[0]);
-        zip.setText(address3[1]);
+            String[] address2 = address1[1].split(",");
+            city.setText(address2[0]);
 
-        //set phone and email
-        phone.setText(user.getUserPhone());
-        email.setText(user.getUserEmail());
+            String[] address3 = address2[1].split(" ");
+            state.setText(address3[0]);
+            zip.setText(address3[1]);
+
+        } catch (IndexOutOfBoundsException error) {
+            street.setText("unknown");
+            city.setText("");
+            state.setText("");
+            zip.setText("");
+        }
+
+        try {
+            //set phone
+            phone.setText(user.getUserPhone());
+        } catch (IndexOutOfBoundsException error) {
+            phone.setText("unknown");
+        }
+
+        try {
+            //set email
+            email.setText(user.getUserEmail());
+        }catch(IndexOutOfBoundsException error){
+            email.setText("unknown");
+        }
+
+        //set the admin access
+        if(user.isAdmin()){
+            isAdminYes.toggle();
+        } else {
+            isAdminNo.toggle();
+        }
     }
 
 
@@ -134,13 +172,15 @@ public class EditHomeOwnerActivity extends AppCompatActivity implements
                 zip.getText().toString();
         String userEmail = email.getText().toString();
         String userPhone = phone.getText().toString();
+        Boolean isAdmin = isAdminYes.isChecked();
 
 
         if(
                 !userName.equals(user.getUserName()) ||
                 !userAddress.equals(user.getUserAddress()) ||
                 !userEmail.equals(user.getUserEmail()) ||
-                !userPhone.equals(user.getUserPhone())
+                !userPhone.equals(user.getUserPhone()) ||
+                !isAdmin == user.isAdmin()
         ){
             //a change has been made
             return true;
@@ -157,6 +197,8 @@ public class EditHomeOwnerActivity extends AppCompatActivity implements
     //this method is used to update the home owners data in the web service
     private void updateData(){
 
+        User newUser = createUser();
+
         //send update for workorder to the web service
         //update url to access web service
         Database.changeBaseURL("https://yfxlozs7i8.execute-api.us-east-1.amazonaws.com/");
@@ -168,10 +210,11 @@ public class EditHomeOwnerActivity extends AppCompatActivity implements
         JsonObject json = new JsonObject();
 
         //add current workorder data to JsonObject
-        json.addProperty("userName", user.getUserName());
-        json.addProperty("userAddress", user.getUserAddress());
-        json.addProperty("userPhone", user.getUserPhone());
-        json.addProperty("userEmail", user.getUserEmail());
+        json.addProperty("userName", newUser.getUserName());
+        json.addProperty("userAddress", newUser.getUserAddress());
+        json.addProperty("userPhone", newUser.getUserPhone());
+        json.addProperty("userEmail", newUser.getUserEmail());
+        json.addProperty("userIsAdmin", newUser.isAdmin() ? "1" : "0");
 
         //create a Call object to receive web service response
         Call<JsonArray> call = retrofit.updateUser(json);
@@ -204,6 +247,32 @@ public class EditHomeOwnerActivity extends AppCompatActivity implements
             }
         });
     }//end updateData
+
+
+
+
+
+
+    //This method extracts the information from the user input and
+    //uses it to create a User object
+    private User createUser(){
+
+        String userName = firstName.getText().toString() + " " + lastName.getText().toString();
+        String userAddress = street.getText().toString() + "\n" +
+                city.getText().toString() + ", " +
+                state.getText().toString() + " " +
+                zip.getText().toString();
+        String userEmail = email.getText().toString();
+        String userPhone = phone.getText().toString();
+        Boolean isAdmin = isAdminYes.isChecked();
+
+        User newUser =  new User(userName, userAddress, userEmail, userPhone);
+        newUser.setAdmin(isAdmin);
+
+        return newUser;
+    }
+
+
 
 
 

@@ -127,25 +127,25 @@
         />
 
     <Button
+        android:id="@+id/workOrderViewAddCommentsButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Comment"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/workOrderDescriptionView"
+        app:layout_constraintEnd_toStartOf="@+id/workOrderViewPhotoButton"
+        />
+
+    <Button
         android:id="@+id/workOrderViewPhotoButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="View Photos"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/workOrderViewAttachPhotoButton"
-        app:layout_constraintTop_toBottomOf="@+id/workOrderDescriptionView"
-        />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/workOrderViewAddCommentsButton"
+        app:layout_constraintTop_toBottomOf="@+id/workOrderDescriptionView" />
 
-    <Button
-        android:id="@+id/workOrderViewAttachPhotoButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/attachPhoto"
-        app:layout_constraintTop_toTopOf="@id/workOrderViewPhotoButton"
-        app:layout_constraintBottom_toBottomOf="@id/workOrderViewPhotoButton"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintLeft_toRightOf="@+id/workOrderViewPhotoButton"
-        />
+
 
     <TextView
         android:id="@+id/workOrderViewCommentsLabel"
@@ -162,7 +162,8 @@
         android:layout_height="0dp"
         android:background="@drawable/edit_text_border"
         android:padding="@dimen/generalPaddingSpace"
-        app:layout_constraintLeft_toLeftOf="parent"
+        android:layout_margin="@dimen/generalMarginSpace"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/workOrderViewCommentsLabel"
         app:layout_constraintBottom_toTopOf="@+id/workOrderViewStatusButton"
         />
@@ -173,8 +174,9 @@
         style="@style/textView"
         android:padding="@dimen/generalPaddingSpace"
         android:text="Current Status:"
-        app:layout_constraintBottom_toTopOf="@+id/workOrderViewAddCommentsButton"
-        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/workOrderViewReturnButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/workOrderViewCommentRecyclerView"
         />
 
     <Button
@@ -182,22 +184,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/pending"
+        android:layout_margin="@dimen/generalMarginSpace"
         android:background="@color/orange"
         android:enabled="false"
         style="@style/Widget.AppCompat.Button.Borderless"
-        app:layout_constraintLeft_toLeftOf="@+id/workOrderIDView"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/workOrderViewStatusLabel"
         app:layout_constraintBottom_toBottomOf="@+id/workOrderViewStatusLabel"
+        app:layout_constraintTop_toTopOf="@+id/workOrderViewStatusLabel"
 
-        />
-
-    <Button
-        android:id="@+id/workOrderViewAddCommentsButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Add Comment"
-        app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toLeftOf="@+id/workOrderViewReturnButton"
         />
 
     <Button
@@ -206,9 +201,9 @@
         android:layout_height="wrap_content"
         android:padding="@dimen/generalPaddingSpace"
         android:text="@string/GoBack"
-        app:layout_constraintLeft_toRightOf="@+id/workOrderViewAddCommentsButton"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

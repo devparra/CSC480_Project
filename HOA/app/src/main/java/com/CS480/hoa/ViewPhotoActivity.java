@@ -5,18 +5,25 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.annotation.SuppressLint;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.widget.ImageView;
 
-import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.MalformedURLException;
+import java.net.URL;
 
 public class ViewPhotoActivity extends AppCompatActivity {
 
     public static final String photoCode = "com.CS480.hoa.viewPhoto";
 
     private Bitmap[] photoList;
+    private String[] urlList;
     private ImageView photoImageView;
-    private int index;
+    private int index = 0;
+
+    private AsyncTask<Void, Void, Bitmap> getPhoto;
 
     @SuppressLint("ClickableViewAccessibility")
     @Override
@@ -26,35 +33,15 @@ public class ViewPhotoActivity extends AppCompatActivity {
 
         photoImageView = findViewById(R.id.viewPhotoImageView);
 
-        int numberOfPhotos = getIntent().getIntExtra("totalPhotos", 0);
+        urlList = getIntent().getStringArrayExtra(photoCode);
 
-        photoList = new Bitmap[numberOfPhotos];
+        photoList = new Bitmap[urlList.length];
 
-        String[] filenames = new String[numberOfPhotos];
+        for (int i = 0; i < urlList.length; i++) {
 
-        for (int i = 0; i < numberOfPhotos; i++) {
+           getPhoto = new GetPhoto(urlList[i]);
+           getPhoto.execute();
 
-            //get filename from the intent
-            filenames[i] = getIntent().getStringExtra("filename" + i);
-
-            Bitmap bmp = null;
-
-            try {
-                FileInputStream is = getBaseContext().openFileInput(filenames[i]);
-                bmp = BitmapFactory.decodeStream(is);
-                is.close();
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
-            photoList[i] = bmp;
-
-        }
-
-        index = 0;
-
-        if (photoList[index] != null) {
-            photoImageView.setImageBitmap(photoList[index]);
         }
 
 
@@ -100,5 +87,62 @@ public class ViewPhotoActivity extends AppCompatActivity {
         });
 
     }//end of onCreate
+
+
+
+
+
+
+    class GetPhoto extends AsyncTask<Void, Void, Bitmap> {
+
+        private String url;
+
+        public GetPhoto(String url){
+            this.url = url;
+        }
+
+        @Override
+        protected Bitmap doInBackground(Void... voids) {
+
+            Bitmap image = null;
+
+            try {
+                InputStream input = (InputStream) new URL(url).getContent();
+                //Drawable temp = Drawable.createFromStream(input,"testPhoto");
+
+                image = BitmapFactory.decodeStream(input);
+
+                return image;
+
+            }catch(MalformedURLException error){
+                System.out.println("MalformedURLException");
+                System.out.println(error.getMessage());
+            }catch(IOException error){
+                System.out.println("IOException");
+                System.out.println(error.getMessage());
+            }
+
+            return image;
+        }
+
+        @Override
+        protected void onPostExecute(Bitmap image) {
+            super.onPostExecute(image);
+
+            for(int i = 0; i < photoList.length; i++){
+                if(photoList[i] == null){
+                    if(i == 0){
+                        //this is the first image, display it
+                         photoImageView.setImageBitmap(image);
+                    }
+
+                    //add image to the list
+                    photoList[i] = image;
+                }
+            }
+
+        }//end onPostExecute
+
+    }//end class GetPhoto
 
 }
