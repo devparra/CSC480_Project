@@ -6,6 +6,7 @@ import com.google.gson.JsonObject;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.GET;
 import retrofit2.http.POST;
 
 public interface RetrofitAPI {
@@ -17,8 +18,8 @@ public interface RetrofitAPI {
     @POST("getUser")
     Call<JsonArray> getUser(@Body JsonObject object);
 
-    @POST()
-    Call<JsonArray> getAllUsers(@Body JsonObject object);
+    @GET("getAllUsers")
+    Call<JsonArray> getAllUsers();
 
     @POST("retrieveUserWO")
     Call<JsonArray> getWorkOrders(@Body JsonObject object);
@@ -43,6 +44,12 @@ public interface RetrofitAPI {
 
     @POST("deleteWO")
     Call<JsonArray> deleteWorkOrder(@Body JsonObject object);
+
+    @POST("uplaodImage")
+    Call<JsonObject> uploadImages(@Body JsonObject object);
+
+    @POST("uplaodImage")
+    Call<JsonObject> testing(@Body JsonObject object);
 
 
 }

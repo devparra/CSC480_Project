@@ -11,7 +11,7 @@ public class ConvertImage {
 
     public static String convertImageToString(Bitmap image){
 
-        return encodeToBase64(image, Bitmap.CompressFormat.JPEG, 100);
+        return encodeToBase64(image, Bitmap.CompressFormat.PNG, 100);
     }
 
 

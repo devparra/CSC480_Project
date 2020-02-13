@@ -43,17 +43,16 @@ public class WorkOrderViewActivity extends AppCompatActivity
     public static final String workOrderCode = "com.CS480.hoa.workOrderView.workOrder";
     public static final String userCode = "com.CS480.hoa.workOrderView.user";
     public static final String callingActivityCode = "com.CS480.hoa.workOrderView.callingActivity";
-    private final int requestImageCapture = 1;
+    //private final int requestImageCapture = 1;
 
     private String callingActivity;
-    private String[] filenames;
 
     private User user; //The current user that is viewing the workOrder
     private WorkOrder workOrder;
 
-    private Drawable[] newImages;
+    private String[] newImages;
 
-    private Button addPhotoButton;
+   // private Button addPhotoButton;
     private Button currentStatusButton;
     private Button creatorInfoButton;
     private Button editorInfoButton;
@@ -72,36 +71,8 @@ public class WorkOrderViewActivity extends AppCompatActivity
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_work_order_view);
 
-        //retrieve the number of photos
-        int numberOfPhotos = getIntent().getIntExtra("totalPhotos", 0);
-
-        //retrieve each photo
-        Bitmap[] photos = new Bitmap[numberOfPhotos];
-        filenames = new String[numberOfPhotos];
-
-        for(int i = 0; i < numberOfPhotos; i++){
-
-            //get filename from the intent
-            filenames[i] = getIntent().getStringExtra("filename" + i);
-
-            Bitmap bmp = null;
-
-            try {
-                FileInputStream is = getBaseContext().openFileInput(filenames[i]);
-                bmp = BitmapFactory.decodeStream(is);
-                is.close();
-            } catch (Exception e) {
-                System.out.println("Error reading filename**************************");
-                e.printStackTrace();
-            }
-
-            photos[i] = bmp;
-
-        }
-
         //retrieve the work order data from the previous activity
         workOrder = (WorkOrder) getIntent().getSerializableExtra(workOrderCode);
-        workOrder.setAttachedPhotos(photos);
 
         //retrieve the current user that will be viewing the work order
         user = (User) getIntent().getSerializableExtra(userCode);
@@ -110,14 +81,11 @@ public class WorkOrderViewActivity extends AppCompatActivity
         callingActivity = getIntent().getStringExtra(callingActivityCode);
 
         //set up array to hold many additional photos if needed
-        if(workOrder.getAttachedPhotos() == null){
-            newImages = new Drawable[10];
-        }else {
-            newImages = new Drawable[workOrder.getAttachedPhotos().length + 10];
-        }
+        //MAXPHOTOS is in the create new work order activity
+        newImages = new String[MAXPHOTOS];
 
         //assign all objects to variables
-        addPhotoButton = findViewById(R.id.workOrderViewAttachPhotoButton);
+        //addPhotoButton = findViewById(R.id.workOrderViewAttachPhotoButton);
         viewPhotosButton = findViewById(R.id.workOrderViewPhotoButton);
         currentStatusButton = findViewById(R.id.workOrderViewStatusButton);
         creatorInfoButton = findViewById(R.id.workOrderViewCreatorInfoButton);
@@ -145,12 +113,12 @@ public class WorkOrderViewActivity extends AppCompatActivity
             currentStatusButton.setEnabled(true);
         }
 
-        //if the work order has the maximum photos, remove option to add more
-        //MAXPHOTOS is in the CreateNewWorkOrderActivity
-        if(workOrder.getAttachedPhotos().length == MAXPHOTOS){
-            addPhotoButton.setEnabled(false);
-            addPhotoButton.setVisibility(View.INVISIBLE);
-        }
+//        //if the work order has the maximum photos, remove option to add more
+//        //MAXPHOTOS is in the CreateNewWorkOrderActivity
+//        if(workOrder.getAttachedPhotos().length == MAXPHOTOS){
+//            addPhotoButton.setEnabled(false);
+//            addPhotoButton.setVisibility(View.INVISIBLE);
+//        }
 
         //check to ensure that creator is not null
         if(workOrder.getCreator() == null){
@@ -260,25 +228,25 @@ public class WorkOrderViewActivity extends AppCompatActivity
         });
 
 
-        //onClick for adding additional photo
-        addPhotoButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //activate camera to add a photo
-
-                //MAXPHOTOS is in the CreateNewWorkOrderActivity
-                if(workOrder.getAttachedPhotos().length == MAXPHOTOS){
-                    //the work order already has the maximum number of photos
-                    Toast.makeText(getBaseContext(),"This work order has the maximum photos", Toast.LENGTH_SHORT).show();
-                } else {
-
-                    //There is room for more photos
-                    startCamera();
-
-                }
-
-            }
-        });
+//        //onClick for adding additional photo
+//        addPhotoButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //activate camera to add a photo
+//
+//                //MAXPHOTOS is in the CreateNewWorkOrderActivity
+//                if(workOrder.getAttachedPhotos().length == MAXPHOTOS){
+//                    //the work order already has the maximum number of photos
+//                    Toast.makeText(getBaseContext(),"This work order has the maximum photos", Toast.LENGTH_SHORT).show();
+//                } else {
+//
+//                    //There is room for more photos
+//                    startCamera();
+//
+//                }
+//
+//            }
+//        });
 
 
         //onClick for viewing attached photos
@@ -288,17 +256,8 @@ public class WorkOrderViewActivity extends AppCompatActivity
 
                 //display the photos
                 Intent intent = new Intent(getBaseContext(), ViewPhotoActivity.class);
-                Bundle bundle = new Bundle();
 
-
-                for(int i = 0; i < filenames.length; i++){
-                    bundle.putString("filename" + i, filenames[i]);
-                }
-
-                //add current list of photos to the bundle
-                bundle.putInt("totalPhotos", filenames.length);
-
-                intent.putExtras(bundle);
+                intent.putExtra(ViewPhotoActivity.photoCode, workOrder.getAttachedPhotos());
 
                 startActivity(intent);
             }
@@ -401,14 +360,7 @@ public class WorkOrderViewActivity extends AppCompatActivity
 
 
 
-    //this handles the response from the delete work order dialog
-    public void deleteWorkOrderClick(int which){
 
-        if(which == AlertDialog.BUTTON_POSITIVE){
-            deleteData();
-        }
-
-    }
 
 
 
@@ -446,12 +398,12 @@ public class WorkOrderViewActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.delete_menu, menu);
 
-        //only allow users to delete their work orders
-        if(callingActivity.equals(HomeOwnerMainActivity.userCode)){
-
-            menu.findItem(R.id.deleteWorkOrderMenuItem).setVisible(true);
-            menu.findItem(R.id.deleteWorkOrderMenuItem).setEnabled(true);
-        }
+//        //only allow users to delete their work orders
+//        if(callingActivity.equals(AdminMainActivity.userCode)){
+//
+//            menu.findItem(R.id.deleteWorkOrderMenuItem).setVisible(false);
+//            menu.findItem(R.id.deleteWorkOrderMenuItem).setEnabled(false);
+//        }
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -478,6 +430,22 @@ public class WorkOrderViewActivity extends AppCompatActivity
                return super.onOptionsItemSelected(item);
         }
     }
+
+
+
+
+
+
+    //this handles the response from the delete work order dialog
+    public void deleteWorkOrderClick(int which){
+
+        if(which == AlertDialog.BUTTON_POSITIVE){
+            deleteData();
+        }
+
+    }
+
+
 
 
 
@@ -523,15 +491,6 @@ public class WorkOrderViewActivity extends AppCompatActivity
         json.add("wo_comments", comments);
 
 
-
-        System.out.println("WorkOrderView*********************************************************************");
-        System.out.println(workOrder.getAttachedPhotos().length);
-
-
-
-
-
-
         if(workOrder.getAttachedPhotos() != null && workOrder.getAttachedPhotos().length > 0){
 
             JsonArray photoList = new JsonArray();
@@ -544,10 +503,7 @@ public class WorkOrderViewActivity extends AppCompatActivity
 
 
 
-
-
-                //separate class for converting to Base64 string
-                photoList.add(ConvertImage.convertImageToString(workOrder.getAttachedPhotos()[i]));
+                photoList.add(workOrder.getAttachedPhotos()[i]);
             }
 
             json.add("wo_attachedPhotos", photoList);
@@ -722,47 +678,56 @@ public class WorkOrderViewActivity extends AppCompatActivity
 
 
 
-
-
-    //This method is used to interact with the camera and retrieve a photo
-    private void startCamera(){
-
-        Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        if(takePhotoIntent.resolveActivity(getPackageManager()) != null){
-            startActivityForResult(takePhotoIntent,requestImageCapture);
-        }
-
-    }
-
-
-
-
-    //This method handles what the camera returns to this application
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data){
-        super.onActivityResult(requestCode,resultCode,data);
-
-        if(requestCode == requestImageCapture && resultCode == RESULT_OK){
-
-            Bundle extras = data.getExtras();
-            Bitmap imageBitmap = (Bitmap) extras.get("data");
-
-
-            //cycle through attachedPhotos to find the first blank spot
-            //MAXPHOTOS is in the CreateNewWorkOrderActivity
-            Bitmap[] attachedPhotos = new Bitmap[workOrder.getAttachedPhotos().length + 1];
-
-            for(int i = 0; i < workOrder.getAttachedPhotos().length; i++){
-
-                attachedPhotos[i] = workOrder.getAttachedPhotos()[i];
-            }
-
-            attachedPhotos[attachedPhotos.length - 1] = imageBitmap;
-
-            workOrder.setAttachedPhotos(attachedPhotos);
-
-            updateData();
-
-        }
-    }//end onActivityResult
+//
+//
+//    //This method is used to interact with the camera and retrieve a photo
+//    private void startCamera(){
+//
+//        Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+//        if(takePhotoIntent.resolveActivity(getPackageManager()) != null){
+//            startActivityForResult(takePhotoIntent,requestImageCapture);
+//        }
+//
+//    }
+//
+//
+//
+//
+//    //This method handles what the camera returns to this application
+//    @Override
+//    protected void onActivityResult(int requestCode, int resultCode, Intent data){
+//        super.onActivityResult(requestCode,resultCode,data);
+//
+//        if(requestCode == requestImageCapture && resultCode == RESULT_OK){
+//
+//            Bundle extras = data.getExtras();
+//            Bitmap imageBitmap = (Bitmap) extras.get("data");
+//
+//
+//            //cycle through attachedPhotos to find the first blank spot
+//            //MAXPHOTOS is in the CreateNewWorkOrderActivity
+//            String[] attachedPhotos = new String[workOrder.getAttachedPhotos().length + 1];
+//
+//            for(int i = 0; i < workOrder.getAttachedPhotos().length; i++){
+//
+//                newImages[i] = workOrder.getAttachedPhotos()[i];
+//            }
+//
+//            newImages[attachedPhotos.length] = getPhotoURL(imageBitmap);
+//
+//            workOrder.setAttachedPhotos(attachedPhotos);
+//
+//            updateData();
+//
+//        }
+//    }//end onActivityResult
+//
+//
+//
+//
+//    //this method sends the new photo to the web service
+//    //and retrieves the url for the photo
+//    private String getPhotoURL(Bitmap image){
+//
+//    }
 }

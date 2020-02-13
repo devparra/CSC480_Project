@@ -121,36 +121,10 @@ public class AdminMainActivity extends AppCompatActivity implements
         public void onClick(View v) {
 
 
-
-
-
-            //save photos to drive
             try {
                 Intent intent = new Intent(getBaseContext(), WorkOrderViewActivity.class);
 
                 Bundle bundle = new Bundle();
-
-                Bitmap[] photos = workOrder.getAttachedPhotos();
-
-                bundle.putInt("totalPhotos", photos.length);
-
-                for(int i = 0; i < photos.length; i++){
-
-                    String filename = "photo" + i + ".png";
-
-                    //write file to storage
-                    FileOutputStream stream = getBaseContext().openFileOutput(filename, Context.MODE_PRIVATE);
-                    photos[i].compress(Bitmap.CompressFormat.PNG, 100, stream);
-
-                    //Cleanup
-                    stream.close();
-                    photos[i].recycle();
-
-                    bundle.putString("filename" + i, filename);
-                }
-
-                //clear work order photos because bitmap is not serializable
-                workOrder.setAttachedPhotos(null);
 
                 //add work order
                 bundle.putSerializable(WorkOrderViewActivity.workOrderCode, workOrder);
@@ -159,7 +133,7 @@ public class AdminMainActivity extends AppCompatActivity implements
                 bundle.putSerializable(WorkOrderViewActivity.userCode, user);
 
                 //let the next activity know where to return to
-                bundle.putString(WorkOrderViewActivity.callingActivityCode, AdminMainActivity.userCode);
+                bundle.putString(WorkOrderViewActivity.callingActivityCode, userCode);
 
 
                 //add bundle to intent
@@ -171,47 +145,6 @@ public class AdminMainActivity extends AppCompatActivity implements
             } catch (Exception e) {
                 e.printStackTrace();
             }
-
-
-
-
-
-//
-//            //when a work order is selected display its information
-//            Intent intent = new Intent(getBaseContext(), WorkOrderViewActivity.class);
-//
-//            Bitmap[] photos = workOrder.getAttachedPhotos();
-//
-//            Bundle bundle = new Bundle();
-//
-//            //add necessary data to the bundle
-//
-//
-//            //send the number of photos
-//            bundle.putInt("totalPhotos", photos.length);
-//
-//            //send the photos
-//            for(int i = 0; i < photos.length; i++){
-//                bundle.putParcelable("photo" + i, photos[i]);
-//            }
-//
-//            //clear the photos in the work order because bitmap is not serializable
-//            workOrder.setAttachedPhotos(null);
-//
-//            //add work order
-//            bundle.putSerializable(WorkOrderViewActivity.workOrderCode, workOrder);
-//
-//            //add current user
-//            bundle.putSerializable(WorkOrderViewActivity.userCode, user);
-//
-//            //let the next activity know where to return to
-//            bundle.putString(WorkOrderViewActivity.callingActivityCode, AdminMainActivity.userCode);
-//
-//            //append bundle to intent
-//            intent.putExtras(bundle);
-//
-//            startActivity(intent);
-
 
         }
     }
@@ -279,7 +212,7 @@ public class AdminMainActivity extends AppCompatActivity implements
         }else{
 
             //if denied is already displayed do nothing
-            if(listStatus.equals("denied")){
+            if(!listStatus.equals("denied")){
                 listStatus = "denied";
                 getData(listStatus);
             }
@@ -368,13 +301,6 @@ public class AdminMainActivity extends AppCompatActivity implements
 
         for(int i = 0; i < jsonArray.size(); i++){
             jsonObjects[i] = jsonArray.get(i).getAsJsonObject();
-
-
-
-            System.out.println(jsonObjects[i]);
-
-
-
         }
 
 
@@ -418,22 +344,12 @@ public class AdminMainActivity extends AppCompatActivity implements
                     submissionDate, lastActivityDate, currentStatus);
 
 
+            String[] attachedPhotos = getImages(jsonObjects[i].get("attached_photos").toString());
 
-
-            //*****************************************************
-            //Still need to retrieve photos
-
-
-            Bitmap[] attachedPhotos = getImages(jsonObjects[i].get("attached_photos").toString());
-
-            if(attachedPhotos != null){
-
-                workOrders[i].setAttachedPhotos(attachedPhotos);
-            }
+            workOrders[i].setAttachedPhotos(attachedPhotos);
 
             //add comments
             String[] comments = getComments(jsonObjects[i].get("comments").toString());
-
 
             workOrders[i].setComments(comments);
         }
@@ -455,9 +371,7 @@ public class AdminMainActivity extends AppCompatActivity implements
         input = input.replace("]", "");
 
         //if there are more then one comment they will be separated by a comma
-        String[] comments = input.split(",");
-
-        return comments;
+        return input.split(",");
     }
 
 
@@ -465,7 +379,7 @@ public class AdminMainActivity extends AppCompatActivity implements
 
     //This method splits the input string into a list of image urls
     //and then retrieves the image using each url
-    private Bitmap[] getImages(String input){
+    private String[] getImages(String input){
 
         //clean up the string
         input = input.replace("\"", "");
@@ -473,73 +387,50 @@ public class AdminMainActivity extends AppCompatActivity implements
         input = input.replace("]", "");
 
         //if there are more then one image their urls will be separated by a comma
-        String[] photoUrls = input.split(",");
-
-        //create the Drawable array to return
-        Bitmap[] photoList = new Bitmap[photoUrls.length];
-
-        //count to track the progress through the array
-        int count = 0;
-
-        //retrieve each image from the web service
-        for(String photoUrl : photoUrls){
-            photoList[count] = getImage(photoUrl, count);
-
-
-            //This will only be null if there was an error
-            if(photoList[count] == null){
-                return null;
-            }
-
-
-            count++;
-        }
-
-        //return the array of Drawables
-        return photoList;
+        return input.split(",");
     }
 
 
-
-    //This method takes a string url and retrieves the image it holds
-    private Bitmap getImage(String url, int number){
-
-        //**************************************************************
-        //the following code is used if string is base64
-
-        try {
-            Bitmap bitmap = ConvertImage.convertBase64ToDrawable(url);
-
-            return bitmap;
-
-        }catch(Exception error){
-            System.out.println(error.getMessage());
-        }
-
-
-
-        //**************************************************************
-        //the following code is used if string is a url
-
+//
+//    //This method takes a string url and retrieves the image it holds
+//    private Bitmap getImage(String url, int number){
+//
+//        //**************************************************************
+//        //the following code is used if string is base64
+//
 //        try {
-//            InputStream input = (InputStream) new URL(url).getContent();
-//            BufferedInputStream bufferedInputStream = new BufferedInputStream(input);
+//            Bitmap bitmap = ConvertImage.convertBase64ToDrawable(url);
 //
-//            Bitmap image = BitmapFactory.decodeStream(bufferedInputStream);
+//            return bitmap;
 //
-//            return image;
-//
-//        }catch(MalformedURLException error){
-//            System.out.println(error.getMessage());
-//        }catch(IOException error){
+//        }catch(Exception error){
 //            System.out.println(error.getMessage());
 //        }
-
-        return null;
-
-
-    }
-
+//
+//
+//
+//        //**************************************************************
+//        //the following code is used if string is a url
+//
+////        try {
+////            InputStream input = (InputStream) new URL(url).getContent();
+////            BufferedInputStream bufferedInputStream = new BufferedInputStream(input);
+////
+////            Bitmap image = BitmapFactory.decodeStream(bufferedInputStream);
+////
+////            return image;
+////
+////        }catch(MalformedURLException error){
+////            System.out.println(error.getMessage());
+////        }catch(IOException error){
+////            System.out.println(error.getMessage());
+////        }
+//
+//        return null;
+//
+//
+//    }
+//
 
 
     //This is if the back button is pressed

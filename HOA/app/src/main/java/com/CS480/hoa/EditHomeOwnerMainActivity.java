@@ -47,20 +47,13 @@ public class EditHomeOwnerMainActivity extends AppCompatActivity {
     private void getData(){
 
         //update url to access web service
-        Database.changeBaseURL("");
+        Database.changeBaseURL("https://3ygu9ce6ed.execute-api.us-east-1.amazonaws.com/");
 
         //create retrofit object
         RetrofitAPI retrofit = Database.createService(RetrofitAPI.class);
 
-        //create a JsonObject to store data to send to web service
-        JsonObject json = new JsonObject();
-
-        //add user email to JsonObject
-        //This will be used to look up all workorders created by this user
-        json.addProperty("getUsers", "ALL");
-
         //create a Call object to receive web service response
-        Call<JsonArray> call = retrofit.getAllUsers(json);
+        Call<JsonArray> call = retrofit.getAllUsers();
 
         //background thread to communicate with the web service
         call.enqueue(new Callback<JsonArray>() {
@@ -69,6 +62,16 @@ public class EditHomeOwnerMainActivity extends AppCompatActivity {
 
                 //JsonArray object to store the response from web service
                 JsonArray jsonArray = response.body();
+
+
+
+
+                System.out.println(jsonArray);
+
+
+
+
+
 
                 //translate the Json Array into a list of work orders
                 boolean hasUsers = getUsers(jsonArray);
@@ -161,7 +164,7 @@ public class EditHomeOwnerMainActivity extends AppCompatActivity {
     //This class is used to create each line item in the recycler view
     private class UserHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
 
-        //the current work order object
+        //the current User object
         private User user;
 
         //TextViews from the list item for display
@@ -172,12 +175,20 @@ public class EditHomeOwnerMainActivity extends AppCompatActivity {
             super(inflater.inflate(R.layout.home_owner_list_item, parent, false));
             itemView.setOnClickListener(this);
 
-            userNameTextView = findViewById(R.id.homeOwnerListTextView);
+            userNameTextView = itemView.findViewById(R.id.homeOwnerListTextView);
         }
 
         //binding the data from the work order object to the clickable item
-        public void bind(User user){
-            this.user = user;
+        public void bind(User userItem){
+            user = userItem;
+
+
+
+            System.out.println(user);
+            System.out.println(user.getUserName());
+            System.out.println(userNameTextView);
+
+
 
             userNameTextView.setText(user.getUserName());
 
@@ -201,12 +212,12 @@ public class EditHomeOwnerMainActivity extends AppCompatActivity {
     //This class takes the list of work orders and generates a holder for each one
     private class UserAdapter extends RecyclerView.Adapter<EditHomeOwnerMainActivity.UserHolder>{
 
-        private User[] userList;
+        private User[] users;
 
         //constructor
         public UserAdapter(User[] userList){
 
-            this.userList = userList;
+            users = userList;
         }
 
         //create a holder for the workOrder
@@ -220,14 +231,14 @@ public class EditHomeOwnerMainActivity extends AppCompatActivity {
         //bind the work order information to the holder item
         @Override
         public void onBindViewHolder(@NonNull EditHomeOwnerMainActivity.UserHolder holder, int position) {
-            User user = userList[position];
+            User user = users[position];
             holder.bind(user);
         }
 
         //return the total number of addresses
         @Override
         public int getItemCount() {
-            return userList.length;
+            return users.length;
         }
     }
 
