@@ -158,7 +158,13 @@ public class AdminMainActivity extends AppCompatActivity implements
         //constructor
         public WorkOrderAdapter(WorkOrder[] workOrderList){
 
+            //clear the recycler adapter
+            if(this.workOrderList != null) {
+                clear();
+            }
+
             this.workOrderList = workOrderList;
+
         }
 
         //create a holder for the workOrder
@@ -173,7 +179,10 @@ public class AdminMainActivity extends AppCompatActivity implements
         @Override
         public void onBindViewHolder(@NonNull AdminMainActivity.WorkOrderHolder holder, int position) {
             WorkOrder workOrder = workOrderList[position];
-            holder.bind(workOrder);
+
+            if (workOrder != null) {
+                holder.bind(workOrder);
+            }
         }
 
         //return the total number of addresses
@@ -181,6 +190,13 @@ public class AdminMainActivity extends AppCompatActivity implements
         public int getItemCount() {
             return workOrderList.length;
         }
+
+
+
+        public void clear(){
+            notifyItemRangeRemoved(0, workOrderList.length);
+        }
+
     }
 
 
@@ -254,30 +270,46 @@ public class AdminMainActivity extends AppCompatActivity implements
                 //translate the Json Array into a list of work orders
                 boolean hasWorkOrders = getWorkOrders(jsonArray);
 
+
+                //add dividers between each work order
+                DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
+                        DividerItemDecoration.VERTICAL);
+                recyclerView.addItemDecoration(dividerItemDecoration);
+
+
+
                 //if the array is empty then don't populate the recycler view
                 if(!hasWorkOrders){
+
                     //There are no work orders to display
                     blankListTextView.setVisibility(View.VISIBLE);
+
+                    //if there are no work order to display hide the recycler view
+                    recyclerView.setVisibility(View.INVISIBLE);
+
                 }else {
+
                     //There are work orders to display
+                    blankListTextView.setVisibility((View.INVISIBLE));
 
-                    //because the Recyclerview requires the workOrders to be implemented correctly
-                    //the Recyclerview initialization will be in the onResponse method
+                    //show the recycler view
+                    recyclerView.setVisibility(View.VISIBLE);
 
-                    //recycler view initialization and implementation
-
-                    //add dividers between each address
-                    DividerItemDecoration dividerItemDecoration = new DividerItemDecoration(recyclerView.getContext(),
-                            DividerItemDecoration.VERTICAL);
-                    recyclerView.addItemDecoration(dividerItemDecoration);
-
-                    //linear layout for vertical scrolling
-                    recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
-
-                    //send list of workorder to the setAdapter
-                    AdminMainActivity.WorkOrderAdapter adapter = new AdminMainActivity.WorkOrderAdapter(workOrders);
-                    recyclerView.setAdapter(adapter);
                 }
+
+                //because the Recyclerview requires the workOrders to be implemented correctly
+                //the Recyclerview initialization will be in the onResponse method
+
+                //recycler view initialization and implementation
+
+
+                //linear layout for vertical scrolling
+                recyclerView.setLayoutManager(new LinearLayoutManager(getBaseContext()));
+
+                //send list of workorder to the setAdapter
+                AdminMainActivity.WorkOrderAdapter adapter = new AdminMainActivity.WorkOrderAdapter(workOrders);
+                recyclerView.setAdapter(adapter);
+
             }
 
             @Override
@@ -296,6 +328,10 @@ public class AdminMainActivity extends AppCompatActivity implements
     //this method handles converting the JsonArray into a list of workOrders
     private boolean getWorkOrders(JsonArray jsonArray){
 
+        //clear the workOrders variable
+        workOrders = null;
+
+        //create new workOrders of the right size
         workOrders = new WorkOrder[jsonArray.size()];
         JsonObject[] jsonObjects = new JsonObject[jsonArray.size()];
 
@@ -391,46 +427,7 @@ public class AdminMainActivity extends AppCompatActivity implements
     }
 
 
-//
-//    //This method takes a string url and retrieves the image it holds
-//    private Bitmap getImage(String url, int number){
-//
-//        //**************************************************************
-//        //the following code is used if string is base64
-//
-//        try {
-//            Bitmap bitmap = ConvertImage.convertBase64ToDrawable(url);
-//
-//            return bitmap;
-//
-//        }catch(Exception error){
-//            System.out.println(error.getMessage());
-//        }
-//
-//
-//
-//        //**************************************************************
-//        //the following code is used if string is a url
-//
-////        try {
-////            InputStream input = (InputStream) new URL(url).getContent();
-////            BufferedInputStream bufferedInputStream = new BufferedInputStream(input);
-////
-////            Bitmap image = BitmapFactory.decodeStream(bufferedInputStream);
-////
-////            return image;
-////
-////        }catch(MalformedURLException error){
-////            System.out.println(error.getMessage());
-////        }catch(IOException error){
-////            System.out.println(error.getMessage());
-////        }
-//
-//        return null;
-//
-//
-//    }
-//
+
 
 
     //This is if the back button is pressed

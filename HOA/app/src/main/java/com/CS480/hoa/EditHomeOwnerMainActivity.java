@@ -63,16 +63,6 @@ public class EditHomeOwnerMainActivity extends AppCompatActivity {
                 //JsonArray object to store the response from web service
                 JsonArray jsonArray = response.body();
 
-
-
-
-                System.out.println(jsonArray);
-
-
-
-
-
-
                 //translate the Json Array into a list of work orders
                 boolean hasUsers = getUsers(jsonArray);
 
@@ -180,15 +170,8 @@ public class EditHomeOwnerMainActivity extends AppCompatActivity {
 
         //binding the data from the work order object to the clickable item
         public void bind(User userItem){
+            
             user = userItem;
-
-
-
-            System.out.println(user);
-            System.out.println(user.getUserName());
-            System.out.println(userNameTextView);
-
-
 
             userNameTextView.setText(user.getUserName());
 

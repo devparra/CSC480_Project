@@ -32,7 +32,6 @@
             android:text="Date"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintLeft_toRightOf="@+id/homeOwnerMainWorkOrderLabel"
-            app:layout_constraintRight_toLeftOf="@+id/homeOwnerMainStatusLabel"
             />
 
         <TextView
