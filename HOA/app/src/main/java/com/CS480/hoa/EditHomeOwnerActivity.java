@@ -118,17 +118,26 @@ public class EditHomeOwnerActivity extends AppCompatActivity implements
         }
 
         try {
+
+
+            System.out.println(user.getUserAddress());
+
+
+
+
+
             //set the address fields
             String[] address1 = user.getUserAddress().split("\\n");
             street.setText(address1[0]);
-
 
             String[] address2 = address1[1].split(",");
             city.setText(address2[0]);
 
             String[] address3 = address2[1].split(" ");
-            state.setText(address3[0]);
-            zip.setText(address3[1]);
+
+           //address3[0] is an empty string
+            state.setText(address3[1]);
+            zip.setText(address3[2]);
 
         } catch (IndexOutOfBoundsException error) {
             street.setText("unknown");
@@ -216,6 +225,14 @@ public class EditHomeOwnerActivity extends AppCompatActivity implements
         json.addProperty("userEmail", newUser.getUserEmail());
         json.addProperty("userIsAdmin", newUser.isAdmin() ? "1" : "0");
 
+
+
+
+        System.out.println(json);
+
+
+
+
         //create a Call object to receive web service response
         Call<JsonArray> call = retrofit.updateUser(json);
 
@@ -236,7 +253,8 @@ public class EditHomeOwnerActivity extends AppCompatActivity implements
                 }
 
                 //return to the users main page
-                onBackPressed();
+                Intent intent = new Intent(getBaseContext(), EditHomeOwnerMainActivity.class);
+                startActivity(intent);
             }
 
             @Override
@@ -358,7 +376,11 @@ public class EditHomeOwnerActivity extends AppCompatActivity implements
                 }
 
                 //return to the users main page
-                onBackPressed();
+                Intent intent = new Intent(getBaseContext(), AdminMainActivity.class);
+
+                intent.putExtra(AdminMainActivity.userCode, user);
+
+                startActivity(intent);
             }
 
             @Override

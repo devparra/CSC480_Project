@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <dimen name="textSize">20sp</dimen>
+    <dimen name="textSize">15sp</dimen>
     <dimen name="titleTextSize">25sp</dimen>
-    <dimen name="listTextSize">30sp</dimen>
+    <dimen name="listTextSize">15sp</dimen>
     <dimen name="listIDWidth">75dp</dimen>
     <dimen name="paddingLeftDialog">25dp</dimen>
     <dimen name="loginMarginSpace">50dp</dimen>
     <dimen name="outerMarginSpace">10dp</dimen>
     <dimen name="generalPaddingSpace">5dp</dimen>
     <dimen name="generalMarginSpace">5dp</dimen>
-    <dimen name="editTextWidth">225dp</dimen>
+    <dimen name="editTextWidth">280dp</dimen>
     <dimen name="descriptionInputHeight">160dp</dimen>
     <dimen name="homeOwnerListNameSize">200dp</dimen>
 </resources>

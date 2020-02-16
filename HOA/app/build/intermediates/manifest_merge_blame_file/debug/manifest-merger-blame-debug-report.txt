@@ -21,120 +21,117 @@
 15        android:required="false" />
 15-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:9:9-33
 16
-17    <uses-permission android:name="android.permission.CAMERA" />
-17-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:11:5-65
-17-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:11:22-62
-18    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-18-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:12:5-81
-18-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:12:22-78
-19
-20    <application
-20-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:14:5-68:19
-21        android:allowBackup="true"
-21-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:15:9-35
-22        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
-22-->[androidx.core:core:1.1.0] C:\Users\hurst\.gradle\caches\transforms-2\files-2.1\e9dab9c67c1ee3668e0bbf86c6d8cbd8\core-1.1.0\AndroidManifest.xml:24:18-86
-23        android:debuggable="true"
-24        android:icon="@mipmap/ic_launcher"
-24-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:16:9-43
-25        android:label="@string/app_name"
-25-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:17:9-41
-26        android:roundIcon="@mipmap/ic_launcher_round"
-26-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:18:9-54
-27        android:supportsRtl="true"
-27-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:19:9-35
-28        android:testOnly="true"
-29        android:theme="@style/AppTheme" >
-29-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:20:9-40
-30        <provider
-30-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:22:9-32:20
-31            android:name="androidx.core.content.FileProvider"
-31-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:24:13-62
-32            android:authorities="com.CS480.hoa.fileprovider"
-32-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:23:13-61
-33            android:exported="false"
-33-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:25:13-37
-34            android:grantUriPermissions="true" >
-34-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:26:13-47
-35            <meta-data
-35-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:28:13-30:53
-36                android:name="android.support.FILE_PROVIDER_PATHS"
-36-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:29:17-67
-37                android:resource="@xml/file_paths" />
-37-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:30:17-51
-38        </provider>
-39
-40        <activity android:name="com.CS480.hoa.ViewPhotoActivity" />
-40-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:34:9-55
-40-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:34:19-52
-41        <activity android:name="com.CS480.hoa.BlankActivity" />
-41-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:35:9-51
-41-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:35:19-48
-42        <activity
-42-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:36:9-38:63
-43            android:name="com.CS480.hoa.EditRulesAndPoliciesActivity"
-43-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:37:13-57
-44            android:parentActivityName="com.CS480.hoa.AdminMainActivity" />
-44-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:38:13-60
-45        <activity
-45-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:39:9-41:67
-46            android:name="com.CS480.hoa.ViewRulesAndPoliciesActivity"
-46-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:40:13-57
-47            android:parentActivityName="com.CS480.hoa.HomeOwnerMainActivity" />
-47-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:41:13-64
-48        <activity
-48-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:42:9-44:63
-49            android:name="com.CS480.hoa.EditHomeOwnerMainActivity"
-49-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:43:13-54
-50            android:parentActivityName="com.CS480.hoa.AdminMainActivity" />
-50-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:44:13-60
-51        <activity
-51-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:45:9-47:71
-52            android:name="com.CS480.hoa.EditHomeOwnerActivity"
-52-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:46:13-50
-53            android:parentActivityName="com.CS480.hoa.EditHomeOwnerMainActivity" />
-53-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:47:13-68
-54        <activity android:name="com.CS480.hoa.WorkOrderViewActivity" />
-54-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:48:9-59
-54-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:48:19-56
-55        <activity
-55-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:49:9-51:67
-56            android:name="com.CS480.hoa.CreateNewWorkOrderActivity"
-56-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:50:13-55
-57            android:parentActivityName="com.CS480.hoa.HomeOwnerMainActivity" />
-57-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:51:13-64
-58        <activity
-58-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:52:9-54:59
-59            android:name="com.CS480.hoa.AdminMainActivity"
-59-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:53:13-46
-60            android:parentActivityName="com.CS480.hoa.LoginActivity" />
-60-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:54:13-56
-61        <activity
-61-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:55:9-57:59
-62            android:name="com.CS480.hoa.HomeOwnerMainActivity"
-62-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:56:13-50
-63            android:parentActivityName="com.CS480.hoa.LoginActivity" />
-63-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:57:13-56
-64        <activity
-64-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:58:9-60:59
-65            android:name="com.CS480.hoa.CreateNewHomeOwnerActivity"
-65-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:59:13-55
-66            android:parentActivityName="com.CS480.hoa.LoginActivity" />
-66-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:60:13-56
-67        <activity android:name="com.CS480.hoa.LoginActivity" >
-67-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:61:9-67:20
-67-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:61:19-48
-68            <intent-filter>
-68-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:62:13-66:29
-69                <action android:name="android.intent.action.MAIN" />
-69-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:63:17-69
-69-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:63:25-66
-70
-71                <category android:name="android.intent.category.LAUNCHER" />
-71-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:65:17-77
-71-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:65:27-74
-72            </intent-filter>
-73        </activity>
-74    </application>
-75
-76</manifest>
+17    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+17-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:11:5-81
+17-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:11:22-78
+18
+19    <application
+19-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:13:5-67:19
+20        android:allowBackup="true"
+20-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:14:9-35
+21        android:appComponentFactory="androidx.core.app.CoreComponentFactory"
+21-->[androidx.core:core:1.1.0] C:\Users\hurst\.gradle\caches\transforms-2\files-2.1\e9dab9c67c1ee3668e0bbf86c6d8cbd8\core-1.1.0\AndroidManifest.xml:24:18-86
+22        android:debuggable="true"
+23        android:icon="@mipmap/ic_launcher"
+23-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:15:9-43
+24        android:label="@string/app_name"
+24-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:16:9-41
+25        android:roundIcon="@mipmap/ic_launcher_round"
+25-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:17:9-54
+26        android:supportsRtl="true"
+26-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:18:9-35
+27        android:testOnly="true"
+28        android:theme="@style/AppTheme" >
+28-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:19:9-40
+29        <provider
+29-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:21:9-31:20
+30            android:name="androidx.core.content.FileProvider"
+30-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:23:13-62
+31            android:authorities="com.CS480.hoa.fileprovider"
+31-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:22:13-61
+32            android:exported="false"
+32-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:24:13-37
+33            android:grantUriPermissions="true" >
+33-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:25:13-47
+34            <meta-data
+34-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:27:13-29:53
+35                android:name="android.support.FILE_PROVIDER_PATHS"
+35-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:28:17-67
+36                android:resource="@xml/file_paths" />
+36-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:29:17-51
+37        </provider>
+38
+39        <activity android:name="com.CS480.hoa.ViewPhotoActivity" />
+39-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:33:9-55
+39-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:33:19-52
+40        <activity android:name="com.CS480.hoa.BlankActivity" />
+40-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:34:9-51
+40-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:34:19-48
+41        <activity
+41-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:35:9-37:63
+42            android:name="com.CS480.hoa.EditRulesAndPoliciesActivity"
+42-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:36:13-57
+43            android:parentActivityName="com.CS480.hoa.AdminMainActivity" />
+43-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:37:13-60
+44        <activity
+44-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:38:9-40:67
+45            android:name="com.CS480.hoa.ViewRulesAndPoliciesActivity"
+45-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:39:13-57
+46            android:parentActivityName="com.CS480.hoa.HomeOwnerMainActivity" />
+46-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:40:13-64
+47        <activity
+47-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:41:9-43:63
+48            android:name="com.CS480.hoa.EditHomeOwnerMainActivity"
+48-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:42:13-54
+49            android:parentActivityName="com.CS480.hoa.AdminMainActivity" />
+49-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:43:13-60
+50        <activity
+50-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:44:9-46:71
+51            android:name="com.CS480.hoa.EditHomeOwnerActivity"
+51-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:45:13-50
+52            android:parentActivityName="com.CS480.hoa.EditHomeOwnerMainActivity" />
+52-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:46:13-68
+53        <activity android:name="com.CS480.hoa.WorkOrderViewActivity" />
+53-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:47:9-59
+53-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:47:19-56
+54        <activity
+54-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:48:9-50:67
+55            android:name="com.CS480.hoa.CreateNewWorkOrderActivity"
+55-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:49:13-55
+56            android:parentActivityName="com.CS480.hoa.HomeOwnerMainActivity" />
+56-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:50:13-64
+57        <activity
+57-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:51:9-53:59
+58            android:name="com.CS480.hoa.AdminMainActivity"
+58-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:52:13-46
+59            android:parentActivityName="com.CS480.hoa.LoginActivity" />
+59-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:53:13-56
+60        <activity
+60-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:54:9-56:59
+61            android:name="com.CS480.hoa.HomeOwnerMainActivity"
+61-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:55:13-50
+62            android:parentActivityName="com.CS480.hoa.LoginActivity" />
+62-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:56:13-56
+63        <activity
+63-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:57:9-59:59
+64            android:name="com.CS480.hoa.CreateNewHomeOwnerActivity"
+64-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:58:13-55
+65            android:parentActivityName="com.CS480.hoa.LoginActivity" />
+65-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:59:13-56
+66        <activity android:name="com.CS480.hoa.LoginActivity" >
+66-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:60:9-66:20
+66-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:60:19-48
+67            <intent-filter>
+67-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:61:13-65:29
+68                <action android:name="android.intent.action.MAIN" />
+68-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:62:17-69
+68-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:62:25-66
+69
+70                <category android:name="android.intent.category.LAUNCHER" />
+70-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:64:17-77
+70-->C:\Users\hurst\AndroidStudioProjects\HOA\app\src\main\AndroidManifest.xml:64:27-74
+71            </intent-filter>
+72        </activity>
+73    </application>
+74
+75</manifest>

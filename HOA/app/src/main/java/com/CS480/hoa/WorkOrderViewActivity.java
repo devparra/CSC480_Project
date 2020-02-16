@@ -283,7 +283,7 @@ public class WorkOrderViewActivity extends AppCompatActivity
                 currentStatusButton.setText(getResources().getString(R.string.pending));
                 currentStatusButton.setBackgroundColor(getResources().getColor(R.color.orange));
 
-                workOrder.setCurrentStatus("pending");
+                workOrder.setCurrentStatus("Pending");
 
                 updateData();
             }
@@ -294,18 +294,18 @@ public class WorkOrderViewActivity extends AppCompatActivity
                 currentStatusButton.setText(getResources().getString(R.string.approved));
                 currentStatusButton.setBackgroundColor(getResources().getColor(R.color.green));
 
-                workOrder.setCurrentStatus("approved");
+                workOrder.setCurrentStatus("Approved");
 
                 updateData();
             }
 
         }else{
 
-            if(currentStatusButton.getText().toString().equals("Denied")) {
+            if(!currentStatusButton.getText().toString().equals("Denied")) {
                 currentStatusButton.setText(getResources().getString(R.string.denied));
                 currentStatusButton.setBackgroundColor(getResources().getColor(R.color.red));
 
-                workOrder.setCurrentStatus("denied");
+                workOrder.setCurrentStatus("Denied");
 
                 updateData();
             }
@@ -318,43 +318,53 @@ public class WorkOrderViewActivity extends AppCompatActivity
     //This method handles adding an new comment to the work order
     public void addCommentClick(int which, String newComment){
 
-        //if cancel is selected this method does nothing
+        //test to ensure comment is not blank
+        if(!newComment.isEmpty()) {
 
-        if(which == AlertDialog.BUTTON_POSITIVE) {
-            //there is a new message to add
-            String[] comments;
+            //if cancel is selected this method does nothing
 
-            if (workOrder.getComments()[0].equals("No Comments")) {
+            if (which == AlertDialog.BUTTON_POSITIVE) {
+                //there is a new message to add
+                String[] comments;
 
-                //This is the first comment to be added
-                comments = new String[1];
+                if (workOrder.getComments()[0].equals("No Comments")) {
 
-                comments[0] = newComment;
+                    //This is the first comment to be added
+                    comments = new String[1];
 
-            } else {
-                //There are already comments for this work order
+                    comments[0] = newComment;
 
-                comments = new String[workOrder.getComments().length + 1];
+                } else {
+                    //There are already comments for this work order
+
+                    comments = new String[workOrder.getComments().length + 1];
 
 
-                //move all of old comments into the new list
-                int count = 0;
+                    //move all of old comments into the new list
+                    int count = 0;
 
-                for (String comment : workOrder.getComments()) {
-                    comments[count] = comment;
-                    count++;
+                    for (String comment : workOrder.getComments()) {
+                        comments[count] = comment;
+                        count++;
+                    }
+
+                    //add the new comment to the list
+                    comments[count] = newComment;
                 }
 
-                //add the new comment to the list
-                comments[count] = newComment;
+                //update the work order
+                workOrder.setComments(comments);
+
+                //update the database
+                updateData();
             }
 
-            //update the work order
-            workOrder.setComments(comments);
+        } else {
 
-            //update the database
-            updateData();
+            //the comment was empty
+            Toast.makeText(getBaseContext(), "Cannot submit a blank comment", Toast.LENGTH_SHORT).show();
         }
+
     }//end of addCommentClick
 
 
@@ -622,11 +632,8 @@ public class WorkOrderViewActivity extends AppCompatActivity
 
             message = comment;
 
-            if(comment.length() > 26) {
-                commentTitle.setText(comment.substring(0, 25));
-            }else{
-                commentTitle.setText(comment);
-            }
+            commentTitle.setText(comment);
+
         }
 
         //onclick Method
@@ -676,58 +683,4 @@ public class WorkOrderViewActivity extends AppCompatActivity
         }
     }
 
-
-
-//
-//
-//    //This method is used to interact with the camera and retrieve a photo
-//    private void startCamera(){
-//
-//        Intent takePhotoIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-//        if(takePhotoIntent.resolveActivity(getPackageManager()) != null){
-//            startActivityForResult(takePhotoIntent,requestImageCapture);
-//        }
-//
-//    }
-//
-//
-//
-//
-//    //This method handles what the camera returns to this application
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, Intent data){
-//        super.onActivityResult(requestCode,resultCode,data);
-//
-//        if(requestCode == requestImageCapture && resultCode == RESULT_OK){
-//
-//            Bundle extras = data.getExtras();
-//            Bitmap imageBitmap = (Bitmap) extras.get("data");
-//
-//
-//            //cycle through attachedPhotos to find the first blank spot
-//            //MAXPHOTOS is in the CreateNewWorkOrderActivity
-//            String[] attachedPhotos = new String[workOrder.getAttachedPhotos().length + 1];
-//
-//            for(int i = 0; i < workOrder.getAttachedPhotos().length; i++){
-//
-//                newImages[i] = workOrder.getAttachedPhotos()[i];
-//            }
-//
-//            newImages[attachedPhotos.length] = getPhotoURL(imageBitmap);
-//
-//            workOrder.setAttachedPhotos(attachedPhotos);
-//
-//            updateData();
-//
-//        }
-//    }//end onActivityResult
-//
-//
-//
-//
-//    //this method sends the new photo to the web service
-//    //and retrieves the url for the photo
-//    private String getPhotoURL(Bitmap image){
-//
-//    }
 }

@@ -45,16 +45,17 @@
         android:id="@+id/workOrderCreateRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="@dimen/descriptionInputHeight"
-        android:orientation="vertical"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toTopOf="@id/workOrderCreateSaveButton"
         app:layout_constraintTop_toBottomOf="@id/workOrderCreateAttachPhotoButton"
         >
 
-        <TextView
-            android:id="@+id/workOrderCreatePhotoList"
-            style="@style/textView"
+        <ProgressBar
+            android:id="@+id/workOrderCreateProgressBar"
+            style="?android:attr/progressBarStyleLarge"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_centerHorizontal="true"
             />
 
     </LinearLayout>

@@ -8,12 +8,14 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Toast;
 
 import com.google.gson.JsonArray;
@@ -49,6 +51,7 @@ public class CreateNewWorkOrderActivity extends AppCompatActivity {
     private Button saveButton;
     private Button cancelButton;
     private Button attachPhotoButton;
+    private ProgressBar loadingSpinner;
 
 
     @Override
@@ -69,6 +72,9 @@ public class CreateNewWorkOrderActivity extends AppCompatActivity {
         saveButton = findViewById(R.id.workOrderCreateSaveButton);
         cancelButton = findViewById(R.id.workOrderCreateCancelButton);
         attachPhotoButton = findViewById(R.id.workOrderCreateAttachPhotoButton);
+        loadingSpinner = findViewById(R.id.workOrderCreateProgressBar);
+
+        loadingSpinner.setVisibility(View.GONE);
 
         //save button onclick listener
         saveButton.setOnClickListener(new View.OnClickListener() {
@@ -303,38 +309,16 @@ public class CreateNewWorkOrderActivity extends AppCompatActivity {
 
                 //send photo to web service
                 json.addProperty("content", ConvertImage.convertImageToString(attachedPhotos[i]));
+
+
+
                 json.addProperty("fname", fileName + ".jpg");
 
 
 
 
-                System.out.println(json);
-
-
-
-
-
-
-
-//                //*****************************************************************88
-//                //testing
-//                Call<JsonObject> call = retrofit.testing(json);
-//                //*******************************************************************
-//
-//                call.enqueue(new Callback<JsonObject>() {
-//                    @Override
-//                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-//                        System.out.println(response.body());
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<JsonObject> call, Throwable t) {
-//
-//                    }
-//                });
-
-
-
+                System.out.println("SendPhotos after convert to string***************************************");
+                //System.out.println(json);
 
 
 
@@ -451,6 +435,16 @@ public class CreateNewWorkOrderActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data){
         super.onActivityResult(requestCode,resultCode,data);
 
+
+
+        System.out.println("onActivityResult*******************************************************");
+        System.out.println("ResultCode: should be -1: " + resultCode);
+        System.out.println("RequestCode: should be " + requestImageCapture + ":" + requestCode);
+
+
+
+
+
         if(requestCode == requestImageCapture && resultCode == RESULT_OK){
 
 
@@ -509,5 +503,50 @@ public class CreateNewWorkOrderActivity extends AppCompatActivity {
             }
         }
         return image;
+    }
+
+
+
+
+    class ConvertImageToString extends AsyncTask<Void, Void, String>{
+
+        private Bitmap image;
+
+        public ConvertImageToString(Bitmap image){
+            this.image = image;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+            cancelButton.setEnabled(false);
+            saveButton.setEnabled(false);
+            attachPhotoButton.setEnabled(false);
+
+            loadingSpinner.setVisibility(View.VISIBLE);
+
+        }
+
+        @Override
+        protected void onPostExecute(String s) {
+            super.onPostExecute(s);
+
+            cancelButton.setEnabled(true);
+            saveButton.setEnabled(true);
+            attachPhotoButton.setEnabled(true);
+
+            loadingSpinner.setVisibility(View.GONE);
+        }
+
+        @Override
+        protected void onProgressUpdate(Void... values) {
+            super.onProgressUpdate(values);
+        }
+
+        @Override
+        protected String doInBackground(Void... voids) {
+            return null;
+        }
     }
 }

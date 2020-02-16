@@ -800,6 +800,7 @@ id contentPanel
 id createCancelButton
 id createNewFragment
 id createNewUserButton
+id createNewUserFirstNameLabel
 id createNewWorkOrderButton
 id createSaveButton
 id custom
@@ -949,7 +950,6 @@ id up
 id useLogo
 id userNameLogin
 id viewPersonalInformationAddress
-id viewPersonalInformationAddressLabel
 id viewPersonalInformationEmail
 id viewPersonalInformationName
 id viewPersonalInformationPhone
@@ -959,7 +959,7 @@ id workOrderCreateAttachPhotoButton
 id workOrderCreateCancelButton
 id workOrderCreateDescriptionInput
 id workOrderCreateDescriptionLabel
-id workOrderCreatePhotoList
+id workOrderCreateProgressBar
 id workOrderCreateRecyclerView
 id workOrderCreateSaveButton
 id workOrderCreatedDateLabel

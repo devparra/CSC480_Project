@@ -22,6 +22,7 @@
         />
 
     <TextView
+        android:id="@+id/createNewUserFirstNameLabel"
         style="@style/textView"
         android:text="@string/firstNameLabel"
         app:layout_constraintTop_toTopOf="@+id/editTextFirstNameInput"
@@ -33,10 +34,8 @@
         android:id="@+id/editTextFirstNameInput"
         style="@style/editText"
         android:layout_marginLeft="@dimen/outerMarginSpace"
-        app:layout_constraintLeft_toLeftOf="@+id/textViewCreateTitle"
-        app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textViewCreateTitle"
-        />
+        app:layout_constraintStart_toEndOf="@+id/createNewUserFirstNameLabel"
+        app:layout_constraintTop_toBottomOf="@+id/textViewCreateTitle" />
 
     <TextView
         style="@style/textView"
@@ -172,7 +171,7 @@
         android:layout_marginBottom="@dimen/outerMarginSpace"
         android:text="@string/saveButton"
         app:layout_constraintLeft_toLeftOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPasswordInput"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toLeftOf="@+id/createCancelButton"
         />
 
@@ -183,7 +182,7 @@
         android:layout_marginBottom="@dimen/outerMarginSpace"
         android:text="@string/cancelButton"
         app:layout_constraintLeft_toRightOf="@+id/createSaveButton"
-        app:layout_constraintTop_toBottomOf="@+id/editTextPasswordInput"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         />
 
