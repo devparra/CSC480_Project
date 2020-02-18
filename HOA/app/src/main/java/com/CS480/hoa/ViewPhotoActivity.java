@@ -7,7 +7,9 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -21,6 +23,7 @@ public class ViewPhotoActivity extends AppCompatActivity {
     private Bitmap[] photoList;
     private String[] urlList;
     private ImageView photoImageView;
+    private TextView loadingImage;
     private int index = 0;
 
     private AsyncTask<Void, Void, Bitmap> getPhoto;
@@ -32,6 +35,7 @@ public class ViewPhotoActivity extends AppCompatActivity {
         setContentView(R.layout.activity_view_photo);
 
         photoImageView = findViewById(R.id.viewPhotoImageView);
+        loadingImage = findViewById(R.id.viewPhotoLoadingImage);
 
         urlList = getIntent().getStringArrayExtra(photoCode);
 
@@ -43,6 +47,12 @@ public class ViewPhotoActivity extends AppCompatActivity {
            getPhoto.execute();
 
         }
+
+//
+//
+//        for(int i = 0; i<photoList.length; i++){
+//            System.out.println(photoList[i].toString());
+//        }
 
 
         //add on touch listener to allowing scrolling of images
@@ -104,6 +114,13 @@ public class ViewPhotoActivity extends AppCompatActivity {
         @Override
         protected Bitmap doInBackground(Void... voids) {
 
+
+
+            System.out.println("URL*****************************************************");
+            System.out.println(url);
+
+
+
             Bitmap image = null;
 
             try {
@@ -133,11 +150,13 @@ public class ViewPhotoActivity extends AppCompatActivity {
                 if(photoList[i] == null){
                     if(i == 0){
                         //this is the first image, display it
+                        loadingImage.setVisibility(View.GONE);
                          photoImageView.setImageBitmap(image);
                     }
 
                     //add image to the list
                     photoList[i] = image;
+                    break;
                 }
             }
 
