@@ -954,6 +954,7 @@ id viewPersonalInformationEmail
 id viewPersonalInformationName
 id viewPersonalInformationPhone
 id viewPhotoImageView
+id viewPhotoLoadingImage
 id withText
 id workOrderCreateAttachPhotoButton
 id workOrderCreateCancelButton

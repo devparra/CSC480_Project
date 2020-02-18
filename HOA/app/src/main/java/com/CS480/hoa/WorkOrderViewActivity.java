@@ -228,26 +228,6 @@ public class WorkOrderViewActivity extends AppCompatActivity
         });
 
 
-//        //onClick for adding additional photo
-//        addPhotoButton.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //activate camera to add a photo
-//
-//                //MAXPHOTOS is in the CreateNewWorkOrderActivity
-//                if(workOrder.getAttachedPhotos().length == MAXPHOTOS){
-//                    //the work order already has the maximum number of photos
-//                    Toast.makeText(getBaseContext(),"This work order has the maximum photos", Toast.LENGTH_SHORT).show();
-//                } else {
-//
-//                    //There is room for more photos
-//                    startCamera();
-//
-//                }
-//
-//            }
-//        });
-
 
         //onClick for viewing attached photos
         viewPhotosButton.setOnClickListener(new View.OnClickListener() {

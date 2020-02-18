@@ -8,6 +8,16 @@
     android:layout_height="match_parent"
     tools:context=".ViewPhotoActivity">
 
+    <TextView
+        android:id="@+id/viewPhotoLoadingImage"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:textSize="@dimen/titleTextSize"
+        android:text="Loading Image..."
+        android:textAlignment="center"
+        android:gravity="center"
+        />
+
     <ImageView
         android:id="@+id/viewPhotoImageView"
         android:layout_width="match_parent"
