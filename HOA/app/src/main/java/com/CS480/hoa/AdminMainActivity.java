@@ -7,11 +7,7 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,12 +19,6 @@ import android.widget.TextView;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
-
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.MalformedURLException;
-import java.net.URL;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -433,9 +423,9 @@ public class AdminMainActivity extends AppCompatActivity implements
     //This is if the back button is pressed
     @Override
     public void onBackPressed(){
-        Intent intent = new Intent();
-        setResult(RESULT_OK, intent);
-        super.onBackPressed();
+        Intent intent = new Intent(getBaseContext(), LoginActivity.class);
+
+        startActivity(intent);
     }
 
 
@@ -486,7 +476,7 @@ public class AdminMainActivity extends AppCompatActivity implements
 
                 return true;
 
-            case R.id.parent:
+            case android.R.id.home:
                 //The back navigation button is pressed
                 onBackPressed();
 

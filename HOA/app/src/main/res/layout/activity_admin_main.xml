@@ -60,6 +60,7 @@
         app:layout_constraintRight_toRightOf="parent"
         android:visibility="invisible"
         android:text="@string/blankList"
+        android:gravity="center"
         />
 
     <Button
