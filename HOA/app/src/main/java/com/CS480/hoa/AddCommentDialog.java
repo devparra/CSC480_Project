@@ -13,8 +13,6 @@ import androidx.fragment.app.DialogFragment;
 
 public class AddCommentDialog extends DialogFragment {
 
-    private String comment;
-
     private EditText userInput;
 
     public interface AddCommentSelectedListener{

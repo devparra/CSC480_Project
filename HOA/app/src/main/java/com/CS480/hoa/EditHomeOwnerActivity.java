@@ -119,13 +119,6 @@ public class EditHomeOwnerActivity extends AppCompatActivity implements
 
         try {
 
-
-            System.out.println(user.getUserAddress());
-
-
-
-
-
             //set the address fields
             String[] address1 = user.getUserAddress().split("\\n");
             street.setText(address1[0]);
@@ -181,7 +174,7 @@ public class EditHomeOwnerActivity extends AppCompatActivity implements
                 zip.getText().toString();
         String userEmail = email.getText().toString();
         String userPhone = phone.getText().toString();
-        Boolean isAdmin = isAdminYes.isChecked();
+        boolean isAdmin = isAdminYes.isChecked();
 
 
         if(
@@ -222,16 +215,9 @@ public class EditHomeOwnerActivity extends AppCompatActivity implements
         json.addProperty("userName", newUser.getUserName());
         json.addProperty("userAddress", newUser.getUserAddress());
         json.addProperty("userPhone", newUser.getUserPhone());
-        json.addProperty("userEmail", newUser.getUserEmail());
+        json.addProperty("userEmail", user.getUserEmail());
+        json.addProperty("userNewEmail", newUser.getUserEmail());
         json.addProperty("userIsAdmin", newUser.isAdmin() ? "1" : "0");
-
-
-
-
-        System.out.println(json);
-
-
-
 
         //create a Call object to receive web service response
         Call<JsonArray> call = retrofit.updateUser(json);

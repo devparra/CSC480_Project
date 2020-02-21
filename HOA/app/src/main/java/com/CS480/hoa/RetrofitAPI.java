@@ -48,8 +48,4 @@ public interface RetrofitAPI {
     @POST("uplaodImage")
     Call<JsonObject> uploadImages(@Body JsonObject object);
 
-    @POST("uplaodImage")
-    Call<JsonObject> testing(@Body JsonObject object);
-
-
 }

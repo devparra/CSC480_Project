@@ -5,7 +5,6 @@ import androidx.core.content.FileProvider;
 
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
@@ -15,6 +14,7 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -108,13 +108,7 @@ public class CreateNewWorkOrderActivity extends AppCompatActivity {
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //return to home owner main activity
-                Intent intent = new Intent(getBaseContext(), HomeOwnerMainActivity.class);
-
-                //send user data to new activity
-                intent.putExtra(HomeOwnerMainActivity.userCode, user);
-
-                startActivity(intent);
+                onBackPressed();
             }
         });
 
@@ -122,14 +116,6 @@ public class CreateNewWorkOrderActivity extends AppCompatActivity {
         attachPhotoButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-
-
-                for(int i = 0; i < attachedPhotosPaths.length; i++){
-                    System.out.println(attachedPhotosPaths[i]);
-                }
-
-
 
                 //check for max photo limit
                 if(attachedPhotosPaths[MAXPHOTOS - 1] == null) {
@@ -601,5 +587,37 @@ public class CreateNewWorkOrderActivity extends AppCompatActivity {
 
             return ConvertImage.convertImageToString(image);
         }
+    }
+
+
+
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+
+        switch(item.getItemId()){
+            case android.R.id.home:
+
+                onBackPressed();
+                return true;
+
+            default:
+
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
+
+
+    @Override
+    public void onBackPressed(){
+
+        Intent intent = new Intent(getBaseContext(), HomeOwnerMainActivity.class);
+
+        intent.putExtra(HomeOwnerMainActivity.userCode, user);
+
+        startActivity(intent);
     }
 }

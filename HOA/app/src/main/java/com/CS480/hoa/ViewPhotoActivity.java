@@ -48,12 +48,6 @@ public class ViewPhotoActivity extends AppCompatActivity {
 
         }
 
-//
-//
-//        for(int i = 0; i<photoList.length; i++){
-//            System.out.println(photoList[i].toString());
-//        }
-
 
         //add on touch listener to allowing scrolling of images
         photoImageView.setOnTouchListener(new OnSwipeTouchListener(getBaseContext()) {
@@ -113,13 +107,6 @@ public class ViewPhotoActivity extends AppCompatActivity {
 
         @Override
         protected Bitmap doInBackground(Void... voids) {
-
-
-
-            System.out.println("URL*****************************************************");
-            System.out.println(url);
-
-
 
             Bitmap image = null;
 

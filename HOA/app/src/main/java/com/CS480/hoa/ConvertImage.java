@@ -14,7 +14,6 @@ public class ConvertImage {
 
        return encodeToBase64(image, Bitmap.CompressFormat.JPEG, 80);
 
-
     }
 
 

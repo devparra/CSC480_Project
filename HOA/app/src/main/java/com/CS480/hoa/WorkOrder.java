@@ -1,7 +1,5 @@
 package com.CS480.hoa;
 
-import android.graphics.Bitmap;
-
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
@@ -53,22 +51,6 @@ public class WorkOrder implements Serializable {
         comment[0] = "No comments";
 
         this.comments = comment;
-    }
-
-    //RETRIEVING WORK ORDER FROM DATABASE
-    //whatever values are stored in the database will be directly placed into each variable
-    public WorkOrder(String id, String creator, String editor, String description,
-                     String submissionDate, String lastActivityDate, String currentStatus,
-                     String[] comments, String[] attachedPhotos){
-        this.id = id;
-        setCreator(creator);
-        setEditor(editor);
-        this.description = description;
-        setSubmissionDate(submissionDate);
-        setLastActivityDate(lastActivityDate);
-        setCurrentStatus(currentStatus);
-        setComments(comments);
-        setAttachedPhotos(attachedPhotos);
     }
 
     public WorkOrder(String id, String creator, String admin, String description,
@@ -129,8 +111,6 @@ public class WorkOrder implements Serializable {
     public void setEditor(User user){
         this.editor = user;
     }
-
-    public void setDescription(String description){this.description = description;}
 
     public void setSubmissionDate(String submissionDate){
         try {

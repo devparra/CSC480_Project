@@ -299,9 +299,9 @@ public class HomeOwnerMainActivity extends AppCompatActivity {
     //This is if the back button is pressed
     @Override
     public void onBackPressed(){
-        Intent intent = new Intent();
-        setResult(RESULT_OK, intent);
-        super.onBackPressed();
+        Intent intent = new Intent(getBaseContext(), LoginActivity.class);
+
+        startActivity(intent);
     }
 
 
@@ -335,7 +335,7 @@ public class HomeOwnerMainActivity extends AppCompatActivity {
 
                 return true;
 
-            case R.id.parent:
+            case android.R.id.home:
 
                 //This is called if the back navigation button is pressed
                 onBackPressed();

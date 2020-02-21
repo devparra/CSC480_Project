@@ -74,7 +74,6 @@ public class User implements Serializable {
     }
     public void setEmail(String email){userEmail = email;}
     public void setPhone(String phone){userPhone = phone;}
-    public void setPassword(String password){userPassword = password;}
     public void setAdmin(boolean isAdmin){this.isAdmin = isAdmin;}
 
     @Override

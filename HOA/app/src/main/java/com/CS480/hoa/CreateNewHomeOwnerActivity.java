@@ -164,11 +164,6 @@ public class CreateNewHomeOwnerActivity extends AppCompatActivity {
             json.addProperty("isAdmin", "0");
         }
 
-
-        System.out.println(json);
-
-
-
         //create Call object to receive response from web service
         Call<JsonArray> call = retrofit.newUser(json);
 
@@ -213,7 +208,7 @@ public class CreateNewHomeOwnerActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
         switch(item.getItemId()){
-            case R.id.parent:
+            case android.R.id.home:
                 onBackPressed();
                 return true;
             default:

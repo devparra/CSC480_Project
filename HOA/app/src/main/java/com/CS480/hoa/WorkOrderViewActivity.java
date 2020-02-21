@@ -9,11 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,7 +22,6 @@ import android.widget.Toast;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import java.io.FileInputStream;
 import java.util.Date;
 
 import retrofit2.Call;
@@ -112,13 +107,6 @@ public class WorkOrderViewActivity extends AppCompatActivity
         if(callingActivity.equals(AdminMainActivity.userCode)){
             currentStatusButton.setEnabled(true);
         }
-
-//        //if the work order has the maximum photos, remove option to add more
-//        //MAXPHOTOS is in the CreateNewWorkOrderActivity
-//        if(workOrder.getAttachedPhotos().length == MAXPHOTOS){
-//            addPhotoButton.setEnabled(false);
-//            addPhotoButton.setVisibility(View.INVISIBLE);
-//        }
 
         //check to ensure that creator is not null
         if(workOrder.getCreator() == null){
@@ -388,13 +376,6 @@ public class WorkOrderViewActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu){
         getMenuInflater().inflate(R.menu.delete_menu, menu);
 
-//        //only allow users to delete their work orders
-//        if(callingActivity.equals(AdminMainActivity.userCode)){
-//
-//            menu.findItem(R.id.deleteWorkOrderMenuItem).setVisible(false);
-//            menu.findItem(R.id.deleteWorkOrderMenuItem).setEnabled(false);
-//        }
-
         return super.onCreateOptionsMenu(menu);
     }
 
@@ -486,12 +467,6 @@ public class WorkOrderViewActivity extends AppCompatActivity
             JsonArray photoList = new JsonArray();
 
             for (int i = 0; i < workOrder.getAttachedPhotos().length; i++) {
-
-
-
-                System.out.println(workOrder.getAttachedPhotos()[i]);
-
-
 
                 photoList.add(workOrder.getAttachedPhotos()[i]);
             }

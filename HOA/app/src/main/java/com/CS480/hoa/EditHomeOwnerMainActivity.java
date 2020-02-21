@@ -6,11 +6,10 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
@@ -19,16 +18,17 @@ import android.widget.Toast;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
-import java.io.FileOutputStream;
-
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class EditHomeOwnerMainActivity extends AppCompatActivity {
 
+    public static final String userCode = "com.CS480.hoa.EditHomeOwnerMain";
+
     private RecyclerView recyclerView;
     User[] userList;
+    User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,6 +36,8 @@ public class EditHomeOwnerMainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_edit_home_owner_main);
 
         recyclerView = findViewById(R.id.recyclerViewEditHomeOwner);
+
+        currentUser = (User) getIntent().getSerializableExtra(userCode);
 
         getData();
     }
@@ -143,6 +145,11 @@ public class EditHomeOwnerMainActivity extends AppCompatActivity {
 
             userList[i] = new User(name, address, email, phone);
 
+            //is admin is false by default only change if necessary
+            if(jsonObjects[i].get("userIsAdmin").toString().equals("\"1\"")){
+                userList[i].setAdmin(true);
+            }
+
         }
 
         return true;
@@ -223,6 +230,38 @@ public class EditHomeOwnerMainActivity extends AppCompatActivity {
         public int getItemCount() {
             return users.length;
         }
+    }
+
+
+
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+
+        switch(item.getItemId()){
+
+            case android.R.id.home:
+
+                onBackPressed();
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+
+
+
+
+
+    @Override
+    public void onBackPressed(){
+        Intent intent = new Intent(getBaseContext(), AdminMainActivity.class);
+
+        intent.putExtra(AdminMainActivity.userCode, currentUser);
+
+        startActivity(intent);
     }
 
 }
