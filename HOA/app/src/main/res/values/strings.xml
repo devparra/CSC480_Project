@@ -30,6 +30,7 @@
     <string name="attachPhoto">Attach Photo</string>
     <string name="workOrderListID">ID</string>
     <string name="test">test</string>
+    <string name="uploadRulesAndPolicies">Upload Rules and Policies</string>
     <string name="rulesAndPolicies">Rules and Policies</string>
     <string name="editHomeOwners">Edit Home Owners</string>
     <string name="blankList">There are no Work Orders to View</string>

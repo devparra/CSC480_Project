@@ -27,6 +27,21 @@
     <string msgid="2650565705514630347" name="abc_shareactionprovider_share_with">"Compartir con"</string>
     <string msgid="9009661856846212431" name="abc_shareactionprovider_share_with_application">"Compartir con <ns1:g id="APPLICATION_NAME">%s</ns1:g>"</string>
     <string msgid="6389460216547290468" name="abc_toolbar_collapse_description">"Ocultar"</string>
+    <string name="action_close">Cerrar</string>
+    <string name="empty_directory_hint">Carpeta vacía</string>
     <string msgid="730395136688082741" name="search_menu_title">"Buscar"</string>
     <string msgid="8106346172024741305" name="status_bar_notification_info_overflow">"999+"</string>
+    <string name="type_apk">APK</string>
+    <string name="type_archive">Archivo</string>
+    <string name="type_certificate">Certificado</string>
+    <string name="type_directory">Carpeta</string>
+    <string name="type_document">Archivo</string>
+    <string name="type_drawing">Foto</string>
+    <string name="type_excel">Excel</string>
+    <string name="type_image">Imagen</string>
+    <string name="type_music">Música</string>
+    <string name="type_pdf">Documento PDF</string>
+    <string name="type_power_point">Powerpoint</string>
+    <string name="type_video">Vídeo</string>
+    <string name="type_word">Documento Word</string>
 </resources>
