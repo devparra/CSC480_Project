@@ -1,14 +1,22 @@
 package com.CS480.hoa;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -16,9 +24,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.nbsp.materialfilepicker.MaterialFilePicker;
+import com.nbsp.materialfilepicker.ui.FilePickerActivity;
+
+import java.io.File;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -28,9 +41,7 @@ public class AdminMainActivity extends AppCompatActivity implements
         StatusChangeDialog.StatusChangeSelectedListener {
 
     public static final String userCode = "com.CS480.hoa.adminMain";
-
-    //request code used for child activities returning to this activity
-    //private final int adminMainRequestCode = 2;
+    private final int PDF = 666;
 
     private RecyclerView recyclerView;
     private TextView blankListTextView;
@@ -38,6 +49,10 @@ public class AdminMainActivity extends AppCompatActivity implements
     private String listStatus;
     private User user;
     private WorkOrder[] workOrders;
+
+    private String filePath;
+
+    private AsyncTask<Void, Void, String> sendPdf;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +81,14 @@ public class AdminMainActivity extends AppCompatActivity implements
                 dialog.show(manager, "Status Change");
             }
         });
+
+
+
+        if(Build.VERSION.SDK_INT > Build.VERSION_CODES.M && checkSelfPermission(Manifest.permission.WRITE_EXTERNAL_STORAGE)
+                != PackageManager.PERMISSION_GRANTED){
+            requestPermissions(new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE}, 1001);
+        }
+
 
         //get the list of workorders from web service
         getData(listStatus);
@@ -439,6 +462,8 @@ public class AdminMainActivity extends AppCompatActivity implements
     }
 
     //this method handles the menu item that are selected
+    @SuppressLint("NewApi")
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
     @Override
     public boolean onOptionsItemSelected(MenuItem item){
 
@@ -447,22 +472,14 @@ public class AdminMainActivity extends AppCompatActivity implements
         switch(item.getItemId()){
             case R.id.adminMenuRules:
 
-                //go to rules and policies activity
+                //upload file rules and policies activity
 
-                //************************************
-                //this will be replaced when rules and policies is complete
-                intent = new Intent(getBaseContext(), BlankActivity.class);
-                //************************************
-
-
-                //commented out until complete
-                //intent = new Intent(getBaseContext(), ViewRulesAndPoliciesActivity.class);
-
-                //send user data to rules and policies activity
-                intent.putExtra(ViewRulesAndPoliciesActivity.userCode, user);
-
-                startActivity(intent);
-
+                new MaterialFilePicker()
+                        .withActivity(AdminMainActivity.this)
+                        .withPath(Environment.DIRECTORY_DOWNLOADS)
+                        .withRequestCode(PDF)
+                        .withHiddenFiles(true)
+                        .start();
 
                 return true;
 
@@ -484,6 +501,108 @@ public class AdminMainActivity extends AppCompatActivity implements
 
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }//end onOptionItemSelected
+
+
+
+
+
+    @RequiresApi(api = Build.VERSION_CODES.KITKAT)
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data){
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+        if(requestCode == PDF && resultCode == RESULT_OK){
+
+            filePath = data.getStringExtra(FilePickerActivity.RESULT_FILE_PATH);
+
+            sendPdf = new SendPdf();
+            sendPdf.execute();
+        }
+    }
+
+
+
+
+
+
+
+    class SendPdf extends AsyncTask<Void, Void, String>{
+
+        @Override
+        protected String doInBackground(Void... voids) {
+
+            return ConvertImage.convertFileToString(new File(filePath));
+        }
+
+        @Override
+        protected void onPostExecute(String fileAsString){
+
+            //update url to access web service
+            Database.changeBaseURL("https://rvbrfawc2a.execute-api.us-east-1.amazonaws.com/");
+
+            //create retrofit object
+            RetrofitAPI retrofit = Database.createService(RetrofitAPI.class);
+
+            //create a JsonObject to store data to send to web service
+            JsonObject json = new JsonObject();
+
+            //add user email to JsonObject
+            //This will be used to look up all workorders created by this user
+            json.addProperty("content", fileAsString);
+            json.addProperty("fname",  "rulesandpolicies.pdf");
+
+            //create a Call object to receive web service response
+            Call<JsonArray> call = retrofit.uploadPdf(json);
+
+            //background thread to communicate with the web service
+            call.enqueue(new Callback<JsonArray>() {
+                @Override
+                public void onResponse(Call<JsonArray> call, Response<JsonArray> response) {
+
+                    if(response.isSuccessful()) {
+
+                        JsonArray jsonArray = response.body();
+
+
+                        //convert JsonArray into JsonObject
+                        JsonObject jsonObject = jsonArray.get(0).getAsJsonObject();
+
+
+
+
+                        System.out.println(jsonObject);
+
+
+
+                        //Extract data from JsonObject
+                        String statusCode = jsonObject.get("status").toString();
+                        statusCode = statusCode.replace("\"", "");
+
+                        if(statusCode.equals("200")){
+                            Toast.makeText(getBaseContext(), "The upload was successful", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Toast.makeText(getBaseContext(), "The upload failed", Toast.LENGTH_SHORT).show();
+                        }
+
+                    } else {
+                        System.out.println("Failed response in Admin Main SendPdf************************");
+                        Toast.makeText(getBaseContext(), "The web service response failed", Toast.LENGTH_SHORT).show();
+                    }
+
+
+                }
+
+                @Override
+                public void onFailure(Call<JsonArray> call, Throwable t) {
+                    System.out.println("Failure in Admin Main SendPdf**********************");
+                    System.out.println(t.getMessage());
+                }
+            });
+
+
         }
     }
 }

@@ -4,7 +4,7 @@
 
     <item
         android:id="@+id/adminMenuRules"
-        android:title="@string/rulesAndPolicies"
+        android:title="@string/uploadRulesAndPolicies"
         app:showAsAction="never"
         />
 

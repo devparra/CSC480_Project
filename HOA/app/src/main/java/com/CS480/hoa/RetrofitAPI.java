@@ -4,10 +4,14 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 
 
+import okhttp3.MultipartBody;
+import okhttp3.RequestBody;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.Multipart;
 import retrofit2.http.POST;
+import retrofit2.http.Part;
 
 public interface RetrofitAPI {
 
@@ -47,5 +51,8 @@ public interface RetrofitAPI {
 
     @POST("uplaodImage")
     Call<JsonObject> uploadImages(@Body JsonObject object);
+
+    @POST("pdfUpload")
+    Call<JsonArray> uploadPdf(@Body JsonObject object);
 
 }

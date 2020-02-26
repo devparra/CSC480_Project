@@ -1,0 +1,201 @@
+-- Merging decision tree log ---
+manifest
+ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:2:1-49:12
+INJECTED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:2:1-49:12
+INJECTED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:2:1-49:12
+INJECTED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:2:1-49:12
+MERGED from [androidx.appcompat:appcompat:1.1.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\6119d746697059b7e1b74aab4d181f56\appcompat-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.recyclerview:recyclerview:1.1.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\a53596bdd308807993a20732db231575\recyclerview-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\3ec6fa8458ddbe732478393a9f9e6c77\constraintlayout-1.1.3\AndroidManifest.xml:2:1-11:12
+MERGED from [androidx.fragment:fragment:1.1.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\0362ff4d8672321347a402c32368f192\fragment-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.appcompat:appcompat-resources:1.1.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\ddf6a25e6e3e5e2af441269b48288beb\appcompat-resources-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\00bc847ce5b9e3ce7b40d465bffbf9e9\drawerlayout-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\4932f7e67b26f042b51fa62f1aa4816d\viewpager-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.customview:customview:1.0.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\a3c457ded457b98b207b4f227d629399\customview-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\5276819c062a92c029464122749254f1\loader-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.activity:activity:1.0.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\dbbcc99072b5616db9e0106b8ed65934\activity-1.0.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\d1ca7cd3905794bed09cb92934ccd6c2\vectordrawable-animated-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\4276267baf989d651cf25177c247ad49\vectordrawable-1.1.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.core:core:1.1.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\e9dab9c67c1ee3668e0bbf86c6d8cbd8\core-1.1.0\AndroidManifest.xml:17:1-26:12
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\fb2fbe77879a57ea0c5dfd6fe59ba874\cursoradapter-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\78be57497ca2a8dd090798c529f3e53d\versionedparcelable-1.1.0\AndroidManifest.xml:17:1-27:12
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.1.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\ffa46f3d6480310395b7b525cf59ccde\lifecycle-runtime-2.1.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.1.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\64ed055c454b36433d45a77285ee24d6\lifecycle-viewmodel-2.1.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.savedstate:savedstate:1.0.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\3819fb4fef2e012192b32762458ba145\savedstate-1.0.0\AndroidManifest.xml:17:1-24:12
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\3a992d8307f21a8f15eb649383ba6a6a\interpolator-1.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\63647da4654da12a6f2785cfbbad8123\lifecycle-livedata-2.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\733fc1d306cee2c05d3e1fb0b7527020\lifecycle-livedata-core-2.0.0\AndroidManifest.xml:17:1-22:12
+MERGED from [androidx.arch.core:core-runtime:2.0.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\fdd65d8b6066fd289a68b42931dc03a2\core-runtime-2.0.0\AndroidManifest.xml:17:1-22:12
+INJECTED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:2:1-49:12
+INJECTED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:2:1-49:12
+INJECTED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:2:1-49:12
+	package
+		ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:4:5-28
+		INJECTED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml
+		INJECTED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml
+	android:versionName
+		INJECTED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml
+		ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:2:1-49:12
+		INJECTED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml
+	android:versionCode
+		INJECTED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml
+		ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:2:1-49:12
+		INJECTED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml
+	xmlns:android
+		ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:3:5-63
+uses-permission#android.permission.INTERNET
+ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:6:5-67
+	android:name
+		ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:6:22-64
+uses-permission#android.permission.CAMERA
+ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:7:5-65
+	android:name
+		ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:7:22-62
+application
+ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:9:5-47:19
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\3ec6fa8458ddbe732478393a9f9e6c77\constraintlayout-1.1.3\AndroidManifest.xml:9:5-20
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\3ec6fa8458ddbe732478393a9f9e6c77\constraintlayout-1.1.3\AndroidManifest.xml:9:5-20
+MERGED from [androidx.core:core:1.1.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\e9dab9c67c1ee3668e0bbf86c6d8cbd8\core-1.1.0\AndroidManifest.xml:24:5-89
+MERGED from [androidx.core:core:1.1.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\e9dab9c67c1ee3668e0bbf86c6d8cbd8\core-1.1.0\AndroidManifest.xml:24:5-89
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\78be57497ca2a8dd090798c529f3e53d\versionedparcelable-1.1.0\AndroidManifest.xml:24:5-25:19
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\78be57497ca2a8dd090798c529f3e53d\versionedparcelable-1.1.0\AndroidManifest.xml:24:5-25:19
+	android:appComponentFactory
+		ADDED from [androidx.core:core:1.1.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\e9dab9c67c1ee3668e0bbf86c6d8cbd8\core-1.1.0\AndroidManifest.xml:24:18-86
+	android:supportsRtl
+		ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:14:9-35
+	android:label
+		ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:12:9-41
+	android:roundIcon
+		ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:13:9-54
+	android:icon
+		ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:11:9-43
+	android:allowBackup
+		ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:10:9-35
+	android:theme
+		ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:15:9-40
+activity#com.CS480.hoa.ViewCommentsActivity
+ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:16:9-67
+	android:name
+		ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:16:19-55
+activity#com.CS480.hoa.BlankActivity
+ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:17:9-51
+	android:name
+		ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:17:19-48
+activity#com.CS480.hoa.EditRulesAndPoliciesActivity
+ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:18:9-20:63
+	android:parentActivityName
+		ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:20:13-60
+	android:name
+		ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:19:13-57
+activity#com.CS480.hoa.ViewRulesAndPoliciesActivity
+ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:21:9-23:67
+	android:parentActivityName
+		ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:23:13-64
+	android:name
+		ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:22:13-57
+activity#com.CS480.hoa.EditHomeOwnerActivity
+ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:24:9-26:63
+	android:parentActivityName
+		ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:26:13-60
+	android:name
+		ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:25:13-50
+activity#com.CS480.hoa.WorkOrderViewActivity
+ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:27:9-59
+	android:name
+		ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:27:19-56
+activity#com.CS480.hoa.CreateNewWorkOrderActivity
+ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:28:9-30:67
+	android:parentActivityName
+		ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:30:13-64
+	android:name
+		ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:29:13-55
+activity#com.CS480.hoa.AdminMainActivity
+ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:31:9-33:59
+	android:parentActivityName
+		ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:33:13-56
+	android:name
+		ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:32:13-46
+activity#com.CS480.hoa.HomeOwnerMainActivity
+ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:34:9-36:59
+	android:parentActivityName
+		ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:36:13-56
+	android:name
+		ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:35:13-50
+activity#com.CS480.hoa.CreateNewHomeOwnerActivity
+ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:37:9-39:59
+	android:parentActivityName
+		ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:39:13-56
+	android:name
+		ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:38:13-55
+activity#com.CS480.hoa.LoginActivity
+ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:40:9-46:20
+	android:name
+		ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:40:19-48
+intent-filter#action:name:android.intent.action.MAIN+category:name:android.intent.category.LAUNCHER
+ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:41:13-45:29
+action#android.intent.action.MAIN
+ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:42:17-69
+	android:name
+		ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:42:25-66
+category#android.intent.category.LAUNCHER
+ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:44:17-77
+	android:name
+		ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml:44:27-74
+uses-sdk
+INJECTED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml reason: use-sdk injection requested
+INJECTED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml
+INJECTED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml
+MERGED from [androidx.appcompat:appcompat:1.1.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\6119d746697059b7e1b74aab4d181f56\appcompat-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.appcompat:appcompat:1.1.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\6119d746697059b7e1b74aab4d181f56\appcompat-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.recyclerview:recyclerview:1.1.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\a53596bdd308807993a20732db231575\recyclerview-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.recyclerview:recyclerview:1.1.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\a53596bdd308807993a20732db231575\recyclerview-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\3ec6fa8458ddbe732478393a9f9e6c77\constraintlayout-1.1.3\AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.constraintlayout:constraintlayout:1.1.3] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\3ec6fa8458ddbe732478393a9f9e6c77\constraintlayout-1.1.3\AndroidManifest.xml:5:5-7:41
+MERGED from [androidx.fragment:fragment:1.1.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\0362ff4d8672321347a402c32368f192\fragment-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.fragment:fragment:1.1.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\0362ff4d8672321347a402c32368f192\fragment-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.appcompat:appcompat-resources:1.1.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\ddf6a25e6e3e5e2af441269b48288beb\appcompat-resources-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.appcompat:appcompat-resources:1.1.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\ddf6a25e6e3e5e2af441269b48288beb\appcompat-resources-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\00bc847ce5b9e3ce7b40d465bffbf9e9\drawerlayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.drawerlayout:drawerlayout:1.0.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\00bc847ce5b9e3ce7b40d465bffbf9e9\drawerlayout-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\4932f7e67b26f042b51fa62f1aa4816d\viewpager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.viewpager:viewpager:1.0.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\4932f7e67b26f042b51fa62f1aa4816d\viewpager-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\a3c457ded457b98b207b4f227d629399\customview-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.customview:customview:1.0.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\a3c457ded457b98b207b4f227d629399\customview-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\5276819c062a92c029464122749254f1\loader-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.loader:loader:1.0.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\5276819c062a92c029464122749254f1\loader-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.activity:activity:1.0.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\dbbcc99072b5616db9e0106b8ed65934\activity-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.activity:activity:1.0.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\dbbcc99072b5616db9e0106b8ed65934\activity-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\d1ca7cd3905794bed09cb92934ccd6c2\vectordrawable-animated-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable-animated:1.1.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\d1ca7cd3905794bed09cb92934ccd6c2\vectordrawable-animated-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\4276267baf989d651cf25177c247ad49\vectordrawable-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.vectordrawable:vectordrawable:1.1.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\4276267baf989d651cf25177c247ad49\vectordrawable-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.core:core:1.1.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\e9dab9c67c1ee3668e0bbf86c6d8cbd8\core-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.core:core:1.1.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\e9dab9c67c1ee3668e0bbf86c6d8cbd8\core-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\fb2fbe77879a57ea0c5dfd6fe59ba874\cursoradapter-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.cursoradapter:cursoradapter:1.0.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\fb2fbe77879a57ea0c5dfd6fe59ba874\cursoradapter-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\78be57497ca2a8dd090798c529f3e53d\versionedparcelable-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.versionedparcelable:versionedparcelable:1.1.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\78be57497ca2a8dd090798c529f3e53d\versionedparcelable-1.1.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.1.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\ffa46f3d6480310395b7b525cf59ccde\lifecycle-runtime-2.1.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-runtime:2.1.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\ffa46f3d6480310395b7b525cf59ccde\lifecycle-runtime-2.1.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.1.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\64ed055c454b36433d45a77285ee24d6\lifecycle-viewmodel-2.1.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-viewmodel:2.1.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\64ed055c454b36433d45a77285ee24d6\lifecycle-viewmodel-2.1.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.savedstate:savedstate:1.0.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\3819fb4fef2e012192b32762458ba145\savedstate-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.savedstate:savedstate:1.0.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\3819fb4fef2e012192b32762458ba145\savedstate-1.0.0\AndroidManifest.xml:20:5-22:41
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\3a992d8307f21a8f15eb649383ba6a6a\interpolator-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.interpolator:interpolator:1.0.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\3a992d8307f21a8f15eb649383ba6a6a\interpolator-1.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\63647da4654da12a6f2785cfbbad8123\lifecycle-livedata-2.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata:2.0.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\63647da4654da12a6f2785cfbbad8123\lifecycle-livedata-2.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\733fc1d306cee2c05d3e1fb0b7527020\lifecycle-livedata-core-2.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.lifecycle:lifecycle-livedata-core:2.0.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\733fc1d306cee2c05d3e1fb0b7527020\lifecycle-livedata-core-2.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.0.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\fdd65d8b6066fd289a68b42931dc03a2\core-runtime-2.0.0\AndroidManifest.xml:20:5-44
+MERGED from [androidx.arch.core:core-runtime:2.0.0] C:\Users\tj540\.gradle\caches\transforms-2\files-2.1\fdd65d8b6066fd289a68b42931dc03a2\core-runtime-2.0.0\AndroidManifest.xml:20:5-44
+INJECTED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml
+INJECTED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml
+	android:targetSdkVersion
+		INJECTED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml
+		ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml
+		INJECTED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml
+	android:minSdkVersion
+		INJECTED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml
+		ADDED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml
+		INJECTED from E:\NU\CSC480\CSC480_Project-master (2)\CSC480_Project-master\HOA\app\src\main\AndroidManifest.xml

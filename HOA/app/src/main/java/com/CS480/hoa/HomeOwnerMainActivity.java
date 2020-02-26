@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -15,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
@@ -321,17 +323,16 @@ public class HomeOwnerMainActivity extends AppCompatActivity {
 
                 //go to view rules and policies activity
 
-                //********************************************
-                //this will be used until rules and policies activity is complete
-                Intent intent = new Intent(getBaseContext(), BlankActivity.class);
+                Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://cscproject480b.s3.amazonaws.com/images/rulesandpolicies.pdf"));
 
-                //commented out until complete
-                //Intent intent = new Intent(getBaseContext(), ViewRulesAndPoliciesActivity.class);
 
-                //send user data to new activity
-                intent.putExtra(ViewRulesAndPoliciesActivity.userCode, user);
-
-                startActivity(intent);
+                try {
+                    startActivity(intent);
+                }catch(Exception error){
+                    System.out.println("Failed to open web image*****************************************");
+                    System.out.println(error.getMessage());
+                    Toast.makeText(getBaseContext(), "There was a problem accessing file", Toast.LENGTH_SHORT).show();
+                }
 
                 return true;
 

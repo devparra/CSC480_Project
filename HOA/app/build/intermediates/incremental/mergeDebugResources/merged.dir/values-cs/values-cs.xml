@@ -27,6 +27,21 @@
     <string msgid="2650565705514630347" name="abc_shareactionprovider_share_with">"Sdílet s"</string>
     <string msgid="9009661856846212431" name="abc_shareactionprovider_share_with_application">"Sdílet s aplikací <ns1:g id="APPLICATION_NAME">%s</ns1:g>"</string>
     <string msgid="6389460216547290468" name="abc_toolbar_collapse_description">"Sbalit"</string>
+    <string name="action_close">Zavřít</string>
+    <string name="empty_directory_hint">Prázdná složka</string>
     <string msgid="730395136688082741" name="search_menu_title">"Hledat"</string>
     <string msgid="8106346172024741305" name="status_bar_notification_info_overflow">"999+"</string>
+    <string name="type_apk">APK</string>
+    <string name="type_archive">Archiv</string>
+    <string name="type_certificate">Certifikát</string>
+    <string name="type_directory">Složka</string>
+    <string name="type_document">Soubor</string>
+    <string name="type_drawing">Kresba</string>
+    <string name="type_excel">Tabulka</string>
+    <string name="type_image">Obrázek</string>
+    <string name="type_music">Skladba</string>
+    <string name="type_pdf">PDF dokument</string>
+    <string name="type_power_point">Prezentace</string>
+    <string name="type_video">Video</string>
+    <string name="type_word">Dokument</string>
 </resources>

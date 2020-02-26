@@ -202,6 +202,7 @@ public class LoginActivity extends AppCompatActivity implements AccessAdminDialo
 
             @Override
             public void onFailure(Call<JsonArray> call, Throwable t) {
+                displayMessage("Cannot connect to server");
                 System.out.println("Failure in Login****************************************");
                 System.out.println(t.getMessage());
             }
@@ -258,4 +259,13 @@ public class LoginActivity extends AppCompatActivity implements AccessAdminDialo
         return newUser;
 
     }//end of getUser
+
+
+
+
+    //override the onBackPressed so that it does nothing
+    @Override
+    public void onBackPressed(){
+
+    }
 }
